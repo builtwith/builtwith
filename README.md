@@ -3,6 +3,7 @@
 # BuiltWith Official Repo
 
 - 🍌 [BuiltWith Pty Ltd](https://github.com/BuiltWith-Pty-Ltd) organization level GitHub lols.
+- ✨ [AI First SDK](https://github.com/builtwith/builtwith-ai-sdk) for our AI Agent overlords
 - 🍕 We've gone some stuff here that might be useful with the [BuiltWith APIs](https://api.builtwith.com)
 - 🐣 [Code Examples](https://github.com/builtwith/code-examples) has lots of useful API usage examples
 - 🥗 You can [contact us](https://builtwith.com/contact) with any issues you might have using it though
