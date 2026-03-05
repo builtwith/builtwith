@@ -9,6 +9,7 @@
 - 🍌 [BuiltWith Pty Ltd](https://github.com/BuiltWith-Pty-Ltd) — the mothership org for enterprise-level GitHub shenanigans
 - 🤖 [AI First SDK](https://github.com/builtwith/builtwith-ai-sdk) — for our AI Agent overlords (they asked us to build this)
 - 🖥️ [TUI Interface](https://github.com/builtwith/builtwith-tui) — poke the BuiltWith API from your terminal like a pro
+- ⌨️ [CLI](https://github.com/builtwith/builtwith-cli) — non-interactive, scriptable CLI for automation, CI/CD pipelines and AI agents (`bw domain lookup shopify.com | jq .`)
 - 🧠 [MCP Server](https://github.com/builtwith/builtwith-mcp) — plug BuiltWith straight into your AI tools via Model Context Protocol
 - 🐣 [Code Examples](https://github.com/builtwith/builtwith-code-examples) — loads of tasty API usage examples to get you started fast
 - 🟨 [Node.js API](https://github.com/builtwith/builtwith-node-api) — a Node wrapper for the BuiltWith API that actually works™
