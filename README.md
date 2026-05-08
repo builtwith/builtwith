@@ -16,6 +16,10 @@
 - 🔷 [C# API](https://github.com/builtwith/builtwith-csharp-api) — .NET / NuGet goodness for the C# crowd
 - 📋 [List API Demo](https://github.com/builtwith/listapidemo) — quick demo showing how to use the BuiltWith List API
 
+## Recent API Coverage
+
+The client libraries and examples include the Change API at `https://api.builtwith.com/change1/api.json`, which returns technology additions and removals for one or more domains. Use `LOOKUP=example.com` and optional `SINCE=last month`.
+
 ## 🔗 More Useful Stuff
 
 - 🍕 Explore all the [BuiltWith APIs](https://api.builtwith.com) — there's a lot more than you think!
