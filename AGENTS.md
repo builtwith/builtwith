@@ -4,7 +4,7 @@ Use `CLAUDE.md` first for the project map and release workflow. This file record
 
 ## Endpoint Source
 
-- Prefer the local API docs when provided, especially `C:\dev\beanstalk\builtwith\vsproject\BuiltWith2025\BuiltWithAPIWeb2025\com.builtwith.web.2025.api\llms.txt`.
+- Prefer the local API docs when provided, especially `https"://api.builtwith.com/llms.txt`.
 - Capture the endpoint path, required parameters, optional parameters, response sample, and credit behavior before editing.
 - Do not update `listapidemo` unless explicitly asked.
 
