@@ -18,7 +18,7 @@
 
 ## Recent API Coverage
 
-The client libraries and examples include the Change API at `https://api.builtwith.com/change1/api.json`, which returns technology additions and removals for one or more domains. Use `LOOKUP=example.com` and optional `SINCE=last month`.
+The client libraries and examples now include the VAT API at `https://api.builtwith.com/vat1/api.json`, which returns VAT, GST, CNPJ, ABN, and other publicly displayed company registration numbers for 1 to 16 comma-separated domains (`LOOKUP=example.com`). The companion VAT Types API at `https://api.builtwith.com/vat1/types.json` lists every registration type it can return — no API key required.
 
 ## 🔗 More Useful Stuff
 
