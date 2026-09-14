@@ -2,6 +2,10 @@
 
 # 🚀 BuiltWith Official Repo
 
+## Domain API v25
+
+Domain lookups now use API v25. Technology records include numeric `confidence` scores from 0 to 1. Full JSON responses include `Meta.company_reg`, an array of company registration records with string `type` and `number` fields; registration numbers preserve leading zeros. The array is empty when unavailable or metadata is excluded. See the [API reference](https://api.builtwith.com/llms.txt).
+
 > 🌐 Find out what websites are built with at [builtwith.com](https://builtwith.com) — now with extra GitHub flavour! 🎉
 
 ## 🛠️ Our Projects
