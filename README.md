@@ -17,6 +17,7 @@ Domain lookups now use API v25. Technology records include numeric `confidence` 
 - 🧠 [MCP Server](https://github.com/builtwith/builtwith-mcp) — plug BuiltWith straight into your AI tools via Model Context Protocol
 - 🐣 [Code Examples](https://github.com/builtwith/builtwith-code-examples) — loads of tasty API usage examples to get you started fast
 - 🟨 [Node.js API](https://github.com/builtwith/builtwith-node-api) — a Node wrapper for the BuiltWith API that actually works™
+- 🐍 [Python SDK](https://github.com/builtwith/builtwith-python) — typed sync/async client and integration with the existing MCP server (`pip install builtwith-official`)
 - 🔷 [C# API](https://github.com/builtwith/builtwith-csharp-api) — .NET / NuGet goodness for the C# crowd
 - 📋 [List API Demo](https://github.com/builtwith/listapidemo) — quick demo showing how to use the BuiltWith List API
 
