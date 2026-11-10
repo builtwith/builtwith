@@ -17,7 +17,7 @@
         "header": [],
         "description": "Public database update dates (no key or credits). FULL and TOPSITE use ASP.NET /Date(milliseconds)/ strings.",
         "url": {
-          "raw": "https://api.builtwith.com/usagev2/api.json?UPDATE=true&TYPE=json",
+          "raw": "https://api.builtwith.com/usagev2/api.json?UPDATE=true",
           "protocol": "https",
           "host": [
             "api",
@@ -32,10 +32,6 @@
             {
               "key": "UPDATE",
               "value": "true"
-            },
-            {
-              "key": "TYPE",
-              "value": "json"
             }
           ]
         }
