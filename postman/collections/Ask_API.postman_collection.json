@@ -1,0 +1,289 @@
+{
+  "info": {
+    "_postman_id": "e728874e-3f9f-5ef5-92b7-ce987fee3bef",
+    "name": "Ask API 💬💬💬",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "- Endpoint: `GET /ask1/api.{json|xml|txt|csv|tsv}` - natural language website list lookups.\n- Example sample request: `https://api.builtwith.com/ask1/api.json?KEY=YOUR_KEY&QUERY=Magento%20websites%20in%20Spain`\n- `QUERY` accepts normal URL-encoded spaces or dash-separated words, for example `Magento-websites-in-Spain`.\n- Each lookup uses 1 API credit and normal requests always return a sample.\n- Use `COMMIT=true` to create and run a full Ask report, returning up to 1000 results ordered by sequence.\n- Pagination: use `NEXTOFFSET` with the previous response's `NextOffset`; `END` means no more pages.\n- Optional: `META=yes` includes metadata. Results use Lists API result attributes, but Ask does not return `LOS`.\n\nSample response:\n```json\n{\n  \"Explanation\": \"Matched websites using Magento with a Spain location signal.\",\n  \"NextOffset\": \"opaque-next-offset-or-END\",\n  \"Results\": [\n    {\n      \"D\": \"example-shop.es\",\n      \"FI\": 1725494400,\n      \"LI\": 1767657600,\n      \"Country\": \"ES\",\n      \"Q\": 565,\n      \"S\": 323\n    }\n  ]\n}\n```\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected."
+  },
+  "item": [
+    {
+      "name": "Sample Natural Language Search",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/ask1/api.json?KEY={{KEY}}&QUERY=Magento%20websites%20in%20Spain",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "ask1",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "QUERY",
+              "value": "Magento websites in Spain"
+            }
+          ]
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Full Report",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/ask1/api.json?KEY={{KEY}}&QUERY=Magento%20websites%20in%20Spain&COMMIT=true&META=yes",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "ask1",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "QUERY",
+              "value": "Magento websites in Spain"
+            },
+            {
+              "key": "COMMIT",
+              "value": "true"
+            },
+            {
+              "key": "META",
+              "value": "yes"
+            }
+          ]
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Next Report Page",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/ask1/api.json?KEY={{KEY}}&QUERY=Magento%20websites%20in%20Spain&COMMIT=true&NEXTOFFSET={{askNextOffset}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "ask1",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "QUERY",
+              "value": "Magento websites in Spain"
+            },
+            {
+              "key": "COMMIT",
+              "value": "true"
+            },
+            {
+              "key": "NEXTOFFSET",
+              "value": "{{askNextOffset}}"
+            }
+          ]
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Other Formats",
+      "item": [
+        {
+          "name": "Sample Natural Language Search (XML)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/ask1/api.xml?KEY={{KEY}}&QUERY=Magento%20websites%20in%20Spain",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "ask1",
+                "api.xml"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "QUERY",
+                  "value": "Magento websites in Spain"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sample Natural Language Search (TXT)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/ask1/api.txt?KEY={{KEY}}&QUERY=Magento%20websites%20in%20Spain",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "ask1",
+                "api.txt"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "QUERY",
+                  "value": "Magento websites in Spain"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sample Natural Language Search (CSV)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/ask1/api.csv?KEY={{KEY}}&QUERY=Magento%20websites%20in%20Spain",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "ask1",
+                "api.csv"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "QUERY",
+                  "value": "Magento websites in Spain"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sample Natural Language Search (TSV)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/ask1/api.tsv?KEY={{KEY}}&QUERY=Magento%20websites%20in%20Spain",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "ask1",
+                "api.tsv"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "QUERY",
+                  "value": "Magento websites in Spain"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string",
+      "description": "Set your BuiltWith API key locally; do not share its value."
+    },
+    {
+      "key": "askNextOffset",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

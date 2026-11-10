@@ -1,0 +1,37 @@
+name: Check release against API contracts
+
+on:
+  workflow_call:
+    inputs:
+      release_ref:
+        description: Caller commit or tag to validate
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_ref }}
+          path: caller
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: builtwith/builtwith
+          ref: main
+          path: contracts
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r contracts/postman/requirements.txt
+      - run: python -m unittest discover -s contracts/postman/tests
+      - name: Validate public contracts and release sources
+        run: python contracts/postman/scripts/manage.py check --online --caller caller --repo "$CALLER_REPO"
+        env:
+          CALLER_REPO: ${{ github.repository }}

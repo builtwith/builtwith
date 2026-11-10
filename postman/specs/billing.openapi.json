@@ -1,0 +1,330 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "BuiltWith Agent Stripe Credit Top-Up API via mppx aliases",
+    "version": "1.1.0",
+    "description": "Authenticated aliases that charge an existing account's saved Stripe method and add account API credits. This is not x402 and does not use payment challenges."
+  },
+  "servers": [
+    {
+      "url": "https://api.builtwith.com"
+    }
+  ],
+  "externalDocs": {
+    "description": "Agent Stripe Credit Top-Up documentation",
+    "url": "https://api.builtwith.com/agent-payment-api"
+  },
+  "paths": {
+    "/mppx/api-discovery": {
+      "get": {
+        "operationId": "getStripeTopUpBalance",
+        "summary": "Account API credit balance",
+        "security": [
+          {
+            "agentBillingKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current account API credit balance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiscoveryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/mppx/api-configuration": {
+      "get": {
+        "operationId": "getStripeTopUpConfiguration",
+        "summary": "Spending limits and purchase rules",
+        "security": [
+          {
+            "agentBillingKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Configured spending limits, UTC period and purchase rules",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfigurationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/mppx/api-purchase": {
+      "post": {
+        "operationId": "purchaseAccountCreditsWithStripe",
+        "summary": "Charge saved Stripe method and add account API credits",
+        "description": "Requires the separately scoped Agent Billing Key and a unique Idempotency-Key. Reuse the same key only when retrying the identical purchase. Quantities are fixed increments of 2,000 credits.",
+        "security": [
+          {
+            "agentBillingKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 200
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PurchaseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Credits purchased or the original response replayed",
+            "headers": {
+              "Idempotency-Replayed": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "402": {
+            "$ref": "#/components/responses/PaymentFailed"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "agentBillingKey": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Separately scoped Agent Billing Key from payments.builtwith.com/agent-payment-api-config. General API keys and temporary bw- tokens cannot purchase."
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "required": [
+          "success",
+          "code",
+          "error"
+        ],
+        "properties": {
+          "success": {
+            "const": false
+          },
+          "code": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          },
+          "details": {
+            "type": "object"
+          }
+        }
+      },
+      "DiscoveryResponse": {
+        "type": "object",
+        "properties": {
+          "service": {
+            "type": "string"
+          },
+          "payment_processor": {
+            "const": "Stripe saved payment method"
+          },
+          "is_x402": {
+            "const": false
+          },
+          "credits_total": {
+            "type": "number"
+          },
+          "credits_used": {
+            "type": "number"
+          },
+          "credits_available": {
+            "type": "number"
+          }
+        }
+      },
+      "ConfigurationResponse": {
+        "type": "object",
+        "properties": {
+          "max_per_purchase": {
+            "type": "integer"
+          },
+          "max_monthly": {
+            "type": "integer"
+          },
+          "monthly_purchased": {
+            "type": "integer"
+          },
+          "monthly_remaining": {
+            "type": "integer"
+          },
+          "monthly_reset_timezone": {
+            "const": "UTC"
+          },
+          "purchase_increment": {
+            "const": 2000
+          },
+          "idempotency_key_required": {
+            "const": true
+          }
+        }
+      },
+      "PurchaseRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "credits"
+        ],
+        "properties": {
+          "credits": {
+            "type": "integer",
+            "minimum": 2000,
+            "multipleOf": 2000
+          }
+        }
+      },
+      "PurchaseResponse": {
+        "type": "object",
+        "required": [
+          "success",
+          "credits_purchased",
+          "cost_usd",
+          "payment_id",
+          "credits_available"
+        ],
+        "properties": {
+          "success": {
+            "const": true
+          },
+          "idempotency_replayed": {
+            "type": "boolean"
+          },
+          "credits_purchased": {
+            "type": "integer"
+          },
+          "cost_usd": {
+            "type": "number"
+          },
+          "payment_id": {
+            "type": "string"
+          },
+          "credits_available": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Validation failure",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Missing or invalid Agent Billing Key",
+        "headers": {
+          "WWW-Authenticate": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "PaymentFailed": {
+        "description": "Stripe payment failed or no chargeable payment method is on file",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Billing credential required, account suspended, or spending permission denied",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Idempotency key is in progress or conflicts with an earlier request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+}

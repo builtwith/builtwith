@@ -1,0 +1,89 @@
+{
+  "info": {
+    "_postman_id": "d644de9c-761d-5cd2-b6c3-836a22d9a9cf",
+    "name": "Agent Authorization API 🔐🔐🔐",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Allows an AI agent to obtain a temporary `bw-` prefixed API token without asking the user to paste an API key.\n\n1. Start:\n   - `POST https://api.builtwith.com/agent-auth/start`\n   - No body and no API key required.\n\nResponse:\n```json\n{\n  \"device_code\": \"11c3dd0e3a014816a5c62a04b0f00097\",\n  \"verification_uri\": \"https://api.builtwith.com/device-auth?code=11c3dd0e3a014816a5c62a04b0f00097\",\n  \"expires_in\": 900,\n  \"interval\": 5\n}\n```\n\n2. Send the user to `verification_uri` in a browser where they can log in to BuiltWith and approve access.\n3. Poll:\n   - `POST https://api.builtwith.com/agent-auth/token`\n   - Body: `{\"device_code\":\"<device_code>\"}`\n   - Poll no faster than `interval` seconds.\n\nToken responses:\n```json\n{\"error\":\"authorization_pending\"}\n{\"access_token\":\"bw-...\",\"token_type\":\"bearer\",\"expires_in\":86400}\n{\"error\":\"access_denied\"}\n{\"error\":\"expired_token\"}\n```\n\nDenied and expired responses use HTTP 400. Always parse the response body even on 4xx.\n\nUse approved tokens as `KEY=bw-...` on REST endpoints:\n```text\nhttps://api.builtwith.com/v26/api.json?KEY={{KEY}}&LOOKUP=example.com\n```\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected."
+  },
+  "item": [
+    {
+      "name": "Start Device Authorization",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/agent-auth/start",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "agent-auth",
+            "start"
+          ],
+          "query": []
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Poll Approved Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/agent-auth/token",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "agent-auth",
+            "token"
+          ],
+          "query": []
+        },
+        "description": "Open verification_uri and approve access. Poll no faster than interval seconds. Parse authorization_pending, access_denied and expired_token even on HTTP 400.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"device_code\": \"{{device_code}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string",
+      "description": "Set your BuiltWith API key locally; do not share its value."
+    },
+    {
+      "key": "device_code",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

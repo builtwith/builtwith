@@ -1,0 +1,218 @@
+{
+  "info": {
+    "_postman_id": "088654dd-6194-542b-b757-3f0903f834ae",
+    "name": "MCP Registry API 🤖🤖🤖",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "- Endpoint: `GET /mcp2/api.{json|xml|csv|txt}` - search and browse the BuiltWith MCP registry (other remote MCP servers BuiltWith has discovered across the web - not an MCP protocol endpoint itself). See `https://builtwith.com/mcp-registry`.\n- Example: `https://api.builtwith.com/mcp2/api.json?KEY=YOUR_KEY&SEARCH=payments`\n- Example: `https://api.builtwith.com/mcp2/api.json?KEY=YOUR_KEY&CATEGORY=developer-tools&OFFSET=100`\n- Credit cost: free - no API credits used.\n- Rate limit: 1 request per second per API key (stricter than the general API rate limit, since this endpoint is free).\n- Categories: `GET /mcp2/categories.{json|xml|csv}` lists every valid `CATEGORY` slug with its friendly `Label` and current `Count`. This endpoint is public and uses no API credits.\n- Documentation: `https://api.builtwith.com/mcp-api`\n- Note: Exposed as a tool via the BuiltWith MCP server (`https://api.builtwith.com/mcp`, see the MCP Server section)\n\n### Parameters\n- `KEY` (required) - your API key.\n- `SEARCH` (optional) - matches against the MCP server's domain, description, endpoint URLs, tool (method) names/descriptions, and overview instructions. At least one of `SEARCH` or `CATEGORY` is required.\n- `CATEGORY` (optional) - a category slug from the categories endpoint above. At least one of `SEARCH` or `CATEGORY` is required.\n- `OFFSET` (optional, default `0`) - pagination offset; page size is fixed at 100 results.\n\n### Response\nThe response is a list of records with:\n- `Domain` - the MCP server's root domain.\n- `Category` - the friendly category label.\n- `Description` - a short description of the MCP server.\n- `Endpoints` - array of the actual remote MCP endpoint(s) the domain exposes, each with `Endpoint` (URL), `AuthRequired` (bool), `Tools` (the methods that endpoint supports, each with `Name` and `Description`), and the complete `Overview` discovery object when available. `Overview` includes fields reported by the remote server such as `instructions`, `protocolVersion`, `serverInfo`, and `capabilities`.\n\nResults are sorted alphabetically by domain, up to 100 per page. Pagination metadata is returned as response headers rather than in the body: `X-TOTAL-COUNT`, `X-OFFSET`, `X-PAGE-SIZE`, `X-HAS-MORE`.\n\nExample JSON:\n```json\n[\n  {\n    \"Domain\": \"example.com\",\n    \"Category\": \"Developer Tools\",\n    \"Description\": \"Example MCP server description\",\n    \"Endpoints\": [\n      {\n        \"Endpoint\": \"https://example.com/mcp\",\n        \"AuthRequired\": true,\n        \"Tools\": [\n          { \"Name\": \"search_orders\", \"Description\": \"Search orders by customer or status\" }\n        ],\n        \"Overview\": {\n          \"instructions\": \"Use this server to search and manage orders.\",\n          \"protocolVersion\": \"2025-06-18\",\n          \"serverInfo\": { \"name\": \"example-orders\", \"version\": \"1.0.0\" },\n          \"capabilities\": { \"tools\": { \"listChanged\": false } }\n        }\n      }\n    ]\n  }\n]\n```\n\nExample CSV (`Endpoints` is flattened to `url [tool1, tool2]`; `Overview` contains the endpoint URL and JSON overview):\n```csv\nDomain,Category,Description,Endpoints,Overview\nexample.com,Developer Tools,Example MCP server description,\"https://example.com/mcp [search_orders, get_order]\",\"https://example.com/mcp: {\"\"instructions\"\":\"\"Use this server to search and manage orders.\"\"}\"\n```\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected."
+  },
+  "item": [
+    {
+      "name": "Search MCP Servers",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/mcp2/api.json?KEY={{KEY}}&SEARCH=payments&OFFSET=0",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "mcp2",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "SEARCH",
+              "value": "payments"
+            },
+            {
+              "key": "OFFSET",
+              "value": "0"
+            }
+          ]
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Browse MCP Category",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/mcp2/api.json?KEY={{KEY}}&CATEGORY=developer-tools&OFFSET=0",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "mcp2",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "CATEGORY",
+              "value": "developer-tools"
+            },
+            {
+              "key": "OFFSET",
+              "value": "0"
+            }
+          ]
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Other Formats",
+      "item": [
+        {
+          "name": "Search MCP Servers (XML)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/mcp2/api.xml?KEY={{KEY}}&SEARCH=payments&OFFSET=0",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "mcp2",
+                "api.xml"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "SEARCH",
+                  "value": "payments"
+                },
+                {
+                  "key": "OFFSET",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search MCP Servers (CSV)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/mcp2/api.csv?KEY={{KEY}}&SEARCH=payments&OFFSET=0",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "mcp2",
+                "api.csv"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "SEARCH",
+                  "value": "payments"
+                },
+                {
+                  "key": "OFFSET",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search MCP Servers (TXT)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/mcp2/api.txt?KEY={{KEY}}&SEARCH=payments&OFFSET=0",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "mcp2",
+                "api.txt"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "SEARCH",
+                  "value": "payments"
+                },
+                {
+                  "key": "OFFSET",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string",
+      "description": "Set your BuiltWith API key locally; do not share its value."
+    }
+  ]
+}

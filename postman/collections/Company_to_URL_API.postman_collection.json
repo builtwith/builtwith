@@ -1,0 +1,186 @@
+{
+  "info": {
+    "_postman_id": "32e887ae-3f11-451b-b1d2-12bf281878f7",
+    "name": "Company to URL API 🚨🚨🚨",
+    "description": "- Endpoint: `GET /ctu3/api.{json|xml}` - discover domains from company names.\n- Example: `https://api.builtwith.com/ctu3/api.json?KEY=YOUR_KEY&COMPANY=Example`\n- Credits: 1 per lookup.\n\nSample response (`https://api.builtwith.com/samples/ctu_api_v3.json`):\n```json\n[\n  {\n    \"Domain\": \"example.com\",\n    \"CompanyName\": \"Example\",\n    \"Spend\": 1024,\n    \"Country\": \"US\",\n    \"Socials\": [\"linkedin.com/company/example\"]\n  }\n]\n```\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Company Website",
+      "id": "9a1e631b-c057-49e4-ad55-3df2c1e37f82",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "Gets the website based on company name provided.",
+        "url": {
+          "raw": "https://api.builtwith.com/ctu3/api.json?KEY={{KEY}}&COMPANY=Example",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "ctu3",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "COMPANY",
+              "value": "Example"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "9b3c0373-5e67-479b-b4e1-71cab402b0ec",
+          "name": "Get Company Website Example",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://ctu.builtwith.com/ctu2/api.json?KEY={{KEY}}&COMPANY=builtwith",
+              "protocol": "https",
+              "host": [
+                "ctu",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "ctu2",
+                "api.json"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "COMPANY",
+                  "value": "builtwith"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Cache-Control",
+              "value": "private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Server",
+              "value": "Microsoft-IIS/10.0"
+            },
+            {
+              "key": "X-API-CREDITS-AVAILABLE",
+              "value": "50"
+            },
+            {
+              "key": "X-API-CREDITS-USED",
+              "value": "18"
+            },
+            {
+              "key": "X-API-CREDITS-REMAINING",
+              "value": "32"
+            },
+            {
+              "key": "X-AspNet-Version",
+              "value": "4.0.30319"
+            },
+            {
+              "key": "X-UA-Compatible",
+              "value": "IE=Edge,chrome=1"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "SAMEORIGIN"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 14 Aug 2024 03:49:05 GMT"
+            },
+            {
+              "key": "Content-Length",
+              "value": "405"
+            }
+          ],
+          "cookie": [],
+          "responseTime": null,
+          "body": "[\n    {\n        \"Domain\": \"builtwith.com\",\n        \"CompanyName\": \"BuiltWith Pty Ltd\",\n        \"Spend\": 2000,\n        \"PageRank\": 1912,\n        \"BuiltWithRank\": 129449,\n        \"Parked\": false,\n        \"Country\": \"AU\",\n        \"State\": \"NSW\",\n        \"Postcode\": \"2000\",\n        \"City\": \"Barangaroo\",\n        \"Socials\": [\n            \"https://twitter.com/builtwith\",\n            \"https://facebook.com/builtwith\",\n            \"https://linkedin.com/company/builtwith\",\n            \"https://tiktok.com/@builtwith\",\n            \"https://threads.net/@builtwith\",\n            \"https://x.com/builtwith\"\n        ]\n    }\n]",
+          "createdAt": "2024-08-14T03:49:08.000Z",
+          "updatedAt": "2024-08-14T03:49:16.000Z",
+          "uid": "37668266-9b3c0373-5e67-479b-b4e1-71cab402b0ec"
+        }
+      ],
+      "createdAt": "2024-08-14T03:48:44.000Z",
+      "updatedAt": "2025-07-10T01:43:26.000Z",
+      "uid": "37668266-9a1e631b-c057-49e4-ad55-3df2c1e37f82"
+    },
+    {
+      "name": "Other Formats",
+      "item": [
+        {
+          "name": "Get Company Website (XML)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "description": "Gets the website based on company name provided.",
+            "url": {
+              "raw": "https://api.builtwith.com/ctu3/api.xml?KEY={{KEY}}&COMPANY=Example",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "ctu3",
+                "api.xml"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "COMPANY",
+                  "value": "Example"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2024-08-14T03:48:44.000Z",
+          "updatedAt": "2025-07-10T01:43:26.000Z",
+          "uid": "37668266-9a1e631b-c057-49e4-ad55-3df2c1e37f82"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string"
+    }
+  ]
+}

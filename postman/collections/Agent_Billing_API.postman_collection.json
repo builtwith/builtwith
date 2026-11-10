@@ -1,0 +1,277 @@
+{
+  "info": {
+    "_postman_id": "1e093350-4fdc-59cb-9034-3b86a4a4f7dd",
+    "name": "Agent Billing API 💰💰💰",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "- Base URL: `https://payments.builtwith.com`\n- Purpose: charge an existing account's saved Stripe method and add account API credits; this is not an x402 payment challenge.\n- Auth: `Authorization: Bearer YOUR_AGENT_BILLING_KEY`\n- Setup: `https://payments.builtwith.com/agent-payment-api-config`\n- Purchase rules: `Idempotency-Key` is required; credit quantities use fixed 2,000-credit increments; monthly limits reset on UTC calendar-month boundaries.\n- `?KEY={{KEY}} is a deprecated compatibility mechanism and must not be used for new integrations.\n\nEndpoints:\n- `GET /v1/billing/api-discovery` - returns `credits_total`, `credits_used`, `credits_available`.\n- `GET /v1/billing/api-configuration` - returns spending limits and monthly purchase status (`max_per_purchase`, `max_monthly`, `monthly_purchased`, `monthly_remaining`, `cost_per_2000_credits_usd`).\n- `POST /v1/billing/api-purchase` - body `{\"credits\":2000}` plus a unique `Idempotency-Key`. Uses the account's saved Stripe payment method and configured spending limits.\n\n### Legacy mppx Stripe Top-Up Path Aliases (Not x402)\n- Base URL: `https://api.builtwith.com/mppx`\n- Purpose: API-domain path aliases for the same saved-Stripe-method operations above; not an x402 or MPP payment-challenge protocol.\n- Availability: requires manual enablement.\n- Auth: same scoped Agent Billing Key as the primary service.\n- Behavior: uses the same Stripe top-up service, spending limits, idempotency handling, and JSON errors.\n- Discovery: `GET https://api.builtwith.com/mppx/openapi.json`\n\nEndpoints:\n- `GET /mppx/api-discovery` - alias for `/v1/billing/api-discovery`.\n- `GET /mppx/api-configuration` - alias for `/v1/billing/api-configuration`.\n- `POST /mppx/api-purchase` - alias for `/v1/billing/api-purchase`; body `{\"credits\":2000}`.\n- Short aliases are also accepted: `/mppx/balance`, `/mppx/configuration`, and `/mppx/purchase`.\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected."
+  },
+  "item": [
+    {
+      "name": "Get Credit Balance",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{agentBillingKey}}"
+          }
+        ],
+        "url": {
+          "raw": "https://payments.builtwith.com/v1/billing/api-discovery",
+          "protocol": "https",
+          "host": [
+            "payments",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "billing",
+            "api-discovery"
+          ],
+          "query": []
+        },
+        "description": "Requires a separately scoped Agent Billing Key. No purchase is made.",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Spending Configuration",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{agentBillingKey}}"
+          }
+        ],
+        "url": {
+          "raw": "https://payments.builtwith.com/v1/billing/api-configuration",
+          "protocol": "https",
+          "host": [
+            "payments",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "billing",
+            "api-configuration"
+          ],
+          "query": []
+        },
+        "description": "Requires a separately scoped Agent Billing Key. No purchase is made.",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Purchase Credits",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{agentBillingKey}}"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{billingIdempotencyKey}}"
+          }
+        ],
+        "url": {
+          "raw": "https://payments.builtwith.com/v1/billing/api-purchase",
+          "protocol": "https",
+          "host": [
+            "payments",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "billing",
+            "api-purchase"
+          ],
+          "query": []
+        },
+        "description": "Requires a separately scoped Agent Billing Key. Charges the saved Stripe payment method; reuse the same idempotency key only for an identical retry.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"credits\": 2000\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Legacy Alias: Get Credit Balance",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{agentBillingKey}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/mppx/api-discovery",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "mppx",
+            "api-discovery"
+          ],
+          "query": []
+        },
+        "description": "Requires a separately scoped Agent Billing Key. No purchase is made.",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Legacy Alias: Get Spending Configuration",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{agentBillingKey}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/mppx/api-configuration",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "mppx",
+            "api-configuration"
+          ],
+          "query": []
+        },
+        "description": "Requires a separately scoped Agent Billing Key. No purchase is made.",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Legacy Alias: Purchase Credits",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{agentBillingKey}}"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{billingIdempotencyKey}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/mppx/api-purchase",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "mppx",
+            "api-purchase"
+          ],
+          "query": []
+        },
+        "description": "Requires a separately scoped Agent Billing Key. Charges the saved Stripe payment method; reuse the same idempotency key only for an identical retry.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"credits\": 2000\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Legacy Billing OpenAPI",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/mppx/openapi.json",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "mppx",
+            "openapi.json"
+          ],
+          "query": []
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string",
+      "description": "Set your BuiltWith API key locally; do not share its value."
+    },
+    {
+      "key": "agentBillingKey",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "billingIdempotencyKey",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "info": {
+    "_postman_id": "794a22ab-d10e-49cb-a43c-75cfe929ef58",
+    "name": "Financial API 🤑💵💰",
+    "description": "Financial API provides financial data for websites listed at BuiltWith in JSON format. It allows you to get financial reporting information for websites that we have linked to companies in the United States and the United Kingdom.\n\n---\n\n## Response Object\n\n| Name | Example | Description |\n| --- | --- | --- |\n| domain | robinhood.com | The domain that was looked up. |\n| companyName | Robinhood Markets, Inc. | The company name. |\n| employees | 1281 | Amount of employees (or zero if not found). |\n| followers | 394388 | Social followers (or zero if not found). |\n| products | 0 | SKU Products (or zero if not found). |\n| spend | 7463.82 | Monthly tech USD spend estimate. |\n\n### Edgar Results\n\nThe edgar object is populated if we find US SEC 10K filings for the website.\n\n| Name | Example | Description |\n| --- | --- | --- |\n| companyName | Robinhood Markets, Inc. | The company name |\n| cik | 1783879 | CIK code for the company |\n| sic | 6211 | SIC code(s) for the company |\n| exchanges | Nasdaq | Array of exchanges for the company |\n| tickers | HOOD | Array of tickers for the company |\n| **financials array (USD for all values except dates)** |  |  |\n| periodStart | 637765920000000000 | Financial reporting period epoch in MS |\n| periodEnd | 63808041600000000 | Financial reporting period end epoch in MS |\n| periodStartDate | 2024-01-01 | Financial reporting period |\n| periodEndDate | 2024-12-31 | Financial reporting period end |\n| revenue | 1358000000 | revenue refers to the total amount of money a company generates from its normal business activities, typically from the sale of goods and services, before any expenses are deducted. |\n| operatingIncome | \\-1027000000 | operatingIncome refers to the profit a company makes from its core business operations, calculated as revenue minus operating expenses, excluding taxes and interest. |\n| netIncome | \\-1028000000 | netIncome is the total profit a company has earned after subtracting all expenses, including operating expenses, taxes, and interest, from its total revenue. |\n| assets | 23337000960 | assets refer to the resources owned by a company that have economic value and can be converted into cash, including items such as cash, inventory, property, and equipment. |\n| liabilities | 16380999680 | liabilities refer to the company's financial obligations or debts that it is required to pay in the future, including loans, accounts payable, and other financial commitments. |\n| cash | 6338999808 | Cash on hand at company |\n| equity | 6956000256 | equity refers to the residual interest in the assets of a company after deducting its liabilities, representing the ownership value held by shareholders. |\n| retainedEarnings | \\-4904999936 | retainedEarnings refer to the cumulative amount of net income that a company has retained, rather than distributed to shareholders as dividends, and is reinvested in the business. |\n| currentAssets | 22916999168 | currentAssets refer to the assets that a company expects to convert into cash or use up within one year, including cash, accounts receivable, inventory, and other short-term assets. |\n| currentLiabilities | 16252999680 | currentLiabilities refer to the company's financial obligations that are due to be settled within one year, including accounts payable, short-term debt, and other short-term financial commitments. |\n| dividendsPaid | \\-1 | dividendsPaid refers to the portion of a company's earnings that is distributed to shareholders as cash payments during a specific period. |\n| commonStockOutstanding | \\-1 | commonStockOutstanding refers to the total number of shares of common stock that are currently held by shareholders, excluding treasury shares that the company has repurchased. |\n\n### Companies House Results\n\nThe companyhouse object is populated if we find Companies House filing for the website.\n\n| Name | Example | Description |\n| --- | --- | --- |\n| companyName | CKRE LIMITED | The company name |\n| regNo | 3600683 | The registration number of the company |\n| accountingType | Full or Micro Entity or Total Exemption Full | The type of accounting the company is required to do. |\n| sic | 64999,65120 | SIC code(s) for the company |\n| incorporationDate | 630365328000000000 | The date of incorporation in epoch MS |\n| **financials array (USD for all values except dates)** |  |  |\n| balanceSheet | 637765488000000000 | The date of the balance sheet preparation in epoch MS |\n| balanceSheetDate | 2024-12-31 | The date of the balance sheet preparation in date format |\n| debtors | 19443615.22 | debtors refer to individuals or entities that owe money to the company, typically arising from credit sales or loans extended by the company. |\n| fixedAssets | 326097.42 | fixedAssets refer to long-term tangible assets that a company uses in its operations and expects to use for more than one year, such as property, plant, and equipment. |\n| currentAssets | 23222988.41 | currentAssets refer to assets that are expected to be converted into cash, sold, or consumed within a year, including items such as cash, accounts receivable, inventory, and other short-term assets. |\n| creditors | \\-21784479.05 | creditors refer to individuals or entities to whom the company owes money, typically arising from loans, credit purchases, or other financial obligations. |\n| netCurrentAssets | 1438509.36 | netCurrentAssets refer to the difference between a company's current assets and its current liabilities, indicating the liquidity and short-term financial health of the company. |\n| netAssets | 1713254.19 | netAssets refers to the total value of a company's non-current assets, such as property, plant, and equipment, minus any non-current liabilities, indicating the long-term financial stability of the company. |\n| cash | 3779373.2 | cash refers to the money that a company has on hand or in bank accounts, available for immediate use. |\n| turnoverRevenue | 2621094.32 | turnoverRevenue refers to the total income generated by a company from its normal business activities, typically from the sale of goods and services, over a specific period. |\n| costOfSales | 1.21 | costOfSales refers to the direct expenses incurred in producing the goods or services that a company sells, including costs of raw materials, labor, and manufacturing overhead. |\n| grossProfit | 23232.99 | grossProfit refers to the difference between a company's turnover revenue and its cost of sales, representing the profit earned before deducting operating expenses, taxes, and interest. |\n| operatingProfit | 23232.99 | operatingProfit refers to the profit a company generates from its core business operations, calculated by subtracting operating expenses from gross profit, and excluding interest and taxes. |\n| taxOnProfit | 23232.99 | taxOnProfit refers to the amount of income tax a company is required to pay on its taxable profit, as calculated according to relevant tax laws and regulations. |\n| otherIncome | 0 | otherIncome refers to the earnings a company receives from activities not related to its core business operations, such as interest, dividends, rental income, or gains from the sale of assets. |\n| profitLoss | 150690.26 | profitLoss refers to the overall financial result of a company's operations for a specific period, calculated as total revenue minus total expenses, indicating whether the company made a profit or incurred a loss. |\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Domain Financials",
+      "id": "44043bde-8462-401a-9fe6-ca985afff888",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/financial1/api.json?KEY={{KEY}}&LOOKUP=robinhood.com",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "financial1",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}",
+              "description": "Your API key from https://api.builtwith.com"
+            },
+            {
+              "key": "LOOKUP",
+              "value": "robinhood.com",
+              "description": "robinhood.com and ckre.co.uk do not use API credits for Testing."
+            }
+          ]
+        },
+        "description": "Get EDGAR or Company House data for a domain name."
+      },
+      "response": [
+        {
+          "id": "941893bc-df2a-48d7-a4c2-51f0ff97d223",
+          "name": "Get Domain Financials Example",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/financial1/api.json?KEY={{KEY}}&LOOKUP=robinhood.com",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "financial1",
+                "api.json"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "LOOKUP",
+                  "value": "robinhood.com"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Cache-Control",
+              "value": "private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Server",
+              "value": "Microsoft-IIS/10.0"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "X-UA-Compatible",
+              "value": "IE=Edge,chrome=1"
+            },
+            {
+              "key": "cross-origin-resource-policy",
+              "value": "same-site"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000; includeSubDomains; preload"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 14 Aug 2024 02:12:33 GMT"
+            },
+            {
+              "key": "Content-Length",
+              "value": "1220"
+            }
+          ],
+          "cookie": [],
+          "responseTime": null,
+          "body": "{\n    \"companyName\": \"Robinhood Markets, Inc.\",\n    \"domain\": \"robinhood.com\",\n    \"edgar\": {\n        \"financials\": [\n            {\n                \"periodStart\": 637450560000000000,\n                \"periodEnd\": 637765056000000000,\n                \"revenue\": 1815143040,\n                \"operatingIncome\": -3684431872,\n                \"netIncome\": -3686432000,\n                \"assets\": 19769178112,\n                \"liabilities\": 12476087296,\n                \"cash\": 6253476864,\n                \"equity\": 7293091840,\n                \"retainedEarnings\": -3876535040,\n                \"currentAssets\": 19283542016,\n                \"currentLiabilities\": 12347341824,\n                \"dividendsPaid\": -1,\n                \"commonStockOutstanding\": 0,\n                \"periodStartDate\": \"2021-01-01\",\n                \"periodEndDate\": \"2021-12-31\"\n            },\n            {\n                \"periodStart\": 637765920000000000,\n                \"periodEnd\": 638080416000000000,\n                \"revenue\": 1358000000,\n                \"operatingIncome\": -1027000000,\n                \"netIncome\": -1028000000,\n                \"assets\": 23337000960,\n                \"liabilities\": 16380999680,\n                \"cash\": 6338999808,\n                \"equity\": 6956000256,\n                \"retainedEarnings\": -4904999936,\n                \"currentAssets\": 22916999168,\n                \"currentLiabilities\": 16252999680,\n                \"dividendsPaid\": -1,\n                \"commonStockOutstanding\": -1,\n                \"periodStartDate\": \"2022-01-01\",\n                \"periodEndDate\": \"2022-12-31\"\n            }\n        ],\n        \"companyName\": \"Robinhood Markets, Inc.\",\n        \"cik\": \"1783879\",\n        \"sic\": \"6211\",\n        \"exchanges\": [\n            \"Nasdaq\"\n        ],\n        \"tickers\": [\n            \"HOOD\"\n        ]\n    },\n    \"companyhouse\": null,\n    \"note\": \"Balance sheet values are in $USD. Not investment advice.\",\n    \"employees\": 1281,\n    \"followers\": 394388,\n    \"products\": 0,\n    \"spend\": 7697.16,\n    \"sales\": 113166667\n}",
+          "createdAt": "2024-08-14T02:12:37.000Z",
+          "updatedAt": "2024-08-14T02:12:57.000Z",
+          "uid": "37668266-941893bc-df2a-48d7-a4c2-51f0ff97d223"
+        }
+      ],
+      "createdAt": "2024-08-14T02:12:09.000Z",
+      "updatedAt": "2025-07-10T01:44:33.000Z",
+      "uid": "37668266-44043bde-8462-401a-9fe6-ca985afff888"
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string"
+    }
+  ]
+}

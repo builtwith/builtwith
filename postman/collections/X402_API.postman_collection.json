@@ -1,0 +1,702 @@
+{
+  "info": {
+    "_postman_id": "988495c8-1f77-5404-bfa3-17df4b2294b8",
+    "name": "x402 API 🪙🪙🪙",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "x402 v2 on Base USDC. Read PAYMENT-REQUIRED, sign with a compatible wallet, and retry the identical request with PAYMENT-SIGNATURE. Lookup operations cost $0.0495 USDC; List pass purchases have separately documented prices. No API key. No payment is performed by importing this collection.\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected."
+  },
+  "item": [
+    {
+      "name": "Payment Discovery",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/.well-known/x402",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            ".well-known",
+            "x402"
+          ],
+          "query": []
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "OpenAPI Discovery",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/openapi.json",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "openapi.json"
+          ],
+          "query": []
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Look up a domain's technologies and metadata",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "PAYMENT-SIGNATURE",
+            "value": "{{x402PaymentSignature}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/agent/domain?domain=example.com&liveOnly=true",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "agent",
+            "domain"
+          ],
+          "query": [
+            {
+              "key": "domain",
+              "value": "example.com"
+            },
+            {
+              "key": "liveOnly",
+              "value": "true"
+            }
+          ]
+        },
+        "description": "Return BuiltWith technology detections and metadata for one domain. Useful for company research, stack analysis, competitive intelligence, and sales qualification.",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Find websites related to a domain",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "PAYMENT-SIGNATURE",
+            "value": "{{x402PaymentSignature}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/agent/relationships",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "agent",
+            "relationships"
+          ],
+          "query": []
+        },
+        "description": "Find domains related through shared identifiers, infrastructure, analytics, ownership signals, and other BuiltWith relationship evidence.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"domain\": \"example.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get technology additions and removals for a domain",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "PAYMENT-SIGNATURE",
+            "value": "{{x402PaymentSignature}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/agent/changes",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "agent",
+            "changes"
+          ],
+          "query": []
+        },
+        "description": "Return historical technology changes for one domain, optionally constrained by a human-readable time boundary such as 'last month'.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"domain\": \"example.com\",\n  \"since\": \"last month\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Find domains associated with a company name",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "PAYMENT-SIGNATURE",
+            "value": "{{x402PaymentSignature}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/agent/company-domains",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "agent",
+            "company-domains"
+          ],
+          "query": []
+        },
+        "description": "Resolve a company or brand name to associated website domains before running domain-level research.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"company\": \"HotelsCombined\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Find related domains from an IP address or attribute",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "PAYMENT-SIGNATURE",
+            "value": "{{x402PaymentSignature}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/agent/tags",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "agent",
+            "tags"
+          ],
+          "query": []
+        },
+        "description": "Return domains connected to a BuiltWith tag such as an IP address or infrastructure attribute.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"lookup\": \"IP-75.126.76.154\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Recommend technologies for a domain",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "PAYMENT-SIGNATURE",
+            "value": "{{x402PaymentSignature}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/agent/recommendations",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "agent",
+            "recommendations"
+          ],
+          "query": []
+        },
+        "description": "Return technology recommendations inferred from a domain's existing stack and comparable sites.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"domain\": \"example.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get live and historical redirects for a domain",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "PAYMENT-SIGNATURE",
+            "value": "{{x402PaymentSignature}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/agent/redirects",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "agent",
+            "redirects"
+          ],
+          "query": []
+        },
+        "description": "Return redirect destinations observed for a domain, useful for brand, migration, acquisition, and asset research.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"domain\": \"example.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get keyword data for a domain",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "PAYMENT-SIGNATURE",
+            "value": "{{x402PaymentSignature}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/agent/keywords",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "agent",
+            "keywords"
+          ],
+          "query": []
+        },
+        "description": "Return keywords and topical signals associated with one website domain.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"domain\": \"example.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get trust and risk signals for a domain",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "PAYMENT-SIGNATURE",
+            "value": "{{x402PaymentSignature}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/agent/trust",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "agent",
+            "trust"
+          ],
+          "query": []
+        },
+        "description": "Return BuiltWith trust scoring and supporting signals for vendor review, fraud screening, and website due diligence.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"domain\": \"example.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get public company identifiers for a domain",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "PAYMENT-SIGNATURE",
+            "value": "{{x402PaymentSignature}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/agent/company-identifiers",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "agent",
+            "company-identifiers"
+          ],
+          "query": []
+        },
+        "description": "Return public company registration, tax, and VAT identifiers associated with one domain when available.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"domain\": \"example.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search BuiltWith technologies by concept",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "PAYMENT-SIGNATURE",
+            "value": "{{x402PaymentSignature}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/agent/technology-search",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "agent",
+            "technology-search"
+          ],
+          "query": []
+        },
+        "description": "Run semantic search over BuiltWith technologies and categories to resolve a concept such as 'payment gateway' to relevant technology names.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"payment gateway\",\n  \"limit\": 10\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Find websites with a natural-language query",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "PAYMENT-SIGNATURE",
+            "value": "{{x402PaymentSignature}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/agent/ask",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "agent",
+            "ask"
+          ],
+          "query": []
+        },
+        "description": "Run an uncommitted BuiltWith Ask query and return matching websites for research and qualification. This route does not create a persistent List report.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"Magento websites in Spain\",\n  \"meta\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Purchase a 30-day basic BuiltWith List pass",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "PAYMENT-SIGNATURE",
+            "value": "{{x402PaymentSignature}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/x402/list-pass/basic",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "x402",
+            "list-pass",
+            "basic"
+          ],
+          "query": []
+        },
+        "description": "Pay 295.00 USDC on Base for a bearer pass covering 2 primary technology reports and 2 keyword or committed Ask reports. Repeating an existing report does not consume another slot.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Purchase a 30-day pro BuiltWith List pass",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "PAYMENT-SIGNATURE",
+            "value": "{{x402PaymentSignature}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/x402/list-pass/pro",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "x402",
+            "list-pass",
+            "pro"
+          ],
+          "query": []
+        },
+        "description": "Pay 495.00 USDC on Base for a bearer pass covering 50 primary technology reports and 50 keyword or committed Ask reports. Repeating an existing report does not consume another slot.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string",
+      "description": "Set your BuiltWith API key locally; do not share its value."
+    },
+    {
+      "key": "x402PaymentSignature",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

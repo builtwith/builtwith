@@ -1,0 +1,559 @@
+{
+  "info": {
+    "_postman_id": "d35129be-1dfa-459d-aa4b-8877b23a6d74",
+    "name": "Lists API 📃📃📃",
+    "description": "- Endpoint: `GET /lists13/api.{json|xml|txt|csv|tsv}` - sites using a technology.\n- Example: `https://api.builtwith.com/lists13/api.json?KEY=YOUR_KEY&TECH=Shopify`\n- Requires a subscription (see WhoAmI `credits.costs.lists_api`).\n\n### Parameters\n- `KEY` (required) - your API key.\n- `TECH` (required) - technology name; replace spaces with dashes, for example `AB-Tasty`. Validate names for free with the Trends API (`/trends/v6/`) before spending credits.\n- `OTHERTECHS` - comma-separated technology names; results must use `TECH` and all technologies in `OTHERTECHS`. Maximum 16, for example `Google-Analytics,Meta-Pixel`.\n- `META` (`yes`) - include meta data (names, titles, social links, addresses, emails, telephone numbers, traffic ranks etc.).\n- `COUNTRY` - filter by TLD extension and/or country address; ISO 3166-1 alpha-2 (except UK); comma for multiple, for example `AU,NZ`.\n- `OFFSET` - next page anchor; use the exact `NextOffset` value from the previous response. `END` means no more results.\n- `SINCE` - live sites using the technology since a time; accepts dates and natural language such as `30 Days Ago` or `Last January`.\n- `ALL` (`yes`) - all sites including historical; cannot be used with `SINCE`.\n- Numeric filters use `number|operator`, where operator is `EQ`, `LT`, `LTE`, `GT`, or `GTE`; if omitted, `GTE` is used. Multiple attribute filters are combined with AND.\n- `SPEND` - monthly technology spend, for example `100|GT`.\n- `REVENUE` - estimated sales revenue for eCommerce sites.\n- `SKU` - unique product count found on the eCommerce portion of the site.\n- `FOLLOWERS` - social follower count.\n- `EMPLOYEES` - employee count.\n- `SITEMAP` - sitemap URL count.\n- `PAGERANK` - Page Rank Top 100m traffic rank.\n- `BWRANK` - BuiltWith rank.\n- `TRANCO` - Tranco Top 1m traffic rank.\n- `MAJESTIC` - Majestic Top 1m link rank.\n- `BWS` - BuiltWith site ranking attribute.\n- `ECAT` - eCommerce category id, for example `12|EQ`.\n- `AIM`, `AIO`, `AIR`, `AIV` - AI maturity, openness, readiness, and visibility scores.\n- Example filtered request: `https://api.builtwith.com/lists13/api.json?KEY=YOUR_KEY&TECH=Shopify&REVENUE=100000|GT&SPEND=100|GTE&COUNTRY=US`\n\n### Response\nTop level: `NextOffset` (pass as `OFFSET` for the next page; `END` when finished), `Results[]`, and potentially `Errors[]`.\n\nResult fields:\n- `D` - a website that matches the query.\n- `LOS` - array of locations on the site where the technology was detected recently.\n- `FD` / `LD` - epoch seconds the technology was first/last detected.\n- `S` - monthly technology spend average in USD.\n- `SKU` - unique product count on the eCommerce portion of the site.\n- `R` - estimated sales revenue for eCommerce sites.\n- `F` - social followers.\n- `E` - employee count.\n- `A` - Page Rank Top 100m traffic rank.\n- `Q` - Tranco Top 1m traffic rank.\n- `M` - Majestic Top 1m link rank.\n- `U` - Umbrella Top 1m traffic rank.\n- `META` - meta object, supplied when `META=yes`: `CompanyName`, `City`, `Postcode`, `State`, `Country`, `Vertical`, `PrimaryBusiness` (classification name), `Telephones[]`, `Emails[]`, `Social[]`, `Titles[]`.\n\nSample response (`https://api.builtwith.com/samples/list_api_v12.json`):\n```json\n{\n  \"NextOffset\": \"opaque-next-offset\",\n  \"Results\": [\n    {\n      \"D\": \"example-shop.com\",\n      \"FI\": 1725494400,\n      \"LI\": 1767657600,\n      \"Country\": \"US\"\n    }\n  ]\n}\n```\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Technology Customer List",
+      "id": "f95f4b31-9de8-4916-9602-02bbeec41ed2",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/lists13/api.json?KEY={{KEY}}&TECH=Shopify",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "lists13",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "TECH",
+              "value": "Shopify"
+            },
+            {
+              "key": "OFFSET",
+              "value": "{{listsOffset}}",
+              "disabled": true,
+              "description": "Use previous NextOffset; stop at END."
+            }
+          ]
+        },
+        "description": "Gets the list of all sites using Shopify currently."
+      },
+      "response": [],
+      "createdAt": "2024-08-14T02:20:02.000Z",
+      "updatedAt": "2024-08-14T03:08:08.000Z",
+      "uid": "37668266-f95f4b31-9de8-4916-9602-02bbeec41ed2"
+    },
+    {
+      "name": "Get New Technology Customer List",
+      "id": "c892c5f3-0b18-4f57-8b35-7edab8165b15",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/lists13/api.json?KEY={{KEY}}&TECH=Shopify&SINCE=One%20Week%20Ago",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "lists13",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}",
+              "description": "Your API key from https://api.builtwith.com"
+            },
+            {
+              "key": "TECH",
+              "value": "Shopify",
+              "description": "Name of the technology must match names at https://trends.builtwith.com - replace spaces with -"
+            },
+            {
+              "key": "SINCE",
+              "value": "One Week Ago",
+              "description": "Can be a date or an expression i.e. 2024-01-01 or Last Week"
+            },
+            {
+              "key": "OFFSET",
+              "value": "{{listsOffset}}",
+              "disabled": true,
+              "description": "Use previous NextOffset; stop at END."
+            }
+          ]
+        },
+        "description": "Gets recently new detected technologies on websites."
+      },
+      "response": [],
+      "createdAt": "2024-08-14T02:40:38.000Z",
+      "updatedAt": "2024-08-14T02:46:24.000Z",
+      "uid": "37668266-c892c5f3-0b18-4f57-8b35-7edab8165b15"
+    },
+    {
+      "name": "Get Historical Technology Customer List",
+      "id": "c3e3d591-3dec-471d-a716-ea73b316b57c",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/lists13/api.json?KEY={{KEY}}&TECH=Shopify&ALL=yes",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "lists13",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}",
+              "description": "Your API key from https://api.builtwith.com"
+            },
+            {
+              "key": "TECH",
+              "value": "Shopify",
+              "description": "Name of the technology must match names at https://trends.builtwith.com - replace spaces with -"
+            },
+            {
+              "key": "ALL",
+              "value": "yes",
+              "description": "True to get websites using the technology currently AND historically (i.e. they have removed it)"
+            },
+            {
+              "key": "OFFSET",
+              "value": "{{listsOffset}}",
+              "disabled": true,
+              "description": "Use previous NextOffset; stop at END."
+            }
+          ]
+        },
+        "description": "Gets all and current websites using a specific web technology."
+      },
+      "response": [],
+      "createdAt": "2024-08-14T02:46:34.000Z",
+      "updatedAt": "2025-07-10T01:47:02.000Z",
+      "uid": "37668266-c3e3d591-3dec-471d-a716-ea73b316b57c"
+    },
+    {
+      "name": "Get List with Meta Data",
+      "id": "3b0ed380-e656-4f32-8f18-fa82afda959c",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/lists13/api.json?KEY={{KEY}}&TECH=Shopify&META=yes",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "lists13",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}",
+              "description": "Your API key from https://api.builtwith.com"
+            },
+            {
+              "key": "TECH",
+              "value": "Shopify",
+              "description": "Name of the technology must match names at https://trends.builtwith.com - replace spaces with -"
+            },
+            {
+              "key": "META",
+              "value": "yes",
+              "description": "Adds Meta data to responses (slows performance)"
+            },
+            {
+              "key": "OFFSET",
+              "value": "{{listsOffset}}",
+              "disabled": true,
+              "description": "Use previous NextOffset; stop at END."
+            }
+          ]
+        },
+        "description": "Gets technology and meta data information from requests."
+      },
+      "response": [],
+      "createdAt": "2024-08-14T02:48:02.000Z",
+      "updatedAt": "2024-08-14T02:49:28.000Z",
+      "uid": "37668266-3b0ed380-e656-4f32-8f18-fa82afda959c"
+    },
+    {
+      "name": "Filter Technology List",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/lists13/api.json?KEY={{KEY}}&TECH=Shopify&COUNTRY=US&SPEND=100%7CGTE&REVENUE=100000%7CGT",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "lists13",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "TECH",
+              "value": "Shopify"
+            },
+            {
+              "key": "COUNTRY",
+              "value": "US"
+            },
+            {
+              "key": "SPEND",
+              "value": "100|GTE"
+            },
+            {
+              "key": "REVENUE",
+              "value": "100000|GT"
+            },
+            {
+              "key": "SKU",
+              "value": "1|GTE",
+              "disabled": true,
+              "description": "Optional numeric attribute filter."
+            },
+            {
+              "key": "FOLLOWERS",
+              "value": "1|GTE",
+              "disabled": true,
+              "description": "Optional numeric attribute filter."
+            },
+            {
+              "key": "EMPLOYEES",
+              "value": "1|GTE",
+              "disabled": true,
+              "description": "Optional numeric attribute filter."
+            },
+            {
+              "key": "SITEMAP",
+              "value": "1|GTE",
+              "disabled": true,
+              "description": "Optional numeric attribute filter."
+            },
+            {
+              "key": "PAGERANK",
+              "value": "1|GTE",
+              "disabled": true,
+              "description": "Optional numeric attribute filter."
+            },
+            {
+              "key": "BWRANK",
+              "value": "1|GTE",
+              "disabled": true,
+              "description": "Optional numeric attribute filter."
+            },
+            {
+              "key": "TRANCO",
+              "value": "1|GTE",
+              "disabled": true,
+              "description": "Optional numeric attribute filter."
+            },
+            {
+              "key": "MAJESTIC",
+              "value": "1|GTE",
+              "disabled": true,
+              "description": "Optional numeric attribute filter."
+            },
+            {
+              "key": "BWS",
+              "value": "1|GTE",
+              "disabled": true,
+              "description": "Optional numeric attribute filter."
+            },
+            {
+              "key": "ECAT",
+              "value": "1|GTE",
+              "disabled": true,
+              "description": "Optional numeric attribute filter."
+            },
+            {
+              "key": "AIM",
+              "value": "1|GTE",
+              "disabled": true,
+              "description": "Optional numeric attribute filter."
+            },
+            {
+              "key": "AIO",
+              "value": "1|GTE",
+              "disabled": true,
+              "description": "Optional numeric attribute filter."
+            },
+            {
+              "key": "AIR",
+              "value": "1|GTE",
+              "disabled": true,
+              "description": "Optional numeric attribute filter."
+            },
+            {
+              "key": "AIV",
+              "value": "1|GTE",
+              "disabled": true,
+              "description": "Optional numeric attribute filter."
+            },
+            {
+              "key": "OTHERTECHS",
+              "value": "Google-Analytics,Meta-Pixel",
+              "disabled": true,
+              "description": ""
+            },
+            {
+              "key": "META",
+              "value": "yes",
+              "disabled": true,
+              "description": ""
+            },
+            {
+              "key": "OFFSET",
+              "value": "{{listsOffset}}",
+              "disabled": true,
+              "description": ""
+            },
+            {
+              "key": "SINCE",
+              "value": "30 days ago",
+              "disabled": true,
+              "description": ""
+            }
+          ]
+        },
+        "description": "Subscription required. Numeric filters combine with AND; operators EQ, LT, LTE, GT, GTE (default GTE). ALL and SINCE cannot be combined.",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Other Formats",
+      "item": [
+        {
+          "name": "Get Technology Customer List (XML)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/lists13/api.xml?KEY={{KEY}}&TECH=Shopify",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "lists13",
+                "api.xml"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "TECH",
+                  "value": "Shopify"
+                },
+                {
+                  "key": "OFFSET",
+                  "value": "{{listsOffset}}",
+                  "disabled": true,
+                  "description": "Use previous NextOffset; stop at END."
+                }
+              ]
+            },
+            "description": "Gets the list of all sites using Shopify currently."
+          },
+          "response": [],
+          "createdAt": "2024-08-14T02:20:02.000Z",
+          "updatedAt": "2024-08-14T03:08:08.000Z",
+          "uid": "37668266-f95f4b31-9de8-4916-9602-02bbeec41ed2"
+        },
+        {
+          "name": "Get Technology Customer List (TXT)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/lists13/api.txt?KEY={{KEY}}&TECH=Shopify",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "lists13",
+                "api.txt"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "TECH",
+                  "value": "Shopify"
+                },
+                {
+                  "key": "OFFSET",
+                  "value": "{{listsOffset}}",
+                  "disabled": true,
+                  "description": "Use previous NextOffset; stop at END."
+                }
+              ]
+            },
+            "description": "Gets the list of all sites using Shopify currently."
+          },
+          "response": [],
+          "createdAt": "2024-08-14T02:20:02.000Z",
+          "updatedAt": "2024-08-14T03:08:08.000Z",
+          "uid": "37668266-f95f4b31-9de8-4916-9602-02bbeec41ed2"
+        },
+        {
+          "name": "Get Technology Customer List (CSV)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/lists13/api.csv?KEY={{KEY}}&TECH=Shopify",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "lists13",
+                "api.csv"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "TECH",
+                  "value": "Shopify"
+                },
+                {
+                  "key": "OFFSET",
+                  "value": "{{listsOffset}}",
+                  "disabled": true,
+                  "description": "Use previous NextOffset; stop at END."
+                }
+              ]
+            },
+            "description": "Gets the list of all sites using Shopify currently."
+          },
+          "response": [],
+          "createdAt": "2024-08-14T02:20:02.000Z",
+          "updatedAt": "2024-08-14T03:08:08.000Z",
+          "uid": "37668266-f95f4b31-9de8-4916-9602-02bbeec41ed2"
+        },
+        {
+          "name": "Get Technology Customer List (TSV)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/lists13/api.tsv?KEY={{KEY}}&TECH=Shopify",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "lists13",
+                "api.tsv"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "TECH",
+                  "value": "Shopify"
+                },
+                {
+                  "key": "OFFSET",
+                  "value": "{{listsOffset}}",
+                  "disabled": true,
+                  "description": "Use previous NextOffset; stop at END."
+                }
+              ]
+            },
+            "description": "Gets the list of all sites using Shopify currently."
+          },
+          "response": [],
+          "createdAt": "2024-08-14T02:20:02.000Z",
+          "updatedAt": "2024-08-14T03:08:08.000Z",
+          "uid": "37668266-f95f4b31-9de8-4916-9602-02bbeec41ed2"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string"
+    },
+    {
+      "key": "listsOffset",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

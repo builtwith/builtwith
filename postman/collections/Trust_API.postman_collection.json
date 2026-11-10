@@ -1,0 +1,111 @@
+{
+  "info": {
+    "_postman_id": "1a85be02-e986-4069-b398-c2ec05d5653c",
+    "name": "Trust API 🤝🤝🤝",
+    "description": "- Endpoint: `GET /trustv2/api.{json|xml}` - trust and fraud signals, returned as a self-describing assessment (`TrustLevel`, `Summary`, `Reasons`) plus content-safety flags (gambling, adult, scam, placeholder content) and a business profile.\n- Example: `https://api.builtwith.com/trustv2/api.json?KEY=YOUR_KEY&LOOKUP=example.com`\n- Optional: `LIVE` (`yes`) - also runs a live crawl and returns `LiveVerification`; uses an additional API credit.\n- Credits: 1 per lookup. Also available inline on the Domain API with `TRUST=yes` (additional credit).\n\nSample response (`https://api.builtwith.com/samples/trust_api_v2.json`):\n```json\n{\n  \"Domain\": \"example.com\",\n  \"Assessment\": {\n    \"TrustLevel\": \"Trusted\",\n    \"Summary\": \"Established technology history and meaningful ad/tool spend indicate an ongoing, real business.\",\n    \"Reasons\": [\n      \"Site has been indexed with technology detections for over 1 year.\",\n      \"Estimated monthly technology spend of $11,284 USD.\",\n      \"No gambling, adult, scam, or placeholder content detected.\"\n    ]\n  },\n  \"ContentSafety\": {\n    \"Gambling\": false,\n    \"AdultContent\": false,\n    \"SuspectedScam\": false,\n    \"PlaceholderContent\": false\n  },\n  \"BusinessProfile\": {\n    \"IsIndexed\": true,\n    \"DomainAgeDays\": 6772,\n    \"LastCrawledDaysAgo\": 0,\n    \"PremiumTechnologyCount\": 21,\n    \"HasActiveTechnologyStack\": true,\n    \"IsParkedDomain\": false,\n    \"IsEcommerceSite\": false,\n    \"HasPaymentProcessing\": true,\n    \"HasAffiliateLinks\": false,\n    \"IsEstablishedBusiness\": true,\n    \"EstimatedMonthlySpendUSD\": 11284\n  },\n  \"LiveVerification\": null\n}\n```\n`TrustLevel` is always one of: `Unverified`, `RestrictedContent`, `HighRisk`, `Caution`, `VerificationRecommended`, `Neutral`, `Trusted`. `LiveVerification` is only populated when the request includes `&LIVE=yes`.\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Domain Trust",
+      "id": "ec98aef8-690e-4839-a6cb-2318d9cc4ccd",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "See top level Trust API documentation for response information.",
+        "url": {
+          "raw": "https://api.builtwith.com/trustv2/api.json?KEY={{KEY}}&LOOKUP=example.com",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "trustv2",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "LOOKUP",
+              "value": "example.com"
+            },
+            {
+              "key": "LIVE",
+              "value": "yes",
+              "disabled": true,
+              "description": "Request live verification; see credit costs in WhoAmI."
+            }
+          ]
+        }
+      },
+      "response": [],
+      "createdAt": "2024-08-14T03:58:20.000Z",
+      "updatedAt": "2024-08-14T04:02:59.000Z",
+      "uid": "37668266-ec98aef8-690e-4839-a6cb-2318d9cc4ccd"
+    },
+    {
+      "name": "Other Formats",
+      "item": [
+        {
+          "name": "Get Domain Trust (XML)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "description": "See top level Trust API documentation for response information.",
+            "url": {
+              "raw": "https://api.builtwith.com/trustv2/api.xml?KEY={{KEY}}&LOOKUP=example.com",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "trustv2",
+                "api.xml"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "LOOKUP",
+                  "value": "example.com"
+                },
+                {
+                  "key": "LIVE",
+                  "value": "yes",
+                  "disabled": true,
+                  "description": "Request live verification; see credit costs in WhoAmI."
+                }
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2024-08-14T03:58:20.000Z",
+          "updatedAt": "2024-08-14T04:02:59.000Z",
+          "uid": "37668266-ec98aef8-690e-4839-a6cb-2318d9cc4ccd"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string"
+    }
+  ]
+}

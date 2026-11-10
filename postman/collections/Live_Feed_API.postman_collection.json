@@ -1,0 +1,17 @@
+{
+  "info": {
+    "_postman_id": "d5be51e8-1e2b-5bd9-976f-fb4ff4104525",
+    "name": "Live Feed API ⚡⚡⚡",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "- Requires an active plan.\n- Trial/preview users receive redacted domain names.\n- Supports automatic reconnection.\n- Connect to all new detections: `wss://sync.builtwith.com/wss/new?KEY=YOUR_KEY`\n- Connect and auto-subscribe to a technology: `wss://sync.builtwith.com/wss/channel/Shopify?KEY=YOUR_KEY`\n\nCommands:\n```json\n{\"action\":\"subscribe\",\"channel\":\"Shopify\"}\n{\"action\":\"subscribe\",\"channel\":\"new\"}\n{\"action\":\"subscribe\",\"channel\":\"new-historical\"}\n{\"action\":\"subscribe\",\"channel\":\"premium\"}\n{\"action\":\"unsubscribe\",\"channel\":\"Shopify\"}\n{\"action\":\"list_subscriptions\"}\n```\n\nPostman v2.1 HTTP collection exports do not represent native WebSocket requests. In Postman create a WebSocket request using either wss URL above, then send the documented JSON commands. Active plan required; trial domain names are redacted.\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected."
+  },
+  "item": [],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string",
+      "description": "Set your BuiltWith API key locally; do not share its value."
+    }
+  ]
+}

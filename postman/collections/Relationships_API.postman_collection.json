@@ -1,0 +1,223 @@
+{
+  "info": {
+    "_postman_id": "a4c6b498-15b7-461e-810d-a6f353b33c4a",
+    "name": "Relationships API 👪👩‍👧‍👦👩‍👦",
+    "description": "- Endpoint: `GET /rv5/api.{json|xml|csv|tsv}` - relationships between sites (shared analytics identifiers, hosting, ownership signals).\n- Example: `https://api.builtwith.com/rv5/api.json?KEY=YOUR_KEY&LOOKUP=example.com&PAGE=1`\n- Paging: optional `PAGE` is a positive integer (default 1). Each page contains up to 1000 domain/identifier matches; an identifier with no other domain counts as one result. Identifiers can span pages. Merge by identifier Type/Value and match Domain.\n- Follow `next_page` as `PAGE` while `more_results` is true; `next_page: 0` means finished. `results` is the total record count, `max_per_page` is 1000, and `page` is the requested page. An out-of-range page returns empty Identifiers.\n- One LOOKUP domain per request. `IP=yes` includes IP identifiers. Keep LOOKUP and IP unchanged while paging. Ordering is identifier then domain; live data changes can shift pages. `OFFSET` and `SKIP` are not accepted.\n- Credits: 1 credit per API key/domain across all pages while the local cache is active. Each request renews the 10-minute cache window. Cache expiry, eviction, a server restart or a request reaching another server may cause a new charge. CSV/TSV include source rows plus matches, and a footer with MAX, TOTAL, PAGE, NEXT PAGE and MORE RESULTS.\n\nSample response (`https://api.builtwith.com/samples/relationship_api_v5.json`):\n```json\n{\n  \"Relationships\": [\n    {\n      \"Domain\": \"example.com\",\n      \"Identifiers\": [\n        {\n          \"Value\": \"GTM-ABC123\",\n          \"Type\": \"GTM\",\n          \"Matches\": [\n            {\n              \"Domain\": \"related-example.com\",\n              \"Overlap\": true\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"more_results\": true,\n  \"results\": 501,\n  \"max_per_page\": 1000,\n  \"page\": 1,\n  \"next_page\": 2,\n  \"Errors\": []\n}\n```\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Single Domain",
+      "id": "91e67393-8c51-41c0-bf61-8981ecd75ab6",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "- Endpoint: `GET /rv5/api.{json|xml|csv|tsv}` - relationships between sites (shared analytics identifiers, hosting, ownership signals).\n- Example: `https://api.builtwith.com/rv5/api.json?KEY=YOUR_KEY&LOOKUP=example.com&PAGE=1`\n- Paging: optional `PAGE` is a positive integer (default 1). Each page contains up to 1000 domain/identifier matches; an identifier with no other domain counts as one result. Identifiers can span pages. Merge by identifier Type/Value and match Domain.\n- Follow `next_page` as `PAGE` while `more_results` is true; `next_page: 0` means finished. `results` is the total record count, `max_per_page` is 1000, and `page` is the requested page. An out-of-range page returns empty Identifiers.\n- One LOOKUP domain per request. `IP=yes` includes IP identifiers. Keep LOOKUP and IP unchanged while paging. Ordering is identifier then domain; live data changes can shift pages. `OFFSET` and `SKIP` are not accepted.\n- Credits: 1 credit per API key/domain across all pages while the local cache is active. Each request renews the 10-minute cache window. Cache expiry, eviction, a server restart or a request reaching another server may cause a new charge. CSV/TSV include source rows plus matches, and a footer with MAX, TOTAL, PAGE, NEXT PAGE and MORE RESULTS.\n\n",
+        "url": {
+          "raw": "https://api.builtwith.com/rv5/api.json?KEY={{KEY}}&LOOKUP=example.com&PAGE=1",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "rv5",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "LOOKUP",
+              "value": "example.com"
+            },
+            {
+              "key": "PAGE",
+              "value": "1",
+              "disabled": false,
+              "description": "Positive integer. Follow next_page while more_results is true; 0 means finished."
+            },
+            {
+              "key": "IP",
+              "value": "yes",
+              "disabled": true,
+              "description": "Include IP identifiers. Keep LOOKUP and IP unchanged while paging."
+            }
+          ]
+        }
+      },
+      "response": [],
+      "createdAt": "2024-08-14T03:08:38.000Z",
+      "updatedAt": "2025-07-10T01:45:21.000Z",
+      "uid": "37668266-91e67393-8c51-41c0-bf61-8981ecd75ab6"
+    },
+    {
+      "name": "Other Formats",
+      "item": [
+        {
+          "name": "Get Single Domain (XML)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "description": "- Endpoint: `GET /rv5/api.{json|xml|csv|tsv}` - relationships between sites (shared analytics identifiers, hosting, ownership signals).\n- Example: `https://api.builtwith.com/rv5/api.json?KEY=YOUR_KEY&LOOKUP=example.com&PAGE=1`\n- Paging: optional `PAGE` is a positive integer (default 1). Each page contains up to 1000 domain/identifier matches; an identifier with no other domain counts as one result. Identifiers can span pages. Merge by identifier Type/Value and match Domain.\n- Follow `next_page` as `PAGE` while `more_results` is true; `next_page: 0` means finished. `results` is the total record count, `max_per_page` is 1000, and `page` is the requested page. An out-of-range page returns empty Identifiers.\n- One LOOKUP domain per request. `IP=yes` includes IP identifiers. Keep LOOKUP and IP unchanged while paging. Ordering is identifier then domain; live data changes can shift pages. `OFFSET` and `SKIP` are not accepted.\n- Credits: 1 credit per API key/domain across all pages while the local cache is active. Each request renews the 10-minute cache window. Cache expiry, eviction, a server restart or a request reaching another server may cause a new charge. CSV/TSV include source rows plus matches, and a footer with MAX, TOTAL, PAGE, NEXT PAGE and MORE RESULTS.\n\n",
+            "url": {
+              "raw": "https://api.builtwith.com/rv5/api.xml?KEY={{KEY}}&LOOKUP=example.com&PAGE=1",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "rv5",
+                "api.xml"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "LOOKUP",
+                  "value": "example.com"
+                },
+                {
+                  "key": "PAGE",
+                  "value": "1",
+                  "disabled": false,
+                  "description": "Positive integer. Follow next_page while more_results is true; 0 means finished."
+                },
+                {
+                  "key": "IP",
+                  "value": "yes",
+                  "disabled": true,
+                  "description": "Include IP identifiers. Keep LOOKUP and IP unchanged while paging."
+                }
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2024-08-14T03:08:38.000Z",
+          "updatedAt": "2025-07-10T01:45:21.000Z",
+          "uid": "37668266-91e67393-8c51-41c0-bf61-8981ecd75ab6"
+        },
+        {
+          "name": "Get Single Domain (CSV)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "description": "- Endpoint: `GET /rv5/api.{json|xml|csv|tsv}` - relationships between sites (shared analytics identifiers, hosting, ownership signals).\n- Example: `https://api.builtwith.com/rv5/api.json?KEY=YOUR_KEY&LOOKUP=example.com&PAGE=1`\n- Paging: optional `PAGE` is a positive integer (default 1). Each page contains up to 1000 domain/identifier matches; an identifier with no other domain counts as one result. Identifiers can span pages. Merge by identifier Type/Value and match Domain.\n- Follow `next_page` as `PAGE` while `more_results` is true; `next_page: 0` means finished. `results` is the total record count, `max_per_page` is 1000, and `page` is the requested page. An out-of-range page returns empty Identifiers.\n- One LOOKUP domain per request. `IP=yes` includes IP identifiers. Keep LOOKUP and IP unchanged while paging. Ordering is identifier then domain; live data changes can shift pages. `OFFSET` and `SKIP` are not accepted.\n- Credits: 1 credit per API key/domain across all pages while the local cache is active. Each request renews the 10-minute cache window. Cache expiry, eviction, a server restart or a request reaching another server may cause a new charge. CSV/TSV include source rows plus matches, and a footer with MAX, TOTAL, PAGE, NEXT PAGE and MORE RESULTS.\n\n",
+            "url": {
+              "raw": "https://api.builtwith.com/rv5/api.csv?KEY={{KEY}}&LOOKUP=example.com&PAGE=1",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "rv5",
+                "api.csv"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "LOOKUP",
+                  "value": "example.com"
+                },
+                {
+                  "key": "PAGE",
+                  "value": "1",
+                  "disabled": false,
+                  "description": "Positive integer. Follow next_page while more_results is true; 0 means finished."
+                },
+                {
+                  "key": "IP",
+                  "value": "yes",
+                  "disabled": true,
+                  "description": "Include IP identifiers. Keep LOOKUP and IP unchanged while paging."
+                }
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2024-08-14T03:08:38.000Z",
+          "updatedAt": "2025-07-10T01:45:21.000Z",
+          "uid": "37668266-91e67393-8c51-41c0-bf61-8981ecd75ab6"
+        },
+        {
+          "name": "Get Single Domain (TSV)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "description": "- Endpoint: `GET /rv5/api.{json|xml|csv|tsv}` - relationships between sites (shared analytics identifiers, hosting, ownership signals).\n- Example: `https://api.builtwith.com/rv5/api.json?KEY=YOUR_KEY&LOOKUP=example.com&PAGE=1`\n- Paging: optional `PAGE` is a positive integer (default 1). Each page contains up to 1000 domain/identifier matches; an identifier with no other domain counts as one result. Identifiers can span pages. Merge by identifier Type/Value and match Domain.\n- Follow `next_page` as `PAGE` while `more_results` is true; `next_page: 0` means finished. `results` is the total record count, `max_per_page` is 1000, and `page` is the requested page. An out-of-range page returns empty Identifiers.\n- One LOOKUP domain per request. `IP=yes` includes IP identifiers. Keep LOOKUP and IP unchanged while paging. Ordering is identifier then domain; live data changes can shift pages. `OFFSET` and `SKIP` are not accepted.\n- Credits: 1 credit per API key/domain across all pages while the local cache is active. Each request renews the 10-minute cache window. Cache expiry, eviction, a server restart or a request reaching another server may cause a new charge. CSV/TSV include source rows plus matches, and a footer with MAX, TOTAL, PAGE, NEXT PAGE and MORE RESULTS.\n\n",
+            "url": {
+              "raw": "https://api.builtwith.com/rv5/api.tsv?KEY={{KEY}}&LOOKUP=example.com&PAGE=1",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "rv5",
+                "api.tsv"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "LOOKUP",
+                  "value": "example.com"
+                },
+                {
+                  "key": "PAGE",
+                  "value": "1",
+                  "disabled": false,
+                  "description": "Positive integer. Follow next_page while more_results is true; 0 means finished."
+                },
+                {
+                  "key": "IP",
+                  "value": "yes",
+                  "disabled": true,
+                  "description": "Include IP identifiers. Keep LOOKUP and IP unchanged while paging."
+                }
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2024-08-14T03:08:38.000Z",
+          "updatedAt": "2025-07-10T01:45:21.000Z",
+          "uid": "37668266-91e67393-8c51-41c0-bf61-8981ecd75ab6"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string"
+    }
+  ]
+}

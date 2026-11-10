@@ -1,0 +1,147 @@
+{
+  "info": {
+    "_postman_id": "149626e4-6e66-50f8-be61-9485d9049da0",
+    "name": "Bulk Domain API 📦📦📦",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Use this for high-volume Domain API lookups.\n\n### Submit\n- Endpoint: `POST /v23/domain/bulk?KEY=YOUR_KEY`\n- Content-Type: `application/json`\n- Max lookups: use WhoAmI `account.max_batch_size.domain_bulk_submit` (currently 5000 in the API response).\n\nRequest body:\n```json\n{\n  \"lookups\": [\"example.com\", \"builtwith.com\"],\n  \"options\": {\n    \"noMeta\": false,\n    \"noPii\": true,\n    \"hideText\": false,\n    \"hideDL\": false,\n    \"liveOnly\": false\n  }\n}\n```\n\nSmall batches may return the normal Domain API result synchronously. Larger batches return `202`:\n```json\n{\n  \"job_id\": \"00000000-0000-0000-0000-000000000000\",\n  \"status\": \"queued\",\n  \"count\": 250,\n  \"sync_max\": 32\n}\n```\n\n### Poll Status\n- Endpoint: `GET /v23/domain/bulk/{job_id}?KEY=YOUR_KEY`\n\nExample response:\n```json\n{\n  \"job_id\": \"00000000-0000-0000-0000-000000000000\",\n  \"status\": \"completed\",\n  \"created_utc\": \"2026-02-03T12:00:00Z\",\n  \"completed_utc\": \"2026-02-03T12:01:15Z\",\n  \"result_url\": \"/v23/domain/bulk/00000000-0000-0000-0000-000000000000/result\",\n  \"count\": 250\n}\n```\n\n### Retrieve Results\n- Endpoint: `GET /v23/domain/bulk/{job_id}/result?KEY=YOUR_KEY`\n- Response: Domain API JSON result.\n- Important: results are deleted after first successful access, so store the response if you need to reuse it.\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected."
+  },
+  "item": [
+    {
+      "name": "Submit Bulk Job",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/v23/domain/bulk?KEY={{KEY}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "v23",
+            "domain",
+            "bulk"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            }
+          ]
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"lookups\": [\n    \"example.com\",\n    \"builtwith.com\"\n  ],\n  \"options\": {\n    \"noMeta\": false,\n    \"noPii\": true,\n    \"hideText\": false,\n    \"hideDL\": false,\n    \"liveOnly\": false\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 202) { const data = pm.response.json(); if (data.job_id) pm.collectionVariables.set(\"job_id\", data.job_id); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Poll Job Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/v23/domain/bulk/{{job_id}}?KEY={{KEY}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "v23",
+            "domain",
+            "bulk",
+            "{{job_id}}"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            }
+          ]
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve Results Once",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/v23/domain/bulk/{{job_id}}/result?KEY={{KEY}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "v23",
+            "domain",
+            "bulk",
+            "{{job_id}}",
+            "result"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            }
+          ]
+        },
+        "description": "Results are deleted after first successful retrieval. Save the response before requesting again.",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string",
+      "description": "Set your BuiltWith API key locally; do not share its value."
+    },
+    {
+      "key": "job_id",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

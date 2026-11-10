@@ -1,0 +1,143 @@
+{
+  "info": {
+    "_postman_id": "c2bda163-94c9-578f-bc22-3a95c5a4842d",
+    "name": "Vector Search API 🧠🧠🧠",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "- Endpoint: `GET /vector/v1/api.{json|xml|csv}` - semantic search across technologies and categories.\n- Example: `https://api.builtwith.com/vector/v1/api.json?KEY=YOUR_KEY&QUERY=react+framework`\n- Optional: `LIMIT` (default 10, max 100).\n- Credits: 1 per search.\n\nSample response:\n```json\n{\n  \"Query\": \"react framework\",\n  \"Results\": [\n    {\n      \"Type\": \"tech\",\n      \"Name\": \"React\",\n      \"Tag\": \"javascript\",\n      \"Score\": 0.9812,\n      \"Categories\": [\"JavaScript Library\", \"Framework\"]\n    }\n  ],\n  \"Errors\": []\n}\n```\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected."
+  },
+  "item": [
+    {
+      "name": "Find Technologies by Meaning",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/vector/v1/api.json?KEY={{KEY}}&QUERY=react%20framework&LIMIT=10",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "vector",
+            "v1",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "QUERY",
+              "value": "react framework"
+            },
+            {
+              "key": "LIMIT",
+              "value": "10"
+            }
+          ]
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Other Formats",
+      "item": [
+        {
+          "name": "Find Technologies by Meaning (XML)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/vector/v1/api.xml?KEY={{KEY}}&QUERY=react%20framework&LIMIT=10",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "vector",
+                "v1",
+                "api.xml"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "QUERY",
+                  "value": "react framework"
+                },
+                {
+                  "key": "LIMIT",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Find Technologies by Meaning (CSV)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/vector/v1/api.csv?KEY={{KEY}}&QUERY=react%20framework&LIMIT=10",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "vector",
+                "v1",
+                "api.csv"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "QUERY",
+                  "value": "react framework"
+                },
+                {
+                  "key": "LIMIT",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string",
+      "description": "Set your BuiltWith API key locally; do not share its value."
+    }
+  ]
+}

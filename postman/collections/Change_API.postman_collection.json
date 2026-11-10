@@ -1,0 +1,57 @@
+{
+  "info": {
+    "_postman_id": "762d7da5-636c-58de-aa8c-9fee800417fc",
+    "name": "Change API 🔄🔄🔄",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "- Endpoint: `GET /change1/api.json` - technology additions and removals for one or more domains.\n- Example: `https://api.builtwith.com/change1/api.json?KEY=YOUR_KEY&LOOKUP=example.com&SINCE=last+month`\n- `LOOKUP` accepts one or more comma-separated domains.\n- `SINCE` accepts natural language dates such as `last+month`; default is 3 months.\n\nSample response (`https://api.builtwith.com/samples/change_v1.json`):\n```json\n{\n  \"Results\": [\n    {\n      \"Lookup\": \"example.com\",\n      \"Changes\": {\n        \"summary\": \"example.com added Shopify.\",\n        \"events\": [\n          {\n            \"type\": \"technology_added\",\n            \"technology\": \"Shopify\",\n            \"tag\": \"shop\",\n            \"first_seen_utc\": \"2026-02-24T00:00:00Z\",\n            \"importance\": \"medium\"\n          }\n        ]\n      }\n    }\n  ]\n}\n```\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected."
+  },
+  "item": [
+    {
+      "name": "Get Technology Changes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/change1/api.json?KEY={{KEY}}&LOOKUP=example.com&SINCE=last%20month",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "change1",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "LOOKUP",
+              "value": "example.com"
+            },
+            {
+              "key": "SINCE",
+              "value": "last month"
+            }
+          ]
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string",
+      "description": "Set your BuiltWith API key locally; do not share its value."
+    }
+  ]
+}

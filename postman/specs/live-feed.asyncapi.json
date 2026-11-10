@@ -1,0 +1,182 @@
+{
+  "asyncapi": "2.6.0",
+  "info": {
+    "title": "BuiltWith Live Feed",
+    "version": "1.0.0",
+    "description": "Based on the existing BuiltWith Live Feed documentation and live-feed-to-slack example. An active plan is required. Trial/preview domains are redacted. Reconnect and restore subscriptions on disconnect."
+  },
+  "defaultContentType": "application/json",
+  "servers": {
+    "production": {
+      "url": "sync.builtwith.com",
+      "protocol": "wss",
+      "security": [
+        {
+          "ApiKey": []
+        }
+      ]
+    }
+  },
+  "channels": {
+    "/wss/new": {
+      "description": "Connect to new detections.",
+      "bindings": {
+        "ws": {
+          "method": "GET",
+          "query": {
+            "type": "object",
+            "required": [
+              "KEY"
+            ],
+            "properties": {
+              "KEY": {
+                "type": "string",
+                "description": "Your API key; keep private."
+              }
+            }
+          },
+          "bindingVersion": "0.1.0"
+        }
+      },
+      "publish": {
+        "operationId": "sendCommands0",
+        "summary": "Client sends subscription commands",
+        "message": {
+          "$ref": "#/components/messages/ClientCommand"
+        }
+      },
+      "subscribe": {
+        "operationId": "receiveMessages0",
+        "summary": "Client receives detection and control messages",
+        "message": {
+          "$ref": "#/components/messages/ServerMessage"
+        }
+      }
+    },
+    "/wss/channel/{technology}": {
+      "description": "Connect and automatically subscribe to the named technology.",
+      "bindings": {
+        "ws": {
+          "method": "GET",
+          "query": {
+            "type": "object",
+            "required": [
+              "KEY"
+            ],
+            "properties": {
+              "KEY": {
+                "type": "string",
+                "description": "Your API key; keep private."
+              }
+            }
+          },
+          "bindingVersion": "0.1.0"
+        }
+      },
+      "publish": {
+        "operationId": "sendCommands1",
+        "summary": "Client sends subscription commands",
+        "message": {
+          "$ref": "#/components/messages/ClientCommand"
+        }
+      },
+      "subscribe": {
+        "operationId": "receiveMessages1",
+        "summary": "Client receives detection and control messages",
+        "message": {
+          "$ref": "#/components/messages/ServerMessage"
+        }
+      },
+      "parameters": {
+        "technology": {
+          "description": "Technology name, for example Shopify.",
+          "schema": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "httpApiKey",
+        "in": "query",
+        "name": "KEY"
+      }
+    },
+    "messages": {
+      "ClientCommand": {
+        "name": "ClientCommand",
+        "payload": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "action",
+                "channel"
+              ],
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "subscribe",
+                    "unsubscribe"
+                  ]
+                },
+                "channel": {
+                  "type": "string",
+                  "description": "new, new-historical, premium, or a technology such as Shopify. Use dashes for spaces."
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "action"
+              ],
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "list_subscriptions"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "examples": [
+          {
+            "payload": {
+              "action": "subscribe",
+              "channel": "Shopify"
+            }
+          },
+          {
+            "payload": {
+              "action": "unsubscribe",
+              "channel": "Shopify"
+            }
+          },
+          {
+            "payload": {
+              "action": "list_subscriptions"
+            }
+          }
+        ]
+      },
+      "ServerMessage": {
+        "name": "ServerMessage",
+        "description": "Detection and control messages. Payloads vary; the existing integration accepts D/domain, C/channel and T/technologies. No complete server-message schema is asserted.",
+        "payload": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "url": "https://github.com/builtwith/builtwith-code-examples/tree/main/live-feed-to-slack"
+  }
+}

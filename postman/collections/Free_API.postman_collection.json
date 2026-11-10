@@ -1,0 +1,182 @@
+{
+  "info": {
+    "_postman_id": "4e6cbfcc-8fe7-43d5-b94f-fcc21eb97efb",
+    "name": "Free API 🆓🆓🆓",
+    "description": "- Endpoint: `GET /free1/api.{json|xml}` - summary counts and update ranges for technology groups.\n- Example: `https://api.builtwith.com/free1/api.json?KEY=YOUR_KEY&LOOKUP=example.com`\n- Credits: free.\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Domain Overview",
+      "id": "ca918fc0-8802-4a3b-951e-d85a0167c07a",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/free1/api.json?KEY={{KEY}}&LOOKUP=hotelscombined.com",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "free1",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}",
+              "description": "Your API key from https://api.builtwith.com"
+            },
+            {
+              "key": "LOOKUP",
+              "value": "hotelscombined.com",
+              "description": "Root domain name."
+            }
+          ]
+        },
+        "description": "Get overview of technology usage for a domain."
+      },
+      "response": [
+        {
+          "id": "de228fcf-360e-41a4-a8cb-923a1a5b6871",
+          "name": "Get Domain Overview Example",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/free1/api.json?KEY={{KEY}}&LOOKUP=hotelscombined.com",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "free1",
+                "api.json"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "LOOKUP",
+                  "value": "hotelscombined.com"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Cache-Control",
+              "value": "private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Server",
+              "value": "Microsoft-IIS/10.0"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "X-UA-Compatible",
+              "value": "IE=Edge,chrome=1"
+            },
+            {
+              "key": "cross-origin-resource-policy",
+              "value": "same-site"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000; includeSubDomains; preload"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 14 Aug 2024 02:17:50 GMT"
+            },
+            {
+              "key": "Content-Length",
+              "value": "9713"
+            }
+          ],
+          "cookie": [],
+          "responseTime": null,
+          "body": "{\n    \"first\": 1130799600,\n    \"last\": 1723446000,\n    \"domain\": \"hotelscombined.com\",\n    \"groups\": [\n        {\n            \"name\": \"Web Server\",\n            \"live\": 3,\n            \"dead\": 10,\n            \"latest\": 1723446000,\n            \"oldest\": 1376866800,\n            \"categories\": [\n                {\n                    \"live\": 1,\n                    \"dead\": 0,\n                    \"latest\": 1722495600,\n                    \"oldest\": 1713855600,\n                    \"name\": \"varnish-server\"\n                }\n            ]\n        },\n        {\n            \"name\": \"cms\",\n            \"live\": 2,\n            \"dead\": 22,\n            \"latest\": 1723446000,\n            \"oldest\": 1386204565,\n            \"categories\": [\n                {\n                    \"live\": 1,\n                    \"dead\": 0,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1595804400,\n                    \"name\": \"open-source\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 2,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1429570800,\n                    \"name\": \"blog\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1447196400,\n                    \"oldest\": 1447196400,\n                    \"name\": \"enterprise\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1660633200,\n                    \"oldest\": 1629183600,\n                    \"name\": \"simple-website-builder\"\n                }\n            ]\n        },\n        {\n            \"name\": \"ssl\",\n            \"live\": 3,\n            \"dead\": 11,\n            \"latest\": 1723446000,\n            \"oldest\": 1372806000,\n            \"categories\": [\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1442876400,\n                    \"oldest\": 1381705200,\n                    \"name\": \"wildcard\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 7,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1372806000,\n                    \"name\": \"root-authority\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1389567600,\n                    \"oldest\": 1372806000,\n                    \"name\": \"extended-validation\"\n                }\n            ]\n        },\n        {\n            \"name\": \"javascript\",\n            \"live\": 11,\n            \"dead\": 53,\n            \"latest\": 1723446000,\n            \"oldest\": 1223503200,\n            \"categories\": [\n                {\n                    \"live\": 0,\n                    \"dead\": 9,\n                    \"latest\": 1660460400,\n                    \"oldest\": 1312120800,\n                    \"name\": \"jquery-plugin\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1411430400,\n                    \"oldest\": 1379286000,\n                    \"name\": \"slider\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 3,\n                    \"latest\": 1628060400,\n                    \"oldest\": 1555023600,\n                    \"name\": \"compatibility\"\n                },\n                {\n                    \"live\": 3,\n                    \"dead\": 7,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1223503200,\n                    \"name\": \"javascript-library\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 2,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1596351600,\n                    \"name\": \"framework\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 2,\n                    \"latest\": 1660460400,\n                    \"oldest\": 1312120800,\n                    \"name\": \"ui\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1642492800,\n                    \"oldest\": 1607760000,\n                    \"name\": \"animation\"\n                }\n            ]\n        },\n        {\n            \"name\": \"feeds\",\n            \"live\": 2,\n            \"dead\": 3,\n            \"latest\": 1723446000,\n            \"oldest\": 1379286000,\n            \"categories\": []\n        },\n        {\n            \"name\": \"widgets\",\n            \"live\": 22,\n            \"dead\": 54,\n            \"latest\": 1723446000,\n            \"oldest\": 1191189600,\n            \"categories\": [\n                {\n                    \"live\": 4,\n                    \"dead\": 9,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1379286000,\n                    \"name\": \"wordpress-plugins\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 5,\n                    \"latest\": 1618210800,\n                    \"oldest\": 1301839200,\n                    \"name\": \"feedback-forms-and-surveys\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 1,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1531436400,\n                    \"name\": \"fonts\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1464303600,\n                    \"oldest\": 1464303600,\n                    \"name\": \"comment-system\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 0,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1595804400,\n                    \"name\": \"site-search\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 2,\n                    \"latest\": 1595314800,\n                    \"oldest\": 1191189600,\n                    \"name\": \"bookmarking\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 3,\n                    \"latest\": 1614585600,\n                    \"oldest\": 1191189600,\n                    \"name\": \"social-sharing\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 4,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1555023600,\n                    \"name\": \"privacy-compliance\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 1,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1595804400,\n                    \"name\": \"image-provider\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 0,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1599634800,\n                    \"name\": \"charting\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1706947200,\n                    \"oldest\": 1650265200,\n                    \"name\": \"live-chat\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 1,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1674633600,\n                    \"name\": \"bookings\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1653634800,\n                    \"oldest\": 1394060400,\n                    \"name\": \"captcha\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 0,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1492470000,\n                    \"name\": \"tag-management\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 2,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1599634800,\n                    \"name\": \"login\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1646812800,\n                    \"oldest\": 1451568164,\n                    \"name\": \"mobile\"\n                }\n            ]\n        },\n        {\n            \"name\": \"hosting\",\n            \"live\": 14,\n            \"dead\": 13,\n            \"latest\": 1723446000,\n            \"oldest\": 1345730400,\n            \"categories\": [\n                {\n                    \"live\": 0,\n                    \"dead\": 2,\n                    \"latest\": 1656226800,\n                    \"oldest\": 1379286000,\n                    \"name\": \"vps-hosting\"\n                },\n                {\n                    \"live\": 5,\n                    \"dead\": 9,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1345730400,\n                    \"name\": \"us-hosting\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1656226800,\n                    \"oldest\": 1531436400,\n                    \"name\": \"bulgarian-hosting\"\n                },\n                {\n                    \"live\": 4,\n                    \"dead\": 3,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1345730400,\n                    \"name\": \"cloud-hosting\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 2,\n                    \"latest\": 1700380800,\n                    \"oldest\": 1345730400,\n                    \"name\": \"dedicated-hosting\"\n                },\n                {\n                    \"live\": 2,\n                    \"dead\": 1,\n                    \"latest\": 1718521200,\n                    \"oldest\": 1555023600,\n                    \"name\": \"indian-hosting\"\n                },\n                {\n                    \"live\": 4,\n                    \"dead\": 0,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1555023600,\n                    \"name\": \"cloud-paas\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 0,\n                    \"latest\": 1720422000,\n                    \"oldest\": 1704182400,\n                    \"name\": \"server-location\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 2,\n                    \"latest\": 1709020800,\n                    \"oldest\": 1693378800,\n                    \"name\": \"australian-hosting\"\n                }\n            ]\n        },\n        {\n            \"name\": \"cdn\",\n            \"live\": 1,\n            \"dead\": 12,\n            \"latest\": 1723446000,\n            \"oldest\": 1130799600,\n            \"categories\": []\n        },\n        {\n            \"name\": \"framework\",\n            \"live\": 12,\n            \"dead\": 11,\n            \"latest\": 1723446000,\n            \"oldest\": 1191189600,\n            \"categories\": [\n                {\n                    \"live\": 0,\n                    \"dead\": 2,\n                    \"latest\": 1567465200,\n                    \"oldest\": 1464303600,\n                    \"name\": \"wordpress-theme\"\n                },\n                {\n                    \"live\": 7,\n                    \"dead\": 1,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1570748400,\n                    \"name\": \"schema\"\n                }\n            ]\n        },\n        {\n            \"name\": \"mapping\",\n            \"live\": 2,\n            \"dead\": 1,\n            \"latest\": 1723446000,\n            \"oldest\": 1464303600,\n            \"categories\": [\n                {\n                    \"live\": 1,\n                    \"dead\": 0,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1715670000,\n                    \"name\": \"maps\"\n                }\n            ]\n        },\n        {\n            \"name\": \"analytics\",\n            \"live\": 11,\n            \"dead\": 30,\n            \"latest\": 1723446000,\n            \"oldest\": 1159912800,\n            \"categories\": [\n                {\n                    \"live\": 2,\n                    \"dead\": 6,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1159912800,\n                    \"name\": \"audience-measurement\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 2,\n                    \"latest\": 1394665200,\n                    \"oldest\": 1385679600,\n                    \"name\": \"site-optimization\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 2,\n                    \"latest\": 1596783600,\n                    \"oldest\": 1385679600,\n                    \"name\": \"a/b-testing\"\n                },\n                {\n                    \"live\": 2,\n                    \"dead\": 7,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1385679600,\n                    \"name\": \"conversion-optimization\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 2,\n                    \"latest\": 1596783600,\n                    \"oldest\": 1385679600,\n                    \"name\": \"personalization\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1410476400,\n                    \"oldest\": 1379286000,\n                    \"name\": \"marketing-automation\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1687071600,\n                    \"oldest\": 1379286000,\n                    \"name\": \"social-management\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 2,\n                    \"latest\": 1696575600,\n                    \"oldest\": 1378422000,\n                    \"name\": \"fraud-prevention\"\n                },\n                {\n                    \"live\": 2,\n                    \"dead\": 1,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1159912800,\n                    \"name\": \"application-performance\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 1,\n                    \"latest\": 1714028400,\n                    \"oldest\": 1301839200,\n                    \"name\": \"feedback-forms-and-surveys\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 1,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1159912800,\n                    \"name\": \"visitor-count-tracking\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 1,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1388703600,\n                    \"name\": \"mobile\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1444690800,\n                    \"oldest\": 1440460800,\n                    \"name\": \"data-management-platform\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 0,\n                    \"latest\": 1712559600,\n                    \"oldest\": 1446073200,\n                    \"name\": \"retargeting-/-remarketing\"\n                },\n                {\n                    \"live\": 2,\n                    \"dead\": 2,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1506808800,\n                    \"name\": \"conversion-tracking\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 0,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1543618800,\n                    \"name\": \"advertiser-tracking\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 0,\n                    \"latest\": 1723273200,\n                    \"oldest\": 1714201200,\n                    \"name\": \"crm\"\n                }\n            ]\n        },\n        {\n            \"name\": \"ns\",\n            \"live\": 4,\n            \"dead\": 5,\n            \"latest\": 1723446000,\n            \"oldest\": 1346972400,\n            \"categories\": [\n                {\n                    \"live\": 2,\n                    \"dead\": 0,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1555023600,\n                    \"name\": \"enterprise-dns\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 2,\n                    \"latest\": 1723273200,\n                    \"oldest\": 1600930800,\n                    \"name\": \"tld-redirects\"\n                }\n            ]\n        },\n        {\n            \"name\": \"Server\",\n            \"live\": 1,\n            \"dead\": 2,\n            \"latest\": 1713855600,\n            \"oldest\": 1533510000,\n            \"categories\": []\n        },\n        {\n            \"name\": \"copyright\",\n            \"live\": 1,\n            \"dead\": 4,\n            \"latest\": 1723273200,\n            \"oldest\": 1531436400,\n            \"categories\": []\n        },\n        {\n            \"name\": \"ads\",\n            \"live\": 39,\n            \"dead\": 26,\n            \"latest\": 1723446000,\n            \"oldest\": 1130799600,\n            \"categories\": [\n                {\n                    \"live\": 0,\n                    \"dead\": 2,\n                    \"latest\": 1595631600,\n                    \"oldest\": 1136415600,\n                    \"name\": \"affiliate-programs\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1690268400,\n                    \"oldest\": 1130799600,\n                    \"name\": \"contextual-advertising\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 2,\n                    \"latest\": 1477868400,\n                    \"oldest\": 1343570400,\n                    \"name\": \"ad-network\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 3,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1343570400,\n                    \"name\": \"retargeting-/-remarketing\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1525302000,\n                    \"oldest\": 1355490000,\n                    \"name\": \"ad-exchange\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 2,\n                    \"latest\": 1664348400,\n                    \"oldest\": 1355490000,\n                    \"name\": \"demand-side-platform\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1477868400,\n                    \"oldest\": 1432598400,\n                    \"name\": \"ad-server\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1470265200,\n                    \"oldest\": 1432598400,\n                    \"name\": \"dynamic-creative-optimization\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 2,\n                    \"latest\": 1494284400,\n                    \"oldest\": 1432598400,\n                    \"name\": \"multi-channel\"\n                },\n                {\n                    \"live\": 35,\n                    \"dead\": 0,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1592866800,\n                    \"name\": \"ads-txt\"\n                }\n            ]\n        },\n        {\n            \"name\": \"media\",\n            \"live\": 0,\n            \"dead\": 1,\n            \"latest\": 1660460400,\n            \"oldest\": 1628060400,\n            \"categories\": [\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1660460400,\n                    \"oldest\": 1628060400,\n                    \"name\": \"live-stream-/-webcast\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1660460400,\n                    \"oldest\": 1628060400,\n                    \"name\": \"online-video-platform\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1660460400,\n                    \"oldest\": 1628060400,\n                    \"name\": \"social-video-platform\"\n                }\n            ]\n        },\n        {\n            \"name\": \"payment\",\n            \"live\": 6,\n            \"dead\": 3,\n            \"latest\": 1722495600,\n            \"oldest\": 1254466800,\n            \"categories\": [\n                {\n                    \"live\": 3,\n                    \"dead\": 1,\n                    \"latest\": 1722495600,\n                    \"oldest\": 1592694000,\n                    \"name\": \"payment-acceptance\"\n                },\n                {\n                    \"live\": 3,\n                    \"dead\": 2,\n                    \"latest\": 1721199600,\n                    \"oldest\": 1254466800,\n                    \"name\": \"currency\"\n                }\n            ]\n        },\n        {\n            \"name\": \"link\",\n            \"live\": 16,\n            \"dead\": 0,\n            \"latest\": 1723446000,\n            \"oldest\": 1293836400,\n            \"categories\": [\n                {\n                    \"live\": 2,\n                    \"dead\": 0,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1601535600,\n                    \"name\": \"policy\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 0,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1715670000,\n                    \"name\": \"adult\"\n                }\n            ]\n        },\n        {\n            \"name\": \"mx\",\n            \"live\": 6,\n            \"dead\": 7,\n            \"latest\": 1723446000,\n            \"oldest\": 1315749600,\n            \"categories\": [\n                {\n                    \"live\": 1,\n                    \"dead\": 1,\n                    \"latest\": 1718521200,\n                    \"oldest\": 1344520800,\n                    \"name\": \"transactional-email\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 5,\n                    \"latest\": 1700380800,\n                    \"oldest\": 1315749600,\n                    \"name\": \"business-email-hosting\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 2,\n                    \"latest\": 1723446000,\n                    \"oldest\": 1344520800,\n                    \"name\": \"secure-email\"\n                },\n                {\n                    \"live\": 0,\n                    \"dead\": 1,\n                    \"latest\": 1700380800,\n                    \"oldest\": 1315749600,\n                    \"name\": \"web-hosting-provider-email\"\n                },\n                {\n                    \"live\": 1,\n                    \"dead\": 0,\n                    \"latest\": 1723273200,\n                    \"oldest\": 1590015600,\n                    \"name\": \"dmarc\"\n                }\n            ]\n        },\n        {\n            \"name\": \"CDN\",\n            \"live\": 1,\n            \"dead\": 0,\n            \"latest\": 1723446000,\n            \"oldest\": 1369922400,\n            \"categories\": []\n        },\n        {\n            \"name\": \"Web Master\",\n            \"live\": 0,\n            \"dead\": 2,\n            \"latest\": 1687071600,\n            \"oldest\": 1159912800,\n            \"categories\": []\n        },\n        {\n            \"name\": \"cdns\",\n            \"live\": 1,\n            \"dead\": 2,\n            \"latest\": 1712818800,\n            \"oldest\": 1412809200,\n            \"categories\": [\n                {\n                    \"live\": 0,\n                    \"dead\": 2,\n                    \"latest\": 1660460400,\n                    \"oldest\": 1412809200,\n                    \"name\": \"edge-delivery-network\"\n                }\n            ]\n        },\n        {\n            \"name\": \"mobile\",\n            \"live\": 3,\n            \"dead\": 3,\n            \"latest\": 1723446000,\n            \"oldest\": 1451568164,\n            \"categories\": []\n        },\n        {\n            \"name\": \"language\",\n            \"live\": 23,\n            \"dead\": 55,\n            \"latest\": 1723446000,\n            \"oldest\": 1356994800,\n            \"categories\": []\n        },\n        {\n            \"name\": \"robots\",\n            \"live\": 1,\n            \"dead\": 3,\n            \"latest\": 1723446000,\n            \"oldest\": 1593471600,\n            \"categories\": []\n        },\n        {\n            \"name\": \"shop\",\n            \"live\": 1,\n            \"dead\": 0,\n            \"latest\": 1713078000,\n            \"oldest\": 1597734000,\n            \"categories\": [\n                {\n                    \"live\": 1,\n                    \"dead\": 0,\n                    \"latest\": 1713078000,\n                    \"oldest\": 1597734000,\n                    \"name\": \"non-platform\"\n                }\n            ]\n        }\n    ]\n}",
+          "createdAt": "2024-08-14T02:17:53.000Z",
+          "updatedAt": "2024-08-14T02:18:05.000Z",
+          "uid": "37668266-de228fcf-360e-41a4-a8cb-923a1a5b6871"
+        }
+      ],
+      "createdAt": "2024-08-14T02:17:17.000Z",
+      "updatedAt": "2025-07-10T01:44:42.000Z",
+      "uid": "37668266-ca918fc0-8802-4a3b-951e-d85a0167c07a"
+    },
+    {
+      "name": "Other Formats",
+      "item": [
+        {
+          "name": "Get Domain Overview (XML)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/free1/api.xml?KEY={{KEY}}&LOOKUP=hotelscombined.com",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "free1",
+                "api.xml"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}",
+                  "description": "Your API key from https://api.builtwith.com"
+                },
+                {
+                  "key": "LOOKUP",
+                  "value": "hotelscombined.com",
+                  "description": "Root domain name."
+                }
+              ]
+            },
+            "description": "Get overview of technology usage for a domain."
+          },
+          "response": [],
+          "createdAt": "2024-08-14T02:17:17.000Z",
+          "updatedAt": "2025-07-10T01:44:42.000Z",
+          "uid": "37668266-ca918fc0-8802-4a3b-951e-d85a0167c07a"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string"
+    }
+  ]
+}

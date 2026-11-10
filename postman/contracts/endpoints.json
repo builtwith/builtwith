@@ -1,0 +1,34 @@
+{
+  "versions": {
+    "domain": "/v26/api.",
+    "lists": "/lists13/api.",
+    "relationships": "/rv5/api.",
+    "trust": "/trustv2/api.",
+    "registry": "/mcp2/api."
+  },
+  "releaseSources": {
+    "builtwith/builtwith-mcp": [
+      "bw-mcp-v1.js"
+    ],
+    "builtwith/builtwith-ai-sdk": [
+      "node/src/index.js"
+    ],
+    "builtwith/builtwith-official-cli": [
+      "lib/client.js"
+    ],
+    "builtwith/builtwith-node-api": [
+      "src/index.js"
+    ],
+    "builtwith/builtwith-tui": [
+      "src/api.js"
+    ],
+    "builtwith/builtwith-csharp-api": [
+      "BuiltWith/BuiltWithClient.cs"
+    ],
+    "builtwith/builtwith-python": [
+      "src/builtwith_official/_client.py",
+      "src/builtwith_official/_async_client.py"
+    ]
+  },
+  "notes": "Bulk Domain intentionally remains /v23/domain/bulk. AI SDKs use MCP tool names rather than REST URLs; their release check validates the public contracts. Release checks never need a Postman or BuiltWith credential."
+}

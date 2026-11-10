@@ -1,0 +1,47 @@
+name: Validate and sync Postman
+
+on:
+  push:
+    branches: [main]
+    paths: ['postman/**', '.github/workflows/postman*.yml']
+  pull_request:
+    paths: ['postman/**', '.github/workflows/postman*.yml']
+  workflow_dispatch:
+  release:
+    types: [published]
+  schedule:
+    - cron: '23 3 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: postman-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r postman/requirements.txt
+      - run: python -m unittest discover -s postman/tests
+      - run: python postman/scripts/manage.py check --online
+
+  sync:
+    needs: validate
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r postman/requirements.txt
+      - name: Sync definitions and verify readback
+        run: python postman/scripts/manage.py sync
+        env:
+          POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}

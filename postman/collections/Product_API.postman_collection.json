@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "Product API 🏪🏬👖👗👚",
+    "description": "- Endpoint: `GET /productv1/api.json` - websites selling products.\n- Example: `https://api.builtwith.com/productv1/api.json?KEY=YOUR_KEY&QUERY=Adidas%20Yeezy`\n- Credits: 1 per lookup.\n- Pagination: response includes `is_more` and a `next_page` URL (`PAGE` and `LIMIT` parameters).\n\nSample response (`https://api.builtwith.com/samples/product_api_v1.json`):\n```json\n{\n  \"query\": \"Adidas Yeezy\",\n  \"is_more\": true,\n  \"next_page\": \"/productv1/api.json?KEY=[your-key]&QUERY=Adidas Yeezy&PAGE=1&LIMIT=50\",\n  \"shops\": [\n    {\n      \"Domain\": \"example-shop.com\",\n      \"Products\": [\n        {\n          \"Title\": \"Adidas Yeezy\",\n          \"Url\": \"adidas-yeezy\",\n          \"Price\": 129.95\n        }\n      ]\n    }\n  ]\n}\n```\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Search Products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/productv1/api.json?KEY={{KEY}}&QUERY=Adidas%20Yeezy",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "productv1",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "QUERY",
+              "value": "Adidas Yeezy",
+              "disabled": false,
+              "description": ""
+            },
+            {
+              "key": "PAGE",
+              "value": "0",
+              "disabled": true,
+              "description": ""
+            },
+            {
+              "key": "LIMIT",
+              "value": "50",
+              "disabled": true,
+              "description": ""
+            }
+          ]
+        },
+        "description": "Search product names with QUERY. Follow next_page when is_more is true. Costs 1 API credit per lookup."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string"
+    }
+  ]
+}

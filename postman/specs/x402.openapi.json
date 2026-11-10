@@ -1,0 +1,1384 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "BuiltWith x402 Pay-per-Call API",
+    "version": "1.0.0",
+    "description": "Accountless pay-per-call website, company, and technology intelligence using x402 v2 and USDC on Base. AgentCash-compatible clients can discover and pay for every operation in this document.",
+    "contact": {
+      "name": "BuiltWith Support",
+      "email": "support@builtwith.com",
+      "url": "https://builtwith.com/contact"
+    },
+    "x-guidance": "For one-off agent research, choose the narrowest /agent operation and use its documented HTTP method and input. Every /agent operation costs $0.0495; GET /agent/domain accepts query parameters and the other /agent calls accept JSON bodies. No account, API key, payer field, or prepaid key is needed. Send the intended input on the first request, read the x402 v2 challenge from PAYMENT-REQUIRED, sign it for Base USDC, and retry the identical request with PAYMENT-SIGNATURE. Validation and upstream failures are not settled. Use /agent/company-domains before /agent/domain when only a company name is known, /agent/technology-search to resolve a concept to BuiltWith technology names, and /agent/ask for natural-language website discovery. High-volume callers may instead buy prepaid credits through the BuiltWith MCP server. Fixed-price List passes are separate products for List API and committed Ask access."
+  },
+  "servers": [
+    {
+      "url": "https://api.builtwith.com"
+    }
+  ],
+  "x-discovery": {
+    "ownershipProofs": [
+      "0x1ce9d8b85fd8afc523d26bf39eb4080326e4bef016e430f327d1cf6779fcdfdd0302f8e8804599bb3b7e254f26cf7fa3bc6c1311f9c9ae190e0c70e37fb305c11b"
+    ]
+  },
+  "externalDocs": {
+    "description": "BuiltWith x402 USDC API documentation",
+    "url": "https://api.builtwith.com/x402-api"
+  },
+  "x-x402-discovery": "https://api.builtwith.com/.well-known/x402",
+  "x-agentcash-guidance": {
+    "llmsTxtUrl": "https://api.builtwith.com/llms.txt"
+  },
+  "paths": {
+    "/agent/domain": {
+      "get": {
+        "operationId": "lookupDomainTechnologies",
+        "summary": "Look up a domain's technologies and metadata",
+        "description": "Return BuiltWith technology detections and metadata for one domain. Useful for company research, stack analysis, competitive intelligence, and sales qualification.",
+        "tags": [
+          "Technology Intelligence"
+        ],
+        "security": [],
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.0495"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "domain",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 253,
+              "description": "Domain name to research, for example example.com. Do not include a URL path."
+            },
+            "example": "example.com"
+          },
+          {
+            "name": "liveOnly",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "description": "When true, include only technologies currently detected on the domain."
+            },
+            "example": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BuiltWith result returned after payment settlement",
+            "headers": {
+              "PAYMENT-RESPONSE": {
+                "description": "Base64-encoded x402 v2 settlement response.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "BuiltWith API JSON response. Fields vary by capability and available data.",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON input; verified payments are not settled for validation failures"
+          },
+          "402": {
+            "description": "Payment Required",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Base64-encoded x402 v2 payment requirements.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The upstream BuiltWith API request failed; the verified payment is not settled"
+          },
+          "503": {
+            "description": "x402 payments are not configured on this server"
+          }
+        }
+      }
+    },
+    "/agent/relationships": {
+      "post": {
+        "operationId": "findRelatedWebsites",
+        "summary": "Find websites related to a domain",
+        "description": "Find domains related through shared identifiers, infrastructure, analytics, ownership signals, and other BuiltWith relationship evidence.",
+        "tags": [
+          "Company Research"
+        ],
+        "security": [],
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.0495"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ]
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 253,
+                    "description": "Domain name to research, for example example.com. Do not include a URL path."
+                  }
+                },
+                "required": [
+                  "domain"
+                ]
+              },
+              "example": {
+                "domain": "example.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "BuiltWith result returned after payment settlement",
+            "headers": {
+              "PAYMENT-RESPONSE": {
+                "description": "Base64-encoded x402 v2 settlement response.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "BuiltWith API JSON response. Fields vary by capability and available data.",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON input; verified payments are not settled for validation failures"
+          },
+          "402": {
+            "description": "Payment Required",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Base64-encoded x402 v2 payment requirements.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The upstream BuiltWith API request failed; the verified payment is not settled"
+          },
+          "503": {
+            "description": "x402 payments are not configured on this server"
+          }
+        }
+      }
+    },
+    "/agent/changes": {
+      "post": {
+        "operationId": "getDomainTechnologyChanges",
+        "summary": "Get technology additions and removals for a domain",
+        "description": "Return historical technology changes for one domain, optionally constrained by a human-readable time boundary such as 'last month'.",
+        "tags": [
+          "Technology Intelligence"
+        ],
+        "security": [],
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.0495"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ]
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 253,
+                    "description": "Domain name to research, for example example.com. Do not include a URL path."
+                  },
+                  "since": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Optional BuiltWith time boundary, for example 'last month'."
+                  }
+                },
+                "required": [
+                  "domain"
+                ]
+              },
+              "example": {
+                "domain": "example.com",
+                "since": "last month"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "BuiltWith result returned after payment settlement",
+            "headers": {
+              "PAYMENT-RESPONSE": {
+                "description": "Base64-encoded x402 v2 settlement response.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "BuiltWith API JSON response. Fields vary by capability and available data.",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON input; verified payments are not settled for validation failures"
+          },
+          "402": {
+            "description": "Payment Required",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Base64-encoded x402 v2 payment requirements.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The upstream BuiltWith API request failed; the verified payment is not settled"
+          },
+          "503": {
+            "description": "x402 payments are not configured on this server"
+          }
+        }
+      }
+    },
+    "/agent/company-domains": {
+      "post": {
+        "operationId": "findCompanyDomains",
+        "summary": "Find domains associated with a company name",
+        "description": "Resolve a company or brand name to associated website domains before running domain-level research.",
+        "tags": [
+          "Company Research"
+        ],
+        "security": [],
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.0495"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ]
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "company": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200,
+                    "description": "Company or brand name."
+                  }
+                },
+                "required": [
+                  "company"
+                ]
+              },
+              "example": {
+                "company": "HotelsCombined"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "BuiltWith result returned after payment settlement",
+            "headers": {
+              "PAYMENT-RESPONSE": {
+                "description": "Base64-encoded x402 v2 settlement response.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "BuiltWith API JSON response. Fields vary by capability and available data.",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON input; verified payments are not settled for validation failures"
+          },
+          "402": {
+            "description": "Payment Required",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Base64-encoded x402 v2 payment requirements.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The upstream BuiltWith API request failed; the verified payment is not settled"
+          },
+          "503": {
+            "description": "x402 payments are not configured on this server"
+          }
+        }
+      }
+    },
+    "/agent/tags": {
+      "post": {
+        "operationId": "findDomainsByTag",
+        "summary": "Find related domains from an IP address or attribute",
+        "description": "Return domains connected to a BuiltWith tag such as an IP address or infrastructure attribute.",
+        "tags": [
+          "Company Research"
+        ],
+        "security": [],
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.0495"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ]
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "lookup": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300,
+                    "description": "BuiltWith tag or attribute, for example IP-75.126.76.154."
+                  }
+                },
+                "required": [
+                  "lookup"
+                ]
+              },
+              "example": {
+                "lookup": "IP-75.126.76.154"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "BuiltWith result returned after payment settlement",
+            "headers": {
+              "PAYMENT-RESPONSE": {
+                "description": "Base64-encoded x402 v2 settlement response.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "BuiltWith API JSON response. Fields vary by capability and available data.",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON input; verified payments are not settled for validation failures"
+          },
+          "402": {
+            "description": "Payment Required",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Base64-encoded x402 v2 payment requirements.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The upstream BuiltWith API request failed; the verified payment is not settled"
+          },
+          "503": {
+            "description": "x402 payments are not configured on this server"
+          }
+        }
+      }
+    },
+    "/agent/recommendations": {
+      "post": {
+        "operationId": "recommendTechnologies",
+        "summary": "Recommend technologies for a domain",
+        "description": "Return technology recommendations inferred from a domain's existing stack and comparable sites.",
+        "tags": [
+          "Technology Intelligence"
+        ],
+        "security": [],
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.0495"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ]
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 253,
+                    "description": "Domain name to research, for example example.com. Do not include a URL path."
+                  }
+                },
+                "required": [
+                  "domain"
+                ]
+              },
+              "example": {
+                "domain": "example.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "BuiltWith result returned after payment settlement",
+            "headers": {
+              "PAYMENT-RESPONSE": {
+                "description": "Base64-encoded x402 v2 settlement response.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "BuiltWith API JSON response. Fields vary by capability and available data.",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON input; verified payments are not settled for validation failures"
+          },
+          "402": {
+            "description": "Payment Required",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Base64-encoded x402 v2 payment requirements.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The upstream BuiltWith API request failed; the verified payment is not settled"
+          },
+          "503": {
+            "description": "x402 payments are not configured on this server"
+          }
+        }
+      }
+    },
+    "/agent/redirects": {
+      "post": {
+        "operationId": "getDomainRedirects",
+        "summary": "Get live and historical redirects for a domain",
+        "description": "Return redirect destinations observed for a domain, useful for brand, migration, acquisition, and asset research.",
+        "tags": [
+          "Domain Intelligence"
+        ],
+        "security": [],
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.0495"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ]
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 253,
+                    "description": "Domain name to research, for example example.com. Do not include a URL path."
+                  }
+                },
+                "required": [
+                  "domain"
+                ]
+              },
+              "example": {
+                "domain": "example.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "BuiltWith result returned after payment settlement",
+            "headers": {
+              "PAYMENT-RESPONSE": {
+                "description": "Base64-encoded x402 v2 settlement response.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "BuiltWith API JSON response. Fields vary by capability and available data.",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON input; verified payments are not settled for validation failures"
+          },
+          "402": {
+            "description": "Payment Required",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Base64-encoded x402 v2 payment requirements.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The upstream BuiltWith API request failed; the verified payment is not settled"
+          },
+          "503": {
+            "description": "x402 payments are not configured on this server"
+          }
+        }
+      }
+    },
+    "/agent/keywords": {
+      "post": {
+        "operationId": "getDomainKeywords",
+        "summary": "Get keyword data for a domain",
+        "description": "Return keywords and topical signals associated with one website domain.",
+        "tags": [
+          "Domain Intelligence"
+        ],
+        "security": [],
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.0495"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ]
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 253,
+                    "description": "Domain name to research, for example example.com. Do not include a URL path."
+                  }
+                },
+                "required": [
+                  "domain"
+                ]
+              },
+              "example": {
+                "domain": "example.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "BuiltWith result returned after payment settlement",
+            "headers": {
+              "PAYMENT-RESPONSE": {
+                "description": "Base64-encoded x402 v2 settlement response.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "BuiltWith API JSON response. Fields vary by capability and available data.",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON input; verified payments are not settled for validation failures"
+          },
+          "402": {
+            "description": "Payment Required",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Base64-encoded x402 v2 payment requirements.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The upstream BuiltWith API request failed; the verified payment is not settled"
+          },
+          "503": {
+            "description": "x402 payments are not configured on this server"
+          }
+        }
+      }
+    },
+    "/agent/trust": {
+      "post": {
+        "operationId": "getDomainTrust",
+        "summary": "Get trust and risk signals for a domain",
+        "description": "Return BuiltWith trust scoring and supporting signals for vendor review, fraud screening, and website due diligence.",
+        "tags": [
+          "Trust and Risk"
+        ],
+        "security": [],
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.0495"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ]
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 253,
+                    "description": "Domain name to research, for example example.com. Do not include a URL path."
+                  }
+                },
+                "required": [
+                  "domain"
+                ]
+              },
+              "example": {
+                "domain": "example.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "BuiltWith result returned after payment settlement",
+            "headers": {
+              "PAYMENT-RESPONSE": {
+                "description": "Base64-encoded x402 v2 settlement response.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "BuiltWith API JSON response. Fields vary by capability and available data.",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON input; verified payments are not settled for validation failures"
+          },
+          "402": {
+            "description": "Payment Required",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Base64-encoded x402 v2 payment requirements.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The upstream BuiltWith API request failed; the verified payment is not settled"
+          },
+          "503": {
+            "description": "x402 payments are not configured on this server"
+          }
+        }
+      }
+    },
+    "/agent/company-identifiers": {
+      "post": {
+        "operationId": "getCompanyIdentifiers",
+        "summary": "Get public company identifiers for a domain",
+        "description": "Return public company registration, tax, and VAT identifiers associated with one domain when available.",
+        "tags": [
+          "Company Research"
+        ],
+        "security": [],
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.0495"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ]
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 253,
+                    "description": "Domain name to research, for example example.com. Do not include a URL path."
+                  }
+                },
+                "required": [
+                  "domain"
+                ]
+              },
+              "example": {
+                "domain": "example.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "BuiltWith result returned after payment settlement",
+            "headers": {
+              "PAYMENT-RESPONSE": {
+                "description": "Base64-encoded x402 v2 settlement response.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "BuiltWith API JSON response. Fields vary by capability and available data.",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON input; verified payments are not settled for validation failures"
+          },
+          "402": {
+            "description": "Payment Required",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Base64-encoded x402 v2 payment requirements.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The upstream BuiltWith API request failed; the verified payment is not settled"
+          },
+          "503": {
+            "description": "x402 payments are not configured on this server"
+          }
+        }
+      }
+    },
+    "/agent/technology-search": {
+      "post": {
+        "operationId": "searchTechnologies",
+        "summary": "Search BuiltWith technologies by concept",
+        "description": "Run semantic search over BuiltWith technologies and categories to resolve a concept such as 'payment gateway' to relevant technology names.",
+        "tags": [
+          "Technology Discovery"
+        ],
+        "security": [],
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.0495"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ]
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500,
+                    "description": "Natural-language technology concept or product query."
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 10,
+                    "description": "Maximum number of ranked matches."
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              },
+              "example": {
+                "query": "payment gateway",
+                "limit": 10
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "BuiltWith result returned after payment settlement",
+            "headers": {
+              "PAYMENT-RESPONSE": {
+                "description": "Base64-encoded x402 v2 settlement response.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "BuiltWith API JSON response. Fields vary by capability and available data.",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON input; verified payments are not settled for validation failures"
+          },
+          "402": {
+            "description": "Payment Required",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Base64-encoded x402 v2 payment requirements.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The upstream BuiltWith API request failed; the verified payment is not settled"
+          },
+          "503": {
+            "description": "x402 payments are not configured on this server"
+          }
+        }
+      }
+    },
+    "/agent/ask": {
+      "post": {
+        "operationId": "askForWebsites",
+        "summary": "Find websites with a natural-language query",
+        "description": "Run an uncommitted BuiltWith Ask query and return matching websites for research and qualification. This route does not create a persistent List report.",
+        "tags": [
+          "Website Search"
+        ],
+        "security": [],
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.0495"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ]
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1000,
+                    "description": "Natural-language description of the websites to find."
+                  },
+                  "meta": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Include additional BuiltWith metadata when available."
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              },
+              "example": {
+                "query": "Magento websites in Spain",
+                "meta": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "BuiltWith result returned after payment settlement",
+            "headers": {
+              "PAYMENT-RESPONSE": {
+                "description": "Base64-encoded x402 v2 settlement response.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "BuiltWith API JSON response. Fields vary by capability and available data.",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON input; verified payments are not settled for validation failures"
+          },
+          "402": {
+            "description": "Payment Required",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Base64-encoded x402 v2 payment requirements.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The upstream BuiltWith API request failed; the verified payment is not settled"
+          },
+          "503": {
+            "description": "x402 payments are not configured on this server"
+          }
+        }
+      }
+    },
+    "/x402/list-pass/basic": {
+      "post": {
+        "operationId": "purchaseBasicListPass",
+        "summary": "Purchase a 30-day basic BuiltWith List pass",
+        "description": "Pay 295.00 USDC on Base for a bearer pass covering 2 primary technology reports and 2 keyword or committed Ask reports. Repeating an existing report does not consume another slot.",
+        "tags": [
+          "List Passes"
+        ],
+        "security": [],
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "295.00"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ]
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {},
+                "required": []
+              },
+              "example": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Pass purchased and payment settled",
+            "headers": {
+              "PAYMENT-RESPONSE": {
+                "description": "Base64-encoded x402 v2 settlement response.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "passToken",
+                    "tier",
+                    "payer",
+                    "price",
+                    "expiresAt",
+                    "technologyReportLimit",
+                    "keywordReportLimit",
+                    "warning"
+                  ],
+                  "properties": {
+                    "passToken": {
+                      "type": "string",
+                      "description": "Secret bearer token. Store it securely; it is returned only once."
+                    },
+                    "tier": {
+                      "type": "string",
+                      "enum": [
+                        "basic",
+                        "pro"
+                      ]
+                    },
+                    "payer": {
+                      "type": "string",
+                      "pattern": "^0x[a-fA-F0-9]{40}$",
+                      "description": "Base wallet recovered from the settled x402 payment."
+                    },
+                    "price": {
+                      "type": "string",
+                      "pattern": "^\\$[0-9]+(?:\\.[0-9]+)?$"
+                    },
+                    "expiresAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "technologyReportLimit": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "keywordReportLimit": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "warning": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON input; verified payments are not settled for validation failures"
+          },
+          "402": {
+            "description": "Payment Required",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Base64-encoded x402 v2 payment requirements.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The upstream BuiltWith API request failed; the verified payment is not settled"
+          },
+          "503": {
+            "description": "x402 payments are not configured on this server"
+          }
+        }
+      }
+    },
+    "/x402/list-pass/pro": {
+      "post": {
+        "operationId": "purchaseProListPass",
+        "summary": "Purchase a 30-day pro BuiltWith List pass",
+        "description": "Pay 495.00 USDC on Base for a bearer pass covering 50 primary technology reports and 50 keyword or committed Ask reports. Repeating an existing report does not consume another slot.",
+        "tags": [
+          "List Passes"
+        ],
+        "security": [],
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "495.00"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ]
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {},
+                "required": []
+              },
+              "example": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Pass purchased and payment settled",
+            "headers": {
+              "PAYMENT-RESPONSE": {
+                "description": "Base64-encoded x402 v2 settlement response.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "passToken",
+                    "tier",
+                    "payer",
+                    "price",
+                    "expiresAt",
+                    "technologyReportLimit",
+                    "keywordReportLimit",
+                    "warning"
+                  ],
+                  "properties": {
+                    "passToken": {
+                      "type": "string",
+                      "description": "Secret bearer token. Store it securely; it is returned only once."
+                    },
+                    "tier": {
+                      "type": "string",
+                      "enum": [
+                        "basic",
+                        "pro"
+                      ]
+                    },
+                    "payer": {
+                      "type": "string",
+                      "pattern": "^0x[a-fA-F0-9]{40}$",
+                      "description": "Base wallet recovered from the settled x402 payment."
+                    },
+                    "price": {
+                      "type": "string",
+                      "pattern": "^\\$[0-9]+(?:\\.[0-9]+)?$"
+                    },
+                    "expiresAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "technologyReportLimit": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "keywordReportLimit": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "warning": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON input; verified payments are not settled for validation failures"
+          },
+          "402": {
+            "description": "Payment Required",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Base64-encoded x402 v2 payment requirements.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "The upstream BuiltWith API request failed; the verified payment is not settled"
+          },
+          "503": {
+            "description": "x402 payments are not configured on this server"
+          }
+        }
+      }
+    }
+  }
+}

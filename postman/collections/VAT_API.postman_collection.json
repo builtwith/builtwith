@@ -1,0 +1,128 @@
+{
+  "info": {
+    "_postman_id": "d5af322b-6cc2-5506-bfb3-2300a6eeba36",
+    "name": "VAT API 🧾🧾🧾",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "- Endpoint: `GET /vat1/api.{json|xml|csv}` - VAT, GSTIN, CNPJ and other available company registration numbers for websites.\n- Example: `https://api.builtwith.com/vat1/api.json?KEY=YOUR_KEY&LOOKUP=example.com`\n- Credit cost: 1 API credit for each domain that returns one or more registration records. Domains with no results use no credit.\n- Registration types: `GET /vat1/types.{json|xml|csv}` lists every possible `Type` value with its friendly `Name` and `Description`. This endpoint is public and uses no API credits.\n- Documentation: `https://api.builtwith.com/vat-api`\n\n### Parameters\n- `KEY` (required) - your API key.\n- `LOOKUP` (required) - 1 to 16 comma-separated root domains.\n\n### Response\nThe response is a flat list of records with:\n- `Domain` - the requested root domain.\n- `Type` - registration type, such as `VAT`, `GSTIN`, `CNPJ`, `ABN`, `EIN`, or another available company registration type.\n- `Number` - the company registration number.\n\nA domain can return multiple records. Domains with no known registration data return no records and use no API credit.\n\nExample JSON:\n```json\n[\n  { \"Domain\": \"builtwith.com\", \"Type\": \"GSTIN\", \"Number\": \"2332323\" }\n]\n```\n\nExample CSV:\n```csv\nDomain,Type,Number\nbuiltwith.com,GSTIN,2332323\n```\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected."
+  },
+  "item": [
+    {
+      "name": "Get Company Registrations",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/vat1/api.json?KEY={{KEY}}&LOOKUP=example.com,builtwith.com",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "vat1",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "LOOKUP",
+              "value": "example.com,builtwith.com"
+            }
+          ]
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Other Formats",
+      "item": [
+        {
+          "name": "Get Company Registrations (XML)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/vat1/api.xml?KEY={{KEY}}&LOOKUP=example.com,builtwith.com",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "vat1",
+                "api.xml"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "LOOKUP",
+                  "value": "example.com,builtwith.com"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Company Registrations (CSV)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/vat1/api.csv?KEY={{KEY}}&LOOKUP=example.com,builtwith.com",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "vat1",
+                "api.csv"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "LOOKUP",
+                  "value": "example.com,builtwith.com"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string",
+      "description": "Set your BuiltWith API key locally; do not share its value."
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "info": {
+    "_postman_id": "53fb83ad-838b-5cc8-a15a-dde527c684f2",
+    "name": "Keyword Search API 🔎🔎🔎",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "- Endpoint: `GET /kws1/api.{json|csv}` - websites containing a keyword.\n- Example: `https://api.builtwith.com/kws1/api.json?KEY=YOUR_KEY&KEYWORD=perfume`\n- Optional: `LIMIT` (16-1000, default 100), `OFFSET` from the previous page's `NextOffset`.\n- Requires a subscription (see WhoAmI `credits.costs.keyword_search_api`).\n\nSample response (`https://api.builtwith.com/samples/keyword_search_api_v1.json`):\n```json\n{\n  \"Keyword\": \"perfume\",\n  \"Domains\": [\"example-store.com\"],\n  \"NextOffset\": \"example-store.com\"\n}\n```\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected."
+  },
+  "item": [
+    {
+      "name": "Search Websites by Keyword",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/kws1/api.json?KEY={{KEY}}&KEYWORD=perfume&LIMIT=100",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "kws1",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "KEYWORD",
+              "value": "perfume"
+            },
+            {
+              "key": "LIMIT",
+              "value": "100"
+            }
+          ]
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Next Keyword Page",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/kws1/api.json?KEY={{KEY}}&KEYWORD=perfume&LIMIT=100&OFFSET={{keywordOffset}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "kws1",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "KEYWORD",
+              "value": "perfume"
+            },
+            {
+              "key": "LIMIT",
+              "value": "100"
+            },
+            {
+              "key": "OFFSET",
+              "value": "{{keywordOffset}}"
+            }
+          ]
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Other Formats",
+      "item": [
+        {
+          "name": "Search Websites by Keyword (CSV)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/kws1/api.csv?KEY={{KEY}}&KEYWORD=perfume&LIMIT=100",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "kws1",
+                "api.csv"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "KEYWORD",
+                  "value": "perfume"
+                },
+                {
+                  "key": "LIMIT",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string",
+      "description": "Set your BuiltWith API key locally; do not share its value."
+    },
+    {
+      "key": "keywordOffset",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

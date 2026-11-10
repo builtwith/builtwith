@@ -1,0 +1,188 @@
+{
+  "info": {
+    "_postman_id": "eb8231a6-31f4-4461-bfe9-62891ebd652f",
+    "name": "Recommendations API 🔮🔮🔮",
+    "description": "- Endpoint: `GET /rec1/api.{json|xml}` - related technology recommendations for a domain.\n- Example: `https://api.builtwith.com/rec1/api.json?KEY=YOUR_KEY&LOOKUP=example.com`\n- Credits: 1 per lookup.\n\nSample response (`https://api.builtwith.com/samples/recommendations_api_v1.json`):\n```json\n[\n  {\n    \"Domain\": \"example.com\",\n    \"Recommendations\": [\n      {\n        \"name\": \"Zendesk\",\n        \"tag\": \"mx\",\n        \"categories\": [],\n        \"stars\": 4,\n        \"match\": 0.126\n      }\n    ]\n  }\n]\n```\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Domain Recommendations",
+      "id": "4643cb28-bf27-4391-825b-7b348f69268b",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/rec1/api.json?KEY={{KEY}}&LOOKUP=hotelscombined.com",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "rec1",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "LOOKUP",
+              "value": "hotelscombined.com",
+              "description": "The root domain you'd like to do a lookup for. This can be CSV of up to 16 root domains max.\t"
+            }
+          ]
+        },
+        "description": "Gets the technologies recommended for web domains based on cross over."
+      },
+      "response": [
+        {
+          "id": "b39c737d-6446-4977-b933-22fc4db21811",
+          "name": "Get Domain Recommendation Example",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/rec1/api.json?KEY={{KEY}}&LOOKUP=hotelscombined.com",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "rec1",
+                "api.json"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "LOOKUP",
+                  "value": "hotelscombined.com"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Cache-Control",
+              "value": "private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Server",
+              "value": "Microsoft-IIS/10.0"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "X-API-CREDITS-AVAILABLE",
+              "value": "50"
+            },
+            {
+              "key": "X-API-CREDITS-USED",
+              "value": "15"
+            },
+            {
+              "key": "X-UA-Compatible",
+              "value": "IE=Edge,chrome=1"
+            },
+            {
+              "key": "cross-origin-resource-policy",
+              "value": "same-site"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000; includeSubDomains; preload"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 14 Aug 2024 03:17:10 GMT"
+            },
+            {
+              "key": "Content-Length",
+              "value": "2536"
+            }
+          ],
+          "cookie": [],
+          "responseTime": null,
+          "body": "{\n    \"Domain\": \"hotelscombined.com\",\n    \"Compiled\": \"/Date(1722173761327)/\",\n    \"Recommendations\": [\n        {\n            \"link\": \"https://www.atlassian.com/licensing/cloud\",\n            \"name\": \"Atlassian Cloud\",\n            \"tag\": \"cms\",\n            \"categories\": [\n                \"Ticketing System\"\n            ],\n            \"stars\": 4,\n            \"match\": 0.04035786\n        },\n        {\n            \"link\": \"https://onetrust.com/\",\n            \"name\": \"OneTrust\",\n            \"tag\": \"widgets\",\n            \"categories\": [\n                \"Privacy Compliance\"\n            ],\n            \"stars\": 3,\n            \"match\": 0.0278255884\n        },\n        {\n            \"link\": \"https://aws.amazon.com/cloudfront/\",\n            \"name\": \"Amazon CloudFront\",\n            \"tag\": \"cdns\",\n            \"categories\": [\n                \"Edge Delivery Network\"\n            ],\n            \"stars\": 3,\n            \"match\": 0.0237736665\n        },\n        {\n            \"link\": \"https://webex.com\",\n            \"name\": \"WebEx\",\n            \"tag\": \"widgets\",\n            \"categories\": [\n                \"Live Chat\"\n            ],\n            \"stars\": 3,\n            \"match\": 0.02232143\n        },\n        {\n            \"link\": \"https://www.adobe.com/au/enterprise.html\",\n            \"name\": \"Adobe Enterprise Cloud\",\n            \"tag\": \"framework\",\n            \"categories\": [],\n            \"stars\": 3,\n            \"match\": 0.0209409073\n        },\n        {\n            \"link\": \"https://hotjar.com\",\n            \"name\": \"Hotjar\",\n            \"tag\": \"analytics\",\n            \"categories\": [\n                \"Audience Measurement\",\n                \"Conversion Optimization\",\n                \"Feedback Forms and Surveys\"\n            ],\n            \"stars\": 2,\n            \"match\": 0.0195783135\n        },\n        {\n            \"link\": \"https://aws.amazon.com/ses/\",\n            \"name\": \"Amazon SES\",\n            \"tag\": \"mx\",\n            \"categories\": [\n                \"Transactional Email\"\n            ],\n            \"stars\": 2,\n            \"match\": 0.01631526\n        },\n        {\n            \"link\": \"https://www.adobe.com/products/adobeconnect.html\",\n            \"name\": \"Adobe Connect\",\n            \"tag\": \"widgets\",\n            \"categories\": [],\n            \"stars\": 2,\n            \"match\": 0.0151678137\n        },\n        {\n            \"link\": \"http://www.omniture.com/\",\n            \"name\": \"Omniture SiteCatalyst\",\n            \"tag\": \"analytics\",\n            \"categories\": [\n                \"Marketing Automation\"\n            ],\n            \"stars\": 1,\n            \"match\": 0.0144685889\n        },\n        {\n            \"link\": \"https://getsentry.com\",\n            \"name\": \"Sentry\",\n            \"tag\": \"javascript\",\n            \"categories\": [],\n            \"stars\": 1,\n            \"match\": 0.0140024386\n        },\n        {\n            \"link\": \"https://www.proofpoint.com/\",\n            \"name\": \"Proofpoint\",\n            \"tag\": \"mx\",\n            \"categories\": [\n                \"Secure Email\"\n            ],\n            \"stars\": 1,\n            \"match\": 0.0128012048\n        },\n        {\n            \"link\": \"https://www.zendesk.com/\",\n            \"name\": \"Zendesk\",\n            \"tag\": \"mx\",\n            \"categories\": [],\n            \"stars\": 1,\n            \"match\": 0.01240677\n        },\n        {\n            \"link\": \"http://www.marketo.com/index.php\",\n            \"name\": \"Marketo\",\n            \"tag\": \"analytics\",\n            \"categories\": [\n                \"Marketing Automation\"\n            ],\n            \"stars\": 1,\n            \"match\": 0.0121557657\n        },\n        {\n            \"link\": \"https://zoom.us/\",\n            \"name\": \"Zoom Video Conferencing\",\n            \"tag\": \"widgets\",\n            \"categories\": [\n                \"Live Chat\"\n            ],\n            \"stars\": 1,\n            \"match\": 0.0115282554\n        },\n        {\n            \"link\": \"https://zoom.com\",\n            \"name\": \"Zoom\",\n            \"tag\": \"media\",\n            \"categories\": [\n                \"Live Stream / Webcast\"\n            ],\n            \"stars\": 1,\n            \"match\": 0.0113668963\n        },\n        {\n            \"link\": \"https://www.searchdiscovery.com/satellite/\",\n            \"name\": \"Adobe Dynamic Tag Management\",\n            \"tag\": \"analytics\",\n            \"categories\": [\n                \"Tag Management\"\n            ],\n            \"stars\": 1,\n            \"match\": 0.0106855994\n        },\n        {\n            \"link\": \"https://www.google.com/analytics/optimize/\",\n            \"name\": \"Google Optimize 360\",\n            \"tag\": \"analytics\",\n            \"categories\": [\n                \"A/B Testing\",\n                \"Personalization\"\n            ],\n            \"stars\": 1,\n            \"match\": 0.0106676705\n        }\n    ]\n}",
+          "createdAt": "2024-08-14T03:17:14.000Z",
+          "updatedAt": "2024-08-14T03:17:27.000Z",
+          "uid": "37668266-b39c737d-6446-4977-b933-22fc4db21811"
+        }
+      ],
+      "createdAt": "2024-08-14T03:16:31.000Z",
+      "updatedAt": "2025-07-10T01:44:14.000Z",
+      "uid": "37668266-4643cb28-bf27-4391-825b-7b348f69268b"
+    },
+    {
+      "name": "Other Formats",
+      "item": [
+        {
+          "name": "Get Domain Recommendations (XML)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/rec1/api.xml?KEY={{KEY}}&LOOKUP=hotelscombined.com",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "rec1",
+                "api.xml"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "LOOKUP",
+                  "value": "hotelscombined.com",
+                  "description": "The root domain you'd like to do a lookup for. This can be CSV of up to 16 root domains max.\t"
+                }
+              ]
+            },
+            "description": "Gets the technologies recommended for web domains based on cross over."
+          },
+          "response": [],
+          "createdAt": "2024-08-14T03:16:31.000Z",
+          "updatedAt": "2025-07-10T01:44:14.000Z",
+          "uid": "37668266-4643cb28-bf27-4391-825b-7b348f69268b"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string"
+    }
+  ]
+}

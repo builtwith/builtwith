@@ -1,0 +1,253 @@
+{
+  "info": {
+    "_postman_id": "5747ec1d-78c0-505e-85fd-03f094a4d635",
+    "name": "MCP Server 🛠️🛠️🛠️",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "- Stripe MPP without an API key: use `mpp-catalog`, `mpp-purchase`, then `mpp-data`.\n- Discovery manifest: `https://builtwith.com/.well-known/mcp.json`\n- Hosted MCP endpoint: `https://api.builtwith.com/mcp`\n- Transport: streamable HTTP (stateless; the endpoint only accepts `POST`).\n- Standard tools: authenticate with `Authorization: Bearer YOUR_BUILTWITH_API_KEY`.\n- x402 tools: buy non-expiring lookup units with Base USDC, then use the returned reusable `creditKey`; these units live in a separate x402 ledger, not a BuiltWith account.\n- x402 pay-per-call discovery (AgentCash-compatible): `GET https://api.builtwith.com/openapi.json`.\n- x402 pay-per-call routes: `GET /agent/domain` plus JSON `POST` routes `/agent/relationships`, `/agent/changes`, `/agent/company-domains`, `/agent/tags`, `/agent/recommendations`, `/agent/redirects`, `/agent/keywords`, `/agent/trust`, `/agent/company-identifiers`, `/agent/technology-search`, and `/agent/ask`. Each costs $0.0495 USDC and returns the BuiltWith result directly, with no account, API key, or prepaid key.\n- Clients send the intended query/body, read `PAYMENT-REQUIRED`, sign Base USDC, and retry the identical request with `PAYMENT-SIGNATURE`. Validation and upstream failures are not settled. Contact: support@builtwith.com.\n- x402 discovery: `https://api.builtwith.com/.well-known/x402`\n- x402 protocol/network: version 2 on Base mainnet (`eip155:8453`), using USDC (6 decimals; contract `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`).\n- The x402 descriptor is authoritative for the facilitator, network, asset, payment address, available tools, pricing tiers, and List passes; clients should not hard-code those values.\n- Credit flow: call `x402-pricing` with an optional `credits` quantity, then call `x402-credit-purchase` with at least 2000 credits and the payer wallet. Sign a returned payment requirement and retry with the payment payload in MCP request metadata at `_meta[\"x402/payment\"]`. Store the returned `creditKey` and supply it to credit-based lookup tools.\n- Top-ups: pass an existing `creditKey` to `x402-credit-purchase`; the payer wallet must match the wallet that created the key.\n- x402 lookup units do not expire. A 2,000-unit batch costs $99 and a 10,000-unit batch costs $259. Failed BuiltWith API calls release reserved units.\n- Docs/source: `https://github.com/builtwith/builtwith-mcp`\n- Note: `https://api.builtwith.com/.well-known/mcp.json` redirects to the BuiltWith `.well-known` host.\n\nExample MCP client config:\n```json\n{\n  \"mcpServers\": {\n    \"builtwith\": {\n      \"url\": \"https://api.builtwith.com/mcp\",\n      \"headers\": {\n        \"Authorization\": \"Bearer YOUR_BUILTWITH_API_KEY\"\n      }\n    }\n  }\n}\n```\n\n### Tools\nInputs are listed as `name (type, required?)`. Tools map to the REST endpoints above and return JSON.\n\nDomain tools (Domain API):\n- `domain-lookup` - live web technologies for a root domain, with UI widget output. Inputs: `domain` (string, required), `liveOnly` (boolean, optional; defaults to true - set false to include historical technologies).\n- `domain-api` - technology and metadata lookup with UI widget output. Inputs: `lookup` (string, required).\n- `domain-api-json` - raw Domain API JSON. Inputs: `lookup` (string, required).\n\nPer-domain lookups:\n- `change-api` - technology additions/removals. Inputs: `lookup` (string, required; one or more comma-separated domains), `since` (string, optional; natural language such as \"last month\", defaults to 3 months).\n- `relationships-api` - related websites. Inputs: `lookup` (string, required).\n- `free-api` - category/group counts; free. Inputs: `lookup` (string, required).\n- `company-to-url` - domains from a company name. Inputs: `company` (string, required).\n- `tags-api` - related domains from IP or attributes. Inputs: `lookup` (string, required).\n- `recommendations-api` - technology recommendations. Inputs: `lookup` (string, required).\n- `redirects-api` - live and historical redirects. Inputs: `lookup` (string, required).\n\nKeyword, trend, product, trust, and semantic search:\n- `keywords-api` - keywords for a domain. Inputs: `lookup` (string, required).\n- `keywords-search-api` - websites containing a keyword, paginated. Inputs: `keyword` (string, required), `limit` (integer, optional; 16-1000, default 100), `offset` (string, optional; `NextOffset` from the previous response).\n- `trends-api` - technology trend data; free. Inputs: `tech` (string, required).\n- `product-api` - eCommerce product search. Inputs: `query` (string, required).\n- `trust-api` - trust scoring for a domain. Inputs: `lookup` (string, required).\n- `vector-api` - semantic search over technologies and categories with similarity scores. Inputs: `query` (string, required), `limit` (integer, optional; 1-100, default 10).\n\nNatural language website lists (Ask API):\n- `ask-api` - natural language website list queries with UI widget output. Inputs: `query` (string, required), `commit` (boolean, optional; run a full report with up to 1000 results), `nextOffset` (string, optional), `meta` (boolean, optional).\n- `ask-api-json` - raw Ask API JSON. Inputs: same as `ask-api`.\n\nAccount (no API credits):\n- `whoami-api` - account limits, credit costs, privacy flags, max batch sizes, endpoint inventory. No inputs. Call this first to make account-aware decisions.\n- `usage-api` - current credit balance (used, purchased, remaining). No inputs.\n\nAgent Payment API:\n- `payment-balance` - returns `credits_total`, `credits_used`, `credits_available`. No inputs.\n- `payment-config` - returns `max_per_purchase`, `max_monthly`, `monthly_purchased`, `monthly_remaining`, `cost_per_2000_credits_usd`. No inputs.\n- `payment-purchase` - purchase credits with the saved payment method. Inputs: `credits` (integer, required; minimum 2000).\n\nx402 (Base USDC; no caller BuiltWith API key):\n- `x402-pricing` - public configuration, prepaid batch-credit tiers, List pass tiers, and an optional batch quote. Optional input: `credits` (integer, minimum 2000).\n- `x402-credit-purchase` - buy or top up non-expiring credits with one x402 payment. Inputs: `credits` (integer, minimum 2000), `payer`, and optional existing `creditKey`. A new key is returned in plaintext only when created and must be stored securely.\n- `x402-credit-balance` - purchased, used, pending, and available credits. Input: `creditKey`; no payment or credit required.\n- `x402-domain-lookup`, `x402-domain-api`, `x402-domain-api-json`, `x402-change-api`, `x402-relationships-api`, `x402-company-to-url`, `x402-tags-api`, `x402-recommendations-api`, `x402-redirects-api`, `x402-keywords-api`, `x402-trust-api`, `x402-vat-api`, `x402-vector-api` - prepaid lookup tools. Each requires `creditKey`; other inputs mirror its standard tool. Multi-domain tools deduct one credit per unique requested domain.\n- `x402-ask-api` - prepaid Ask lookup. Inputs: `query`, `payer`, `creditKey`, optional `commit`, `nextOffset`, `meta`, and `passToken`. Committed reports and pagination require a valid List pass.\n- `x402-list-pass-purchase` - buy a 30-day List pass. Inputs: `tier` (`basic` or `pro`) and `payer`.\n- `x402-list-api`, `x402-keywords-search-api` - List tools used with a purchased pass. Inputs include `payer` and `passToken`.\n- Only `x402-credit-purchase` and `x402-list-pass-purchase` return x402 v2 payment requirements. Prepaid lookups use the stored key without another facilitator transaction.\n\n### Prompts\n- `analyze-tech-stack` (`domain`) - analyze the technology stack of a domain.\n- `find-related-websites` (`domain`) - find websites related to a domain.\n- `get-technology-recommendations` (`domain`) - technology recommendations for a domain.\n- `research-company` (`company`) - research a company's web presence by name.\n- `check-domain-trust` (`domain`) - check the trust score of a domain.\n- `discover-technologies-by-concept` (`concept`) - search technologies matching a concept, then explore adoption trends.\n\n### Resources\nUI widget resources used by `domain-lookup`, `domain-api`, and `ask-api` in MCP clients that support embedded apps:\n- `ui://widget/domain-technologies.html` - interactive table for domain technology results.\n- `ui://widget/ask-sites.html` - interactive table for Ask API website list results.\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected."
+  },
+  "item": [
+    {
+      "name": "Initialize",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json, text/event-stream"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/mcp",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "mcp"
+          ],
+          "query": []
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"initialize\",\n  \"params\": {\n    \"protocolVersion\": \"2025-06-18\",\n    \"capabilities\": {},\n    \"clientInfo\": {\n      \"name\": \"Postman\",\n      \"version\": \"1.0.0\"\n    }\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List Tools",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json, text/event-stream"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/mcp",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "mcp"
+          ],
+          "query": []
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"tools/list\",\n  \"params\": {}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List Prompts",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json, text/event-stream"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/mcp",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "mcp"
+          ],
+          "query": []
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"prompts/list\",\n  \"params\": {}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List Resources",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json, text/event-stream"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/mcp",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "mcp"
+          ],
+          "query": []
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"resources/list\",\n  \"params\": {}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Call Account Tool",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json, text/event-stream"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.builtwith.com/mcp",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "mcp"
+          ],
+          "query": []
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"whoami-api\",\n    \"arguments\": {}\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string",
+      "description": "Set your BuiltWith API key locally; do not share its value."
+    }
+  ]
+}

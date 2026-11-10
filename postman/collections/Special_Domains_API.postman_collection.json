@@ -1,0 +1,153 @@
+{
+  "info": {
+    "_postman_id": "4c452e7f-cca2-5a29-b9b0-a39de2c0490d",
+    "name": "Special Domains API 🌐🌐🌐",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "BuiltWith maintains three domain lists useful when preparing lookups (JSON, XML or TXT):\n- Ignore list - domains BuiltWith does not index (blocked, misleading technologies, or user-generated-content subdomains): `https://api.builtwith.com/ignoresv1/api.json`\n- Ignore TLDs - top-level domains and suffixes BuiltWith ignores when indexing websites: `https://api.builtwith.com/ignoretldsv1/api.json`\n- BuiltWith Suffix list - based on the Public Suffix List with additional entries where subdomains should be treated as top-level domains: `https://api.builtwith.com/suffixv1/api.json`\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected."
+  },
+  "item": [
+    {
+      "name": "Ignored Domains",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/ignoresv1/api.json",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "ignoresv1",
+            "api.json"
+          ],
+          "query": []
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Ignored TLDs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/ignoretldsv1/api.json",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "ignoretldsv1",
+            "api.json"
+          ],
+          "query": []
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "BuiltWith Suffix List",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/suffixv1/api.json",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "suffixv1",
+            "api.json"
+          ],
+          "query": []
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Other Formats",
+      "item": [
+        {
+          "name": "Ignored Domains (XML)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/ignoresv1/api.xml",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "ignoresv1",
+                "api.xml"
+              ],
+              "query": []
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ignored Domains (TXT)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/ignoresv1/api.txt",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "ignoresv1",
+                "api.txt"
+              ],
+              "query": []
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string",
+      "description": "Set your BuiltWith API key locally; do not share its value."
+    }
+  ]
+}

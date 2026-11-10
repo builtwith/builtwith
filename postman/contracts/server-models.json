@@ -1,0 +1,337 @@
+{
+  "DomainResult": {
+    "source": "jobject/domain/v24/result.cs",
+    "class": "ResultWrapper",
+    "properties": {
+      "Result": "DomainResultDetail",
+      "Meta": "DomainMeta",
+      "Attributes": "DomainAttributes",
+      "FirstIndexed": "long",
+      "LastIndexed": "long",
+      "Lookup": "string",
+      "SalesRevenue": "long"
+    }
+  },
+  "DomainResultDetail": {
+    "source": "jobject/domain/v23/result.cs",
+    "class": "Result",
+    "properties": {
+      "SpendHistory": "List<DomainSpendHistory>",
+      "IsDB": "string",
+      "Spend": "int",
+      "Paths": "List<DomainPath>"
+    }
+  },
+  "DomainTechnology": {
+    "source": "jobject/domain/v23/result.cs",
+    "class": "Technology",
+    "properties": {
+      "confidence": "double?",
+      "Categories": "List<string>",
+      "Name": "string",
+      "Description": "string",
+      "Link": "string",
+      "Parent": "string",
+      "Tag": "string",
+      "FirstDetected": "long?",
+      "LastDetected": "long?",
+      "IsPremium": "string",
+      "Id": "int"
+    }
+  },
+  "DomainPath": {
+    "source": "jobject/domain/v23/result.cs",
+    "class": "Path",
+    "properties": {
+      "Technologies": "List<DomainTechnology>",
+      "FirstIndexed": "long?",
+      "LastIndexed": "long?",
+      "Domain": "string",
+      "Url": "string",
+      "SubDomain": "string"
+    }
+  },
+  "DomainMeta": {
+    "source": "jobject/domain/v22/result.cs",
+    "class": "Meta",
+    "properties": {
+      "Majestic": "int?",
+      "Umbrella": "int?",
+      "Vertical": "string",
+      "PrimaryBusiness": "string",
+      "Social": "List<string>",
+      "CompanyName": "string",
+      "Telephones": "List<string>",
+      "Emails": "List<string>",
+      "City": "string",
+      "State": "string",
+      "Postcode": "string",
+      "Country": "string",
+      "Names": "List<DomainContact>",
+      "ARank": "int",
+      "QRank": "int",
+      "company_reg": "List<DomainCompanyRegistration>"
+    }
+  },
+  "DomainContact": {
+    "source": "jobject/domain/v22/result.cs",
+    "class": "Names",
+    "properties": {
+      "Name": "string",
+      "Type": "int?",
+      "Level": "string",
+      "Email": "string"
+    }
+  },
+  "DomainSpendHistory": {
+    "source": "jobject/domain/v22/result.cs",
+    "class": "SpendHistory",
+    "properties": {
+      "D": "long",
+      "S": "int"
+    }
+  },
+  "DomainAttributes": {
+    "source": "jobject/domain/v22/result.cs",
+    "class": "Attributes",
+    "properties": {
+      "MJRank": "int",
+      "MJTLDRank": "int",
+      "RefSN": "int",
+      "RefIP": "int",
+      "Sitemap": "int",
+      "GTMTags": "int",
+      "QubitTags": "int",
+      "TealiumTags": "int",
+      "AdobeTags": "int",
+      "CDimensions": "int",
+      "CGoals": "int",
+      "CMetrics": "int",
+      "Followers": "int?",
+      "ProductCount": "int?",
+      "Employees": "int?",
+      "PageRank": "int?",
+      "BWRank": "int?",
+      "Tranco": "int?",
+      "Revenue": "int?",
+      "BWS": "int?",
+      "EcommerceCategory": "int?",
+      "AIMaturity": "int?",
+      "AIOpenness": "int?",
+      "AIReadiness": "int?",
+      "AIVisibility": "int?",
+      "InnovationIndex": "int?",
+      "InnovationIndexMA": "double?",
+      "TTFB": "int?",
+      "SourceBytes": "int?"
+    }
+  },
+  "ApiError": {
+    "source": "jobject/domain/v22/result.cs",
+    "class": "Error",
+    "properties": {
+      "Lookup": "string",
+      "Message": "string",
+      "Code": "int"
+    }
+  },
+  "DomainTrust": {
+    "source": "jobject/domain/v22/result.cs",
+    "class": "Trust",
+    "properties": {
+      "Domain": "string",
+      "DBRecord": "DomainTrustRecord",
+      "LiveRecord": "object",
+      "Status": "int"
+    }
+  },
+  "DomainTrustRecord": {
+    "source": "jobject/domain/v22/result.cs",
+    "class": "DBRecord",
+    "properties": {
+      "EarliestRecord": "long",
+      "LatestUpdate": "long",
+      "PremiumTechs": "int",
+      "LiveTechs": "bool",
+      "AffiliateLinks": "bool",
+      "PaymentOptions": "bool",
+      "Ecommerce": "bool",
+      "Parked": "bool",
+      "Spend": "int",
+      "Established": "bool",
+      "DBIndexed": "bool"
+    }
+  },
+  "ListResult": {
+    "source": "jobject/list/v12/result.cs",
+    "class": "Domains",
+    "properties": {
+      "D": "string",
+      "FI": "double",
+      "LI": "double",
+      "LOS": "List<string>",
+      "Q": "int",
+      "A": "int",
+      "U": "int",
+      "M": "int",
+      "SKU": "int?",
+      "F": "int?",
+      "E": "int?",
+      "Country": "string",
+      "FD": "long",
+      "LD": "long",
+      "S": "int?",
+      "R": "int",
+      "META": "ListMetadata"
+    }
+  },
+  "ListMetadata": {
+    "source": "jobject/list/v12/result.cs",
+    "class": "MetaData",
+    "properties": {
+      "Social": "List<string>",
+      "CompanyName": "string",
+      "Telephones": "List<string>",
+      "Emails": "List<string>",
+      "City": "string",
+      "State": "string",
+      "Postcode": "string",
+      "Country": "string",
+      "Vertical": "string",
+      "PrimaryBusiness": "string",
+      "Titles": "List<string>"
+    }
+  },
+  "RelationshipsApiResponse": {
+    "source": "handlers/api/relationship.cs",
+    "class": "PagedResponseData",
+    "properties": {
+      "Errors": "string[]",
+      "results": "long",
+      "max_per_page": "int",
+      "page": "int",
+      "next_page": "long",
+      "more_results": "bool",
+      "Relationships": "List<Relationship>"
+    }
+  },
+  "WhoAmIResponse": {
+    "source": "handlers/api/whoami.cs",
+    "class": "whoamiv1",
+    "properties": {
+      "account": "AccountInfo",
+      "rate_limits": "RateLimits",
+      "credits": "CreditsInfo",
+      "privacy": "PrivacyInfo",
+      "endpoints": "EndpointsInfo"
+    }
+  },
+  "AccountInfo": {
+    "source": "handlers/api/whoami.cs",
+    "class": "AccountInfo",
+    "properties": {
+      "email": "string",
+      "plan": "string",
+      "plan_expiry": "string",
+      "max_batch_size": "MaxBatchSize"
+    }
+  },
+  "MaxBatchSize": {
+    "source": "handlers/api/whoami.cs",
+    "class": "MaxBatchSize",
+    "properties": {
+      "domain_lookup": "int",
+      "vat_lookup": "int",
+      "domain_bulk_submit": "int"
+    }
+  },
+  "RateLimits": {
+    "source": "handlers/api/whoami.cs",
+    "class": "RateLimits",
+    "properties": {
+      "requests_per_second": "int",
+      "concurrency": "int",
+      "message": "string"
+    }
+  },
+  "CreditsInfo": {
+    "source": "handlers/api/whoami.cs",
+    "class": "CreditsInfo",
+    "properties": {
+      "purchased": "int",
+      "used": "int",
+      "remaining": "int",
+      "costs": "CreditCosts"
+    }
+  },
+  "CreditCosts": {
+    "source": "handlers/api/whoami.cs",
+    "class": "CreditCosts",
+    "properties": {
+      "domain_api_lookup": "int",
+      "vat_api_lookup": "int",
+      "domain_api_bulk_per_domain": "int",
+      "relationships_api_lookup": "int",
+      "company_to_url_api_lookup": "int",
+      "tags_api_lookup": "int",
+      "recommendations_api_lookup": "int",
+      "redirects_api_lookup": "int",
+      "keywords_api_lookup": "int",
+      "product_api_lookup": "int",
+      "trust_api_lookup": "int",
+      "free_api_lookup": "int",
+      "trends_api_lookup": "int",
+      "vector_search_api_lookup": "int",
+      "lists_api": "string",
+      "keyword_search_api": "string"
+    }
+  },
+  "PrivacyInfo": {
+    "source": "handlers/api/whoami.cs",
+    "class": "PrivacyInfo",
+    "properties": {
+      "pii_allowed": "bool",
+      "default_privacy_mode": "string",
+      "flags_supported": "string[]"
+    }
+  },
+  "EndpointsInfo": {
+    "source": "handlers/api/whoami.cs",
+    "class": "EndpointsInfo",
+    "properties": {
+      "base_url": "string",
+      "docs_url": "string",
+      "supported_formats": "string[]",
+      "operations": "Operation[]"
+    }
+  },
+  "Operation": {
+    "source": "handlers/api/whoami.cs",
+    "class": "Operation",
+    "properties": {
+      "id": "string",
+      "method": "string",
+      "path": "string",
+      "parameters": "ParameterInfo[]"
+    }
+  },
+  "ParameterInfo": {
+    "source": "handlers/api/whoami.cs",
+    "class": "ParameterInfo",
+    "properties": {
+      "name": "string",
+      "required": "bool",
+      "example": "string",
+      "description": "string"
+    }
+  },
+  "UsageResponse": {
+    "source": "handlers/api/usage.cs",
+    "class": "usagev2",
+    "properties": {
+      "used": "int",
+      "purchased": "int",
+      "remaining": "int"
+    }
+  }
+}

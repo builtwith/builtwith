@@ -1,0 +1,105 @@
+{
+  "info": {
+    "_postman_id": "5fe84af2-614f-5354-a57a-901dfc563141",
+    "name": "Stripe MPP API 💳💳💳",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "- No existing BuiltWith account or API key is required. Connect to `https://api.builtwith.com/mcp` without authentication and start with `mpp-catalog`.\n- MCP flow: `mpp-catalog` -> `mpp-purchase` -> authorize the returned challenge with a Stripe MPP wallet -> retry the identical purchase -> `mpp-data` with the returned `access_token`.\n- HTTP catalog: `GET https://payments.builtwith.com/v1/mpp/catalog`. Purchase: `POST https://payments.builtwith.com/v1/mpp/purchase`.\n- Smallest guest purchase: `{\"product\":\"api-credits\",\"credits\":10,\"token_hours\":24}` costs US$0.50 for 10 lookups. Up to 1,999 credits use the normal entry rate ($0.0495 each), rounded to cents with Stripe's $0.50 minimum; quantities of 2,000 or more use existing tiered pricing.\n- Guest tokens default to 24 hours from fulfilment. Set integer `token_hours` from 1 to 720 in the initial purchase to request another duration. Retrying does not extend expiry. Keep the token and purchase recovery key secret; expired guest access cannot spend remaining credits.\n- Guest requests require a newly generated random UUID in `Idempotency-Key`. Repeat the same body and key for every retry/status check, and add the MPP `Authorization: Payment ...` credential to pay. Do not start another purchase to recover an uncertain charge.\n- Success returns `access_token`, `token_expires` and `Payment-Receipt`. Use the token with `mpp-data`, `Authorization: Bearer TOKEN` on MCP, or `Authorization: API TOKEN` on REST.\n- Products remain `basic` ($295), `pro` ($495), `team` ($995), and `api-credits`. Lists/prospect searches require a plan; a small lookup-credit purchase does not grant Lists access. Plans are non-recurring and last one calendar month; guest token expiry is separate.\n- Existing accounts may continue sending `X-BuiltWith-API-Key`. Their existing purchase rules, including the 2,000-credit minimum, are unchanged; omit `token_hours` for existing-account purchases.\n- Stripe MPP accepts card SPTs only. x402 Base USDC and saved-card billing are separate integrations.\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected."
+  },
+  "item": [
+    {
+      "name": "Get Product Catalog",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://payments.builtwith.com/v1/mpp/catalog",
+          "protocol": "https",
+          "host": [
+            "payments",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "mpp",
+            "catalog"
+          ],
+          "query": []
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Purchase Guest Credits",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{mppIdempotencyKey}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Payment {{mppPaymentCredential}}",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://payments.builtwith.com/v1/mpp/purchase",
+          "protocol": "https",
+          "host": [
+            "payments",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "mpp",
+            "purchase"
+          ],
+          "query": []
+        },
+        "description": "Payment operation. Generate one UUID into mppIdempotencyKey before the first request; reuse the identical body and key for every retry. Authorize the returned challenge with a Stripe MPP wallet, then enable the Payment authorization header.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"product\": \"api-credits\",\n  \"credits\": 10,\n  \"token_hours\": 24\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string",
+      "description": "Set your BuiltWith API key locally; do not share its value."
+    },
+    {
+      "key": "mppIdempotencyKey",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "mppPaymentCredential",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

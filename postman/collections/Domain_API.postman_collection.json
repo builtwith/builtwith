@@ -1,0 +1,629 @@
+{
+  "info": {
+    "_postman_id": "986425df-d1c9-4f46-995b-ef11bbd086a2",
+    "name": "Domain API 🍔🍔🍔",
+    "description": "- Endpoint: `GET /v26/api.{json|xml|csv|xlsx}` - technology and metadata for a domain.\n- Example: `https://api.builtwith.com/v26/api.json?KEY=YOUR_KEY&LOOKUP=example.com`\nDomain API v26 includes `Meta.company_reg`, an array of company registrations with string `type` and `number` fields, for example `\"company_reg\": [{\"type\":\"ABN\",\"number\":\"23232322\"}]`. The array is empty when no registrations are available, including with `NOMETA=yes`. Registration numbers are strings to preserve leading zeros. Company registration metadata is available in JSON and XML.\n\n- Credits: 1 per domain looked up.\n- `v26` includes `Result.SpendHistory` (historic monthly spend as `{D, S}` pairs), per-result `SalesRevenue`, and per-technology `Id`; earlier Domain API versions remain available with their existing response formats and omit `confidence`.\n\n### Parameters\n- `KEY` (required) - your API key.\n- `LOOKUP` (required) - root domain to look up. Multi-lookup: up to 16 domains as CSV, for example `cnn.com,about.com,builtwith.com`.\n- `HIDETEXT` (`yes`) - hide technology description, link, tag and category fields.\n- `HIDEDL` (`yes`) - hide technology description and link fields (keep tag and categories).\n- `LIVEONLY` (`yes`) - only return technologies considered live.\n- `TRUST` (`yes`) - include Trust data, same as an additional Trust API call; uses an additional API credit.\n- `NOMETA` (`yes`) - no meta data (address, names etc.) returned; improves performance.\n- `NOPII` (`yes`) - remove people names/emails. EU and California PII is automatically removed regardless.\n- `NOATTR` (`yes`) - no attributes data returned; improves performance.\n- `IP` (`yes`) - include IP address information when available.\n- `FDRANGE` (`YYYY-MM-DD|YYYY-MM-DD`) - filter technologies by first detected date range.\n- `LDRANGE` (`YYYY-MM-DD|YYYY-MM-DD`) - filter technologies by last detected date range.\n\n### Index lookups (no LOOKUP needed)\n- `GET /v26/api.json?KEY=YOUR_KEY&CATEGORIES=yes` - full technology category index (tags with sub-categories).\n- `GET /v26/api.json?KEY=YOUR_KEY&VERTICALS=1` - list of valid `Vertical` values.\n\n### Response object\nFormat: `Results[ Lookup, Result -> Paths[ Path -> Technologies[Technology] ], Meta, Attributes ], Errors[]`\n\nResult-level fields:\n- `Lookup` - the domain that was looked up.\n- `IsDB` - `True`/`False`/`Misleading`: whether the lookup used the database or visited the site; `Misleading` means a user-generated-content site profile.\n- `Result.Spend` - average monthly USD tech spend based on detected technologies.\n- `Result.SalesRevenue` - estimated monthly USD sales revenue for eCommerce sites (0 for non-eCommerce).\n- `Result.SpendHistory` - array of `{D, S}` (epoch-millisecond date, USD spend) across domain coverage; max 60 periods between first/last indexed.\n- `Meta` - meta data object (below).\n- `Attributes` - attributes object (below).\n- `FirstIndexed` / `LastIndexed` - earliest/most recent index points for the entire domain.\n\nPath fields:\n- `Domain` - the root domain.\n- `Url` - `dd` means path data built from multiple sub-pages (domain-only lookups).\n- `SubDomain` - subdomain of the profile (e.g. `blog` + `disney.com` = blog.disney.com).\n- `FirstIndexed` / `LastIndexed` - earliest/most recent index points for this path.\n\nTechnology fields:\n- `Name` - name of the technology found.\n- `Id` - BuiltWith technology integer identifier (v26).\n- `Parent` - parent technology name (for versions etc.).\n- `Description` - description of the technology.\n- `Link` - link to the technology website.\n- `IsPremium` - is this a paid technology: `yes`, `no`, or `maybe`.\n- `Tag` - base category (see the `CATEGORIES=yes` index).\n- `Categories` - array of sub-categories for the tag.\n- `FirstDetected` / `LastDetected` - dates the technology was first/last detected.\n- `confidence` - lowercase numeric field in every v26 technology record, from 0 to 1 inclusive. JSON uses `\"confidence\": 0.75`; XML uses `<confidence>0.75</confidence>`. CSV/XLSX include a `confidence` column. See the scoring rules below.\n\n### Technology confidence scoring\n\nRecords whose `Tag` is `operations` always have `confidence` of 0.5, overriding all scam/gambling, parked and one-off rules. Tag matching is case-insensitive.\n\nAll other technologies start at 1. Apply these rules in order:\n\n1. If any active technology's `Name` ends with ` scam` or equals `Gambling Content`, set scores to 0 except technologies whose names end with ` scam` or equal `Gambling Content` and records whose `Tag` is `hosting`, `mx`, `parked`, `registrar`, `ns` or `Server`.\n2. If any active technology's `Tag` is `parked`, subtract 0.5 from every score except records tagged `parked` or `hosting`.\n3. If a technology's `FirstDetected` equals its `LastDetected`, subtract 0.25 from that record. This one-off deduction also applies to scam, Gambling Content, parked, hosting and other server records.\n4. Clamp the final score to a minimum of 0. Deductions combine; the resulting score is always between 0 and 1.\n\nName suffix and tag comparisons are case-insensitive. The leading space in ` scam` is required; `Gambling Content` must match the whole name. Active means `LastDetected` is strictly later than the current full database update cutoff, matching `LIVEONLY`. Historical scam, Gambling Content or parked detections do not trigger domain-wide deductions.\n\nScam/gambling and parked signals apply across all paths within each lookup domain, independently for each domain in a batch. Signals are captured before `FDRANGE`, `LDRANGE` or `LIVEONLY` can remove detections. `HIDETEXT` and `HIDEDL` do not change the scores or remove `confidence`.\n\nExamples:\n\n| Technology and domain signals | confidence |\n| --- | --- |\n| Any operations-tagged record, regardless of detection dates or active scam/parked signals | 0.5 |\n| Ordinary repeated detection, no active scam or parked signal | 1 |\n| Ordinary one-off detection, no active scam or parked signal | 0.75 |\n| Ordinary repeated detection on an actively parked domain | 0.5 |\n| Ordinary one-off detection on an actively parked domain | 0.25 |\n| Ordinary detection on a domain with an active scam or Gambling Content technology | 0 |\n| Repeated Gambling Content detection, without an active parked signal | 1 |\n| Hosting one-off detection, with both active scam and parked signals | 0.75 |\n| Repeated scam technology on an actively parked domain, with a tag other than parked or hosting | 0.5 |\n\n### Metadata and attributes\n\n\nMeta fields:\n- `ARank` - Page Rank, 1 to 100,000,000.\n- `QRank` - Tranco traffic rank, 1 to 1,000,000.\n- `Majestic` - Majestic rank, 1 to 1,000,000.\n- `Umbrella` - Umbrella global router traffic rank, 1 to 1,000,000.\n- `CompanyName`, `City`, `Postcode`, `State`, `Country` (ISO 3166-1 alpha-2), `Vertical` (see `VERTICALS=1` index), `PrimaryBusiness` (primary business classification name, or blank).\n- `Telephones[]`, `Emails[]`, `Social[]` - contact details and social presence.\n- `Names[]` - people: `Name`, `Level` (job title), `Email`. Removed when `NOPII=yes`.\n\nAttributes fields:\n- `MJRank`, `MJTLDRank` - Majestic rank and top-level-domain rank.\n- `RefSN`, `RefIP` - referring subnet and IP counts.\n- `Sitemap` - sitemap link count.\n- `GTMTags`, `QubitTags`, `TealiumTags`, `AdobeTags` - tag manager tag counts.\n- `CDimensions`, `CGoals`, `CMetrics` - custom analytics dimension/goal/metric counts.\n- `Followers` - brand social followers, grouped (1000 = 1000+ but under 2000).\n- `ProductCount` - SKU product count.\n- `Employees` - employee count estimate.\n- `PageRank`, `BWRank`, `Tranco`, `BWS` - rank attribute values.\n- `Revenue` - revenue attribute value.\n- `EcommerceCategory` - eCommerce category id.\n- `AIMaturity`, `AIOpenness`, `AIReadiness`, `AIVisibility` - AI scores.\n- `TTFB` - time to first byte.\n- `SourceBytes` - source byte count.\n\nSample response (fields abridged; full sample at `https://api.builtwith.com/samples/domain_api_v22.json`; v26 uses the same shape plus `Meta.company_reg`, `SpendHistory`, `SalesRevenue`, and technology `Id` and `confidence`):\n```json\n{\n  \"Results\": [\n    {\n      \"Lookup\": \"example.com\",\n      \"Result\": {\n        \"Paths\": [\n          {\n            \"Technologies\": [\n              {\n                \"Name\": \"nginx\",\n                \"Id\": 1515864597,\n                \"confidence\": 1,\n                \"Tag\": \"Web Server\",\n                \"Categories\": [\"Web Server\"],\n                \"FirstDetected\": 1700000000000,\n                \"LastDetected\": 1760000000000,\n                \"IsPremium\": \"No\"\n              }\n            ]\n          }\n        ],\n        \"Spend\": 11390,\n        \"SalesRevenue\": 0,\n        \"SpendHistory\": [{ \"D\": 1140042000000, \"S\": 100 }]\n      },\n      \"Meta\": {\n        \"PrimaryBusiness\": \"Travel & Tourism\",\n        \"company_reg\": [{\"type\": \"ABN\", \"number\": \"23232322\"}],\n        \"CompanyName\": \"Example Inc\",\n        \"Country\": \"US\"\n      }\n    }\n  ],\n  \"Errors\": []\n}\n```\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Single Domain",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "e53f665c-070c-4ed4-96a2-8dfd6af9cae5",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "id": "29999913-5d15-4073-9aae-591039305bea",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true,
+        "strictSSL": false
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/v26/api.json?LOOKUP=hotelscombined.com&KEY={{KEY}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "v26",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "LOOKUP",
+              "value": "hotelscombined.com"
+            },
+            {
+              "key": "KEY",
+              "value": "{{KEY}}",
+              "description": "Your API key from https://api.builtwith.com"
+            }
+          ]
+        },
+        "description": "Gets a single Domain lookup result. Output is JSON representation similar to Detailed Web Lookups - [https://builtwith.com/detailed/wayfair.com](https://builtwith.com/detailed/wayfair.com)"
+      },
+      "response": [],
+      "createdAt": "2024-08-14T01:08:38.000Z",
+      "updatedAt": "2024-10-14T06:31:31.000Z",
+      "uid": "37668266-29999913-5d15-4073-9aae-591039305bea"
+    },
+    {
+      "name": "Get Multiple Domains",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "e53f665c-070c-4ed4-96a2-8dfd6af9cae5",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "id": "236966f1-837e-4525-9b48-281a6c140496",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/v26/api.json?LOOKUP=hotelscombined.com,builtwith.com&KEY={{KEY}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "v26",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "LOOKUP",
+              "value": "hotelscombined.com,builtwith.com",
+              "description": "Comma Seperated list of domain names"
+            },
+            {
+              "key": "KEY",
+              "value": "{{KEY}}",
+              "description": "Your API key from https://api.builtwith.com"
+            }
+          ]
+        },
+        "description": "Gets multiple domain lookup results in a single call."
+      },
+      "response": [],
+      "createdAt": "2024-08-14T01:52:51.000Z",
+      "updatedAt": "2024-08-14T01:57:12.000Z",
+      "uid": "37668266-236966f1-837e-4525-9b48-281a6c140496"
+    },
+    {
+      "name": "High Throughput Lookups",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "e53f665c-070c-4ed4-96a2-8dfd6af9cae5",
+            "exec": [
+              "var template = `\r",
+              "<canvas id=\"myChart\" height=\"75\"></canvas>\r",
+              "\r",
+              "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js\"></script> \r",
+              "\r",
+              "<script>\r",
+              "    var ctx = document.getElementById(\"myChart\");\r",
+              "\r",
+              "    var myChart = new Chart(ctx, {\r",
+              "        type: \"line\",\r",
+              "        data: {\r",
+              "            labels: ['Spend History'],\r",
+              "            datasets: [{\r",
+              "                data: [],\r",
+              "                \r",
+              "                // Change these colours to customize the chart\r",
+              "                borderColor: \"#003f5c\",\r",
+              "                fill: false,\r",
+              "            }]\r",
+              "        },\r",
+              "        options: {\r",
+              "            title: {\r",
+              "                display: true,\r",
+              "                text: 'Spend History'\r",
+              "            },\r",
+              "            scales: {\r",
+              "                xAxes: [{\r",
+              "                    display: true,\r",
+              "                    scaleLabel: {\r",
+              "                        display: true,\r",
+              "                        labelString: 'Date'\r",
+              "                    }\r",
+              "                }],\r",
+              "                yAxes: [{\r",
+              "                    display: true,\r",
+              "                    scaleLabel: {\r",
+              "                        display: true,\r",
+              "                        labelString: 'Spend'\r",
+              "                    }\r",
+              "                }]\r",
+              "            }\r",
+              "        }\r",
+              "\r",
+              "    });\r",
+              "\r",
+              "    // Access the data passed to pm.visualizer.set() from the JavaScript\r",
+              "    // code of the Visualizer template\r",
+              "    pm.getData(function (err, value) {\r",
+              "        var results = value.response.Results[0].Result.SpendHistory;\r",
+              "        var spendData = results.map(item => item.S);\r",
+              "        var dateData = results.map(item => item.D);\r",
+              "        myChart.data.datasets[0].data = spendData;\r",
+              "        myChart.data.labels = dateData;\r",
+              "        myChart.update();\r",
+              "    });\r",
+              "\r",
+              "</script>`;\r",
+              "\r",
+              "function constructVisualizerPayload() {\r",
+              "    var res = pm.response.json();\r",
+              "    return {response: res};\r",
+              "}\r",
+              "\r",
+              "pm.visualizer.set(template, constructVisualizerPayload());"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "id": "af6f6931-2314-44d1-8603-1e63bc966768",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/v26/api.json?KEY={{KEY}}&HIDETEXT=yes&NOMETA=yes&NOPII=yes&NOATTR=yes&LOOKUP=site1.com,site2.com,site3.com,site4.com,site5.com,site6.com,site7.com,site8.com,site9.com,site10.com,site11.com,site12.com,site13.com,site14.com,site15.com,site16.com",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "v26",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}",
+              "description": "Your API key from https://api.builtwith.com"
+            },
+            {
+              "key": "HIDETEXT",
+              "value": "yes"
+            },
+            {
+              "key": "NOMETA",
+              "value": "yes"
+            },
+            {
+              "key": "NOPII",
+              "value": "yes"
+            },
+            {
+              "key": "NOATTR",
+              "value": "yes"
+            },
+            {
+              "key": "LOOKUP",
+              "value": "site1.com,site2.com,site3.com,site4.com,site5.com,site6.com,site7.com,site8.com,site9.com,site10.com,site11.com,site12.com,site13.com,site14.com,site15.com,site16.com",
+              "description": "CSV of 16 domain names"
+            }
+          ]
+        },
+        "description": "Gets multiple domains quickly. Output is JSON representation similar to Detailed Web Lookups - [https://builtwith.com/detailed/wayfair.com](https://builtwith.com/detailed/wayfair.com)"
+      },
+      "response": [],
+      "createdAt": "2024-08-14T01:55:47.000Z",
+      "updatedAt": "2024-08-14T05:46:09.000Z",
+      "uid": "37668266-af6f6931-2314-44d1-8603-1e63bc966768"
+    },
+    {
+      "name": "Get Single Domain All Parameters",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "e53f665c-070c-4ed4-96a2-8dfd6af9cae5",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "id": "5003bbdf-73b0-4906-a0f2-74e059d49eba",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/v26/api.json?LOOKUP=hotelscombined.com&KEY={{KEY}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "v26",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "LOOKUP",
+              "value": "hotelscombined.com"
+            },
+            {
+              "key": "KEY",
+              "value": "{{KEY}}",
+              "description": "Your API key from https://api.builtwith.com"
+            },
+            {
+              "key": "HIDETEXT",
+              "value": "yes",
+              "disabled": true,
+              "description": "Optional flag; enable to apply."
+            },
+            {
+              "key": "HIDEDL",
+              "value": "yes",
+              "disabled": true,
+              "description": "Optional flag; enable to apply."
+            },
+            {
+              "key": "LIVEONLY",
+              "value": "yes",
+              "disabled": true,
+              "description": "Optional flag; enable to apply."
+            },
+            {
+              "key": "TRUST",
+              "value": "yes",
+              "disabled": true,
+              "description": "Optional. TRUST uses an additional API credit."
+            },
+            {
+              "key": "NOMETA",
+              "value": "yes",
+              "disabled": true,
+              "description": "Optional flag; enable to apply."
+            },
+            {
+              "key": "NOPII",
+              "value": "yes",
+              "disabled": true,
+              "description": "Optional flag; enable to apply."
+            },
+            {
+              "key": "NOATTR",
+              "value": "yes",
+              "disabled": true,
+              "description": "Optional flag; enable to apply."
+            },
+            {
+              "key": "IP",
+              "value": "yes",
+              "disabled": true,
+              "description": "Optional flag; enable to apply."
+            },
+            {
+              "key": "FDRANGE",
+              "value": "2026-01-01|2026-11-01",
+              "disabled": true,
+              "description": "First/last detection date range."
+            },
+            {
+              "key": "LDRANGE",
+              "value": "2026-01-01|2026-11-01",
+              "disabled": true,
+              "description": "First/last detection date range."
+            }
+          ]
+        },
+        "description": "Gets a single Domain lookup result with all possible parameters. Output is JSON representation similar to Detailed Web Lookups - [https://builtwith.com/detailed/wayfair.com](https://builtwith.com/detailed/wayfair.com)"
+      },
+      "response": [],
+      "createdAt": "2024-08-14T01:58:08.000Z",
+      "updatedAt": "2024-08-14T02:05:03.000Z",
+      "uid": "37668266-5003bbdf-73b0-4906-a0f2-74e059d49eba"
+    },
+    {
+      "name": "Technology Category Index",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/v26/api.json?KEY={{KEY}}&CATEGORIES=yes",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "v26",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "CATEGORIES",
+              "value": "yes"
+            }
+          ]
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Vertical Index",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/v26/api.json?KEY={{KEY}}&VERTICALS=1",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "v26",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "VERTICALS",
+              "value": "1"
+            }
+          ]
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Other Formats",
+      "item": [
+        {
+          "name": "Get Single Domain (XML)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "e53f665c-070c-4ed4-96a2-8dfd6af9cae5",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true,
+            "strictSSL": false
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/v26/api.xml?LOOKUP=hotelscombined.com&KEY={{KEY}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "v26",
+                "api.xml"
+              ],
+              "query": [
+                {
+                  "key": "LOOKUP",
+                  "value": "hotelscombined.com"
+                },
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}",
+                  "description": "Your API key from https://api.builtwith.com"
+                }
+              ]
+            },
+            "description": "Gets a single Domain lookup result. Output is JSON representation similar to Detailed Web Lookups - [https://builtwith.com/detailed/wayfair.com](https://builtwith.com/detailed/wayfair.com)"
+          },
+          "response": [],
+          "createdAt": "2024-08-14T01:08:38.000Z",
+          "updatedAt": "2024-10-14T06:31:31.000Z",
+          "uid": "37668266-29999913-5d15-4073-9aae-591039305bea"
+        },
+        {
+          "name": "Get Single Domain (CSV)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "e53f665c-070c-4ed4-96a2-8dfd6af9cae5",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true,
+            "strictSSL": false
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/v26/api.csv?LOOKUP=hotelscombined.com&KEY={{KEY}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "v26",
+                "api.csv"
+              ],
+              "query": [
+                {
+                  "key": "LOOKUP",
+                  "value": "hotelscombined.com"
+                },
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}",
+                  "description": "Your API key from https://api.builtwith.com"
+                }
+              ]
+            },
+            "description": "Gets a single Domain lookup result. Output is JSON representation similar to Detailed Web Lookups - [https://builtwith.com/detailed/wayfair.com](https://builtwith.com/detailed/wayfair.com)"
+          },
+          "response": [],
+          "createdAt": "2024-08-14T01:08:38.000Z",
+          "updatedAt": "2024-10-14T06:31:31.000Z",
+          "uid": "37668266-29999913-5d15-4073-9aae-591039305bea"
+        },
+        {
+          "name": "Get Single Domain (XLSX)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "e53f665c-070c-4ed4-96a2-8dfd6af9cae5",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true,
+            "strictSSL": false
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/v26/api.xlsx?LOOKUP=hotelscombined.com&KEY={{KEY}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "v26",
+                "api.xlsx"
+              ],
+              "query": [
+                {
+                  "key": "LOOKUP",
+                  "value": "hotelscombined.com"
+                },
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}",
+                  "description": "Your API key from https://api.builtwith.com"
+                }
+              ]
+            },
+            "description": "Gets a single Domain lookup result. Output is JSON representation similar to Detailed Web Lookups - [https://builtwith.com/detailed/wayfair.com](https://builtwith.com/detailed/wayfair.com)"
+          },
+          "response": [],
+          "createdAt": "2024-08-14T01:08:38.000Z",
+          "updatedAt": "2024-10-14T06:31:31.000Z",
+          "uid": "37668266-29999913-5d15-4073-9aae-591039305bea"
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "dd8dd92f-db1d-406f-96e8-5330617e7e38",
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "399478e0-a0fe-4288-a06b-9b7e3c39261a",
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string"
+    }
+  ]
+}

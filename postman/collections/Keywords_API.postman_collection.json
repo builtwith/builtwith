@@ -1,0 +1,182 @@
+{
+  "info": {
+    "_postman_id": "b9fcca12-fd1c-4f29-b0d1-04761d16aa16",
+    "name": "Keywords API 🗝️🗝️🗝️",
+    "description": "- Endpoint: `GET /kw2/api.{json|xml}` - keywords for a domain.\n- Example: `https://api.builtwith.com/kw2/api.json?KEY=YOUR_KEY&LOOKUP=example.com`\n- Credits: 1 per lookup.\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Domain Keywords",
+      "id": "7717ee35-e575-4db2-9a47-4846423a2284",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "Get the keywords related to a domain name.",
+        "url": {
+          "raw": "https://api.builtwith.com/kw2/api.json?KEY={{KEY}}&LOOKUP=example.com",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "kw2",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "LOOKUP",
+              "value": "example.com"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "e5a0d93d-8bee-48fb-ab64-565f59825b50",
+          "name": "Get Domain Keywords Example",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/kw2/api.json?KEY={{KEY}}&LOOKUP=builtwith.com",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "kw2",
+                "api.json"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "LOOKUP",
+                  "value": "builtwith.com"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Cache-Control",
+              "value": "private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Server",
+              "value": "Microsoft-IIS/10.0"
+            },
+            {
+              "key": "X-API-CREDITS-AVAILABLE",
+              "value": "50"
+            },
+            {
+              "key": "X-API-CREDITS-USED",
+              "value": "17"
+            },
+            {
+              "key": "X-UA-Compatible",
+              "value": "IE=Edge,chrome=1"
+            },
+            {
+              "key": "cross-origin-resource-policy",
+              "value": "same-site"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000; includeSubDomains; preload"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 14 Aug 2024 03:25:23 GMT"
+            },
+            {
+              "key": "Content-Length",
+              "value": "108"
+            }
+          ],
+          "cookie": [],
+          "responseTime": null,
+          "body": "{\n    \"Keywords\": [\n        {\n            \"Domain\": \"builtwith.com\",\n            \"Keywords\": [\n                \"builtwith\",\n                \"articles\",\n                \"base\",\n                \"knowledge\"\n            ]\n        }\n    ],\n    \"Errors\": []\n}",
+          "createdAt": "2024-08-14T03:25:30.000Z",
+          "updatedAt": "2024-08-14T03:25:44.000Z",
+          "uid": "37668266-e5a0d93d-8bee-48fb-ab64-565f59825b50"
+        }
+      ],
+      "createdAt": "2024-08-14T03:25:05.000Z",
+      "updatedAt": "2025-07-10T01:43:44.000Z",
+      "uid": "37668266-7717ee35-e575-4db2-9a47-4846423a2284"
+    },
+    {
+      "name": "Other Formats",
+      "item": [
+        {
+          "name": "Get Domain Keywords (XML)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "description": "Get the keywords related to a domain name.",
+            "url": {
+              "raw": "https://api.builtwith.com/kw2/api.xml?KEY={{KEY}}&LOOKUP=example.com",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "kw2",
+                "api.xml"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "LOOKUP",
+                  "value": "example.com"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "createdAt": "2024-08-14T03:25:05.000Z",
+          "updatedAt": "2025-07-10T01:43:44.000Z",
+          "uid": "37668266-7717ee35-e575-4db2-9a47-4846423a2284"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "info": {
+    "_postman_id": "d4c43405-e48a-455c-80e3-61ec6ffca0a7",
+    "name": "Trends API 📈📊📉",
+    "description": "- Endpoint: `GET /trends/v6/api.{json|xml}` - technology trend metadata.\n- Example: `https://api.builtwith.com/trends/v6/api.json?KEY=YOUR_KEY&TECH=Shopify`\n- Credits: free.\n- Use it to validate a technology name before spending credits on Lists API or Live Feed calls: a valid `TECH` returns a `Tech` object, an unknown name returns `Errors` with code `-8`. Use `Tech.name` as the canonical name in other endpoints.\n- If validation fails, discover the correct name with the Vector Search API (`/vector/v1/`) or browse `https://trends.builtwith.com`.\n\nSample response for a valid `TECH`:\n```json\n{\n  \"Tech\": {\n    \"name\": \"Shopify\",\n    \"tag\": \"shop\",\n    \"categories\": [\"Ecommerce\"],\n    \"description\": \"Hosted shopping cart solution.\",\n    \"is_premium\": \"false\",\n    \"icon\": \"https://x.cdnpi.pe/serve/.../shopify.com\",\n    \"link\": \"https://kb.builtwith.com/...\",\n    \"trends_link\": \"//trends.builtwith.com/shop/Shopify\",\n    \"coverage\": {\n      \"ten_k\": 500,\n      \"hundred_k\": 5000,\n      \"milly\": 50000,\n      \"live\": 1000000,\n      \"expired\": 2000000\n    }\n  }\n}\n```\n`coverage` counts sites in the top 10k/100k/1m, plus total live and expired detections.\n\nSample response for an unknown `TECH`:\n```json\n{\n  \"Errors\": [\n    {\n      \"Message\": \"Not a valid technology to lookup sorry - find the exact name with the Vector Search API https://api.builtwith.com/vector/v1/api.json?KEY=YOUR_KEY&QUERY=... or browse trends.builtwith.com\",\n      \"Code\": -8\n    }\n  ]\n}\n```\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Technology Trends History",
+      "id": "43a9c3bf-ca03-41bf-bd1f-4ac3a107419a",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/trends/v6/api.json?KEY={{KEY}}&TECH=Magento",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "trends",
+            "v6",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            },
+            {
+              "key": "TECH",
+              "value": "Magento",
+              "description": "Technology name from https://trends.builtwith.com"
+            },
+            {
+              "key": "DATE",
+              "value": "2016-01-20",
+              "description": "Totals will be the closest to this date - providing the ability to get historical totals.\t",
+              "type": "text",
+              "disabled": true
+            }
+          ]
+        },
+        "description": "Get the technology trends usage totals historically."
+      },
+      "response": [],
+      "createdAt": "2024-08-14T03:27:42.000Z",
+      "updatedAt": "2025-07-10T01:43:37.000Z",
+      "uid": "37668266-43a9c3bf-ca03-41bf-bd1f-4ac3a107419a"
+    },
+    {
+      "name": "Other Formats",
+      "item": [
+        {
+          "name": "Get Technology Trends History (XML)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.builtwith.com/trends/v6/api.xml?KEY={{KEY}}&TECH=Magento",
+              "protocol": "https",
+              "host": [
+                "api",
+                "builtwith",
+                "com"
+              ],
+              "path": [
+                "trends",
+                "v6",
+                "api.xml"
+              ],
+              "query": [
+                {
+                  "key": "KEY",
+                  "value": "{{KEY}}"
+                },
+                {
+                  "key": "TECH",
+                  "value": "Magento",
+                  "description": "Technology name from https://trends.builtwith.com"
+                },
+                {
+                  "key": "DATE",
+                  "value": "2016-01-20",
+                  "description": "Totals will be the closest to this date - providing the ability to get historical totals.\t",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Get the technology trends usage totals historically."
+          },
+          "response": [],
+          "createdAt": "2024-08-14T03:27:42.000Z",
+          "updatedAt": "2025-07-10T01:43:37.000Z",
+          "uid": "37668266-43a9c3bf-ca03-41bf-bd1f-4ac3a107419a"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string"
+    }
+  ]
+}

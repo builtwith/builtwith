@@ -1,0 +1,49 @@
+{
+  "info": {
+    "_postman_id": "e126b241-101c-5b33-9537-0cb56976ad94",
+    "name": "WhoAmI API 👤👤👤",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "- Endpoint: `GET /whoamiv1/api.json?KEY=YOUR_KEY`\n- Credits: no API credits used.\n- Purpose: discover account limits, credit costs, privacy flags, max batch sizes, supported formats, and endpoint inventory.\n- Important fields:\n  - `account.email`, `account.plan`, `account.plan_expiry`.\n  - `account.max_batch_size.domain_lookup`: max domains in normal Domain API lookup batches (currently 16).\n  - `account.max_batch_size.domain_bulk_submit`: max domains in Bulk Domain API jobs (currently 5000).\n  - `rate_limits`: current requests-per-second and concurrency guidance.\n  - `credits.purchased`, `credits.used`, `credits.remaining` and `credits.costs`: per-endpoint credit cost hints.\n  - `privacy.pii_allowed`, `privacy.default_privacy_mode`, `privacy.flags_supported` (such as `NOPII`).\n  - `endpoints.supported_formats` and `endpoints.operations`: machine-readable endpoint inventory with parameters.\n\nExample response shape:\n```json\n{\n  \"account\": {\n    \"email\": \"user@example.com\",\n    \"plan\": \"pro\",\n    \"plan_expiry\": \"2026-12-31T00:00:00Z\",\n    \"max_batch_size\": {\n      \"domain_lookup\": 16,\n      \"vat_lookup\": 16,\n      \"domain_bulk_submit\": 5000\n    }\n  },\n  \"rate_limits\": {\n    \"requests_per_second\": 10,\n    \"concurrency\": 8\n  },\n  \"credits\": {\n    \"purchased\": 200000,\n    \"used\": 1234,\n    \"remaining\": 198766,\n    \"costs\": {\n      \"domain_api_lookup\": 1,\n      \"vat_api_lookup\": 1,\n      \"free_api_lookup\": 0,\n      \"lists_api\": \"requires_subscription\"\n    }\n  },\n  \"privacy\": {\n    \"pii_allowed\": true,\n    \"default_privacy_mode\": \"pii\",\n    \"flags_supported\": [\"NOPII\"]\n  },\n  \"endpoints\": {\n    \"base_url\": \"https://api.builtwith.com\",\n    \"supported_formats\": [\"json\", \"xml\", \"csv\", \"tsv\", \"txt\"],\n    \"operations\": [\n      { \"id\": \"domain.lookup\", \"method\": \"GET\", \"path\": \"/v26/api.json\" }\n    ]\n  }\n}\n```\n\nUpdated 2026-11-10 from https://api.builtwith.com/llms-full.txt. Set KEY locally. Requests are examples; sending data requests may consume credits. Optional query parameters are disabled until selected."
+  },
+  "item": [
+    {
+      "name": "Get Account Capabilities",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.builtwith.com/whoamiv1/api.json?KEY={{KEY}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "builtwith",
+            "com"
+          ],
+          "path": [
+            "whoamiv1",
+            "api.json"
+          ],
+          "query": [
+            {
+              "key": "KEY",
+              "value": "{{KEY}}"
+            }
+          ]
+        },
+        "description": "",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "KEY",
+      "value": "{{KEY}}",
+      "type": "string",
+      "description": "Set your BuiltWith API key locally; do not share its value."
+    }
+  ]
+}

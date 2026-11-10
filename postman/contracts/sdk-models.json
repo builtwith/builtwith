@@ -1,0 +1,401 @@
+{
+  "source": "https://github.com/builtwith/builtwith-csharp-api",
+  "files": {
+    "BuiltWith/Models/AgentAuthApi.cs": "641feb697c46910b5feea50d251eed0d1e6259219955f72c99e213b4bbba58f8",
+    "BuiltWith/Models/AskApi.cs": "532b99bb7a6a140cd723fc87b6913128e1db82b658bbe98d78b38f0633525eea",
+    "BuiltWith/Models/ChangeApi.cs": "99d417c20638e172ed016dbfb25f0e5267455968cca9c40c5fcf73ff7abc3742",
+    "BuiltWith/Models/CompanyToUrlApi.cs": "4bf8bbbeb0912137f372b1bcc449aa06b1b6cc0fb5fbbad4b3f938ed73371f7e",
+    "BuiltWith/Models/DomainApi.cs": "9a5dfdb27d03c5729c8a96ea81c3a9a2673b29467fd3089154e2185941f84c72",
+    "BuiltWith/Models/FreeApi.cs": "adf0698e4e3bc95f3a4c8c59d02082e35744b80beba5143e725ae30eb6e92334",
+    "BuiltWith/Models/KeywordsApi.cs": "cb5fcbb183798685e8fbfc9841050275c31100937450605bd9646a528a187d7c",
+    "BuiltWith/Models/KeywordSearchApi.cs": "8ccddf30a7862210f8bcdd4a8d3b8e5767c9ce61aab04c66ef000df2340f330a",
+    "BuiltWith/Models/ListsApi.cs": "90bb3025a5d7bcb264051082839b68d9a0f9d5b78d01473e5233371603e6b43f",
+    "BuiltWith/Models/McpRegistryV2Api.cs": "70a4d4135a20572a4eace3bbaf49dc6487400051cef43a725d7e9ec14500dcf8",
+    "BuiltWith/Models/ProductApi.cs": "a76c43ae8750d8ebf8eb7f0066791fcb1a4483519202d6cb6d43e9a49e8807e7",
+    "BuiltWith/Models/RecommendationsApi.cs": "0627fd97fa068d68e9150aa4108c6c70efa99a92e70b89d0e52289d420d185b9",
+    "BuiltWith/Models/RedirectsApi.cs": "e3c20b6580fd2cd88902a24cfbbf075814d675861d30cf273f22e54597656995",
+    "BuiltWith/Models/RelationshipsApi.cs": "87361ada6251f043a12ad0f8c81ea8272cf0cb3dc20f7d2a65686cf8f735f3e0",
+    "BuiltWith/Models/TagsApi.cs": "81d972fce8cb6b53cf95ac4cd5412372f0a82ec07f88bb0b698f231cf865a65e",
+    "BuiltWith/Models/TrendsApi.cs": "79d6e8e9637b6d7957776abe67af4803b8f1f330204315a043b857387aeefe9e",
+    "BuiltWith/Models/TrustApi.cs": "d108e372b05b1e27fb0ed932a5add2eba057df600bfc14dfa3f0e7ece2144516",
+    "BuiltWith/Models/VatApi.cs": "d167ef1cb47fb4fd608a82664df7a040b23735461e3f8ae6861ce49831b2e6ac",
+    "BuiltWith/Models/VectorSearchApi.cs": "da14c04624ec728e9161b9796e51da9fdcd66bd82dbd7ff56001b85d55f53d20"
+  },
+  "models": {
+    "AgentAuthStartResponse": {
+      "device_code": "string?",
+      "verification_uri": "string?",
+      "expires_in": "int?",
+      "interval": "int?"
+    },
+    "AgentAuthTokenResponse": {
+      "access_token": "string?",
+      "token_type": "string?",
+      "expires_in": "int?",
+      "error": "string?",
+      "error_description": "string?"
+    },
+    "AskApiResponse": {
+      "Explanation": "string?",
+      "NextOffset": "string?",
+      "Results": "AskResult[]?",
+      "Errors": "object[]?"
+    },
+    "AskResult": {
+      "D": "string?",
+      "FI": "long",
+      "LI": "long",
+      "Country": "string?",
+      "Q": "int",
+      "S": "int"
+    },
+    "ChangeApiResponse": {
+      "Results": "ChangeResult[]?",
+      "Errors": "string[]?"
+    },
+    "ChangeResult": {
+      "Lookup": "string?",
+      "Changes": "ChangeSet?"
+    },
+    "ChangeSet": {
+      "since_utc": "string?",
+      "last_checked_utc": "string?",
+      "summary": "string?",
+      "events": "ChangeEvent[]?"
+    },
+    "ChangeEvent": {
+      "type": "string?",
+      "technology": "string?",
+      "category": "string[]?",
+      "tag": "string?",
+      "first_seen_utc": "string?",
+      "last_seen_utc": "string?",
+      "importance": "string?",
+      "why_this_matters": "string?"
+    },
+    "CompanyToUrlResult": {
+      "Domain": "string?",
+      "CompanyName": "string?",
+      "Spend": "long",
+      "PageRank": "long",
+      "BuiltWithRank": "long",
+      "Parked": "bool",
+      "Country": "string?",
+      "State": "string?",
+      "Postcode": "string?",
+      "City": "string?",
+      "Socials": "string[]?"
+    },
+    "DomainApiResponse": {
+      "Results": "DomainResult[]?",
+      "Errors": "object[]?"
+    },
+    "DomainResult": {
+      "Result": "DomainResultDetail?",
+      "Meta": "DomainMeta?",
+      "Attributes": "Dictionary<string,long>?",
+      "FirstIndexed": "long",
+      "LastIndexed": "long",
+      "Lookup": "string?",
+      "SalesRevenue": "string?"
+    },
+    "DomainResultDetail": {
+      "IsDB": "string?",
+      "Spend": "long",
+      "Paths": "DomainPath[]?"
+    },
+    "DomainMeta": {
+      "company_reg": "DomainCompanyRegistration[]",
+      "Majestic": "long",
+      "Umbrella": "long",
+      "Vertical": "string?",
+      "Social": "string[]?",
+      "CompanyName": "string?",
+      "Telephones": "string[]?",
+      "Emails": "string[]?",
+      "City": "string?",
+      "State": "string?",
+      "Postcode": "string?",
+      "Country": "string?",
+      "Names": "DomainContact[]?",
+      "ARank": "long",
+      "QRank": "long"
+    },
+    "DomainCompanyRegistration": {
+      "type": "string?",
+      "number": "string?"
+    },
+    "DomainContact": {
+      "Name": "string?",
+      "Type": "long",
+      "Email": "string?"
+    },
+    "DomainPath": {
+      "FirstIndexed": "long",
+      "LastIndexed": "long",
+      "Domain": "string?",
+      "Url": "string?",
+      "SubDomain": "string?",
+      "Technologies": "DomainTechnology[]?"
+    },
+    "DomainTechnology": {
+      "confidence": "double?",
+      "Categories": "string[]?",
+      "IsPremium": "string?",
+      "Name": "string?",
+      "Description": "string?",
+      "Link": "string?",
+      "Parent": "string?",
+      "Tag": "string?",
+      "FirstDetected": "long",
+      "LastDetected": "long"
+    },
+    "FreeApiResponse": {
+      "domain": "string?",
+      "first": "long",
+      "last": "long",
+      "groups": "FreeGroup[]?"
+    },
+    "FreeGroup": {
+      "name": "string?",
+      "live": "int",
+      "dead": "int",
+      "latest": "long",
+      "oldest": "long",
+      "categories": "FreeCategory[]?"
+    },
+    "FreeCategory": {
+      "live": "int",
+      "dead": "int",
+      "latest": "long",
+      "oldest": "long",
+      "name": "string?"
+    },
+    "KeywordsApiResponse": {
+      "Keywords": "KeywordResult[]?"
+    },
+    "KeywordResult": {
+      "Domain": "string?",
+      "Keywords": "string[]?"
+    },
+    "KeywordSearchResponse": {
+      "Keyword": "string?",
+      "Domains": "string[]?",
+      "NextOffset": "string?"
+    },
+    "ListsApiResponse": {
+      "NextOffset": "string?",
+      "Results": "ListResult[]?"
+    },
+    "ListResult": {
+      "D": "string?",
+      "FI": "long",
+      "LI": "long",
+      "LOS": "string[]?",
+      "Q": "long",
+      "A": "long",
+      "U": "long",
+      "M": "long",
+      "SKU": "long",
+      "F": "long",
+      "E": "long",
+      "FD": "long",
+      "LD": "long",
+      "S": "long",
+      "R": "long",
+      "Country": "string?"
+    },
+    "McpRegistryV2Result": {
+      "Domain": "string?",
+      "Category": "string?",
+      "Description": "string?",
+      "Endpoints": "McpRegistryV2Endpoint[]?",
+      "first_detected": "string?",
+      "last_detected": "string?"
+    },
+    "McpRegistryV2Endpoint": {
+      "Overview": "System.Text.Json.JsonElement?",
+      "Endpoint": "string?",
+      "AuthRequired": "bool",
+      "Tools": "McpRegistryV2Tool[]?"
+    },
+    "McpRegistryV2Tool": {
+      "Name": "string?",
+      "Description": "string?"
+    },
+    "ProductApiResponse": {
+      "query": "string?",
+      "is_more": "bool",
+      "page": "int",
+      "limit": "int",
+      "results": "int",
+      "shop_count": "int",
+      "credits": "int",
+      "used": "int",
+      "remaining": "int",
+      "used_this_query": "int",
+      "next_page": "string?",
+      "shops": "ProductShop[]?"
+    },
+    "ProductShop": {
+      "Domain": "string?",
+      "Type": "int",
+      "Spend": "double",
+      "Products": "Product[]?"
+    },
+    "Product": {
+      "Title": "string?",
+      "Url": "string?",
+      "Indexed": "string?",
+      "FirstIndexed": "string?",
+      "Price": "double"
+    },
+    "RecommendationResult": {
+      "Domain": "string?",
+      "Compiled": "string?",
+      "Recommendations": "Recommendation[]?"
+    },
+    "Recommendation": {
+      "link": "string?",
+      "name": "string?",
+      "tag": "string?",
+      "categories": "string[]?",
+      "stars": "int",
+      "match": "double"
+    },
+    "RedirectsApiResponse": {
+      "Lookup": "string?",
+      "Inbound": "RedirectEntry[]?",
+      "Outbound": "RedirectEntry[]?"
+    },
+    "RedirectEntry": {
+      "Domain": "string?",
+      "FirstDetected": "string?",
+      "LastDetected": "string?"
+    },
+    "RelationshipsApiResponse": {
+      "Relationships": "Relationship[]?",
+      "Errors": "object[]?",
+      "results": "int",
+      "max_per_page": "int",
+      "page": "int",
+      "next_page": "int",
+      "next_skip": "int",
+      "more_results": "bool"
+    },
+    "Relationship": {
+      "Domain": "string?",
+      "Identifiers": "RelationshipIdentifier[]?"
+    },
+    "RelationshipIdentifier": {
+      "Value": "string?",
+      "Type": "string?",
+      "First": "long",
+      "Last": "long",
+      "Matches": "RelationshipMatch[]?"
+    },
+    "RelationshipMatch": {
+      "Domain": "string?",
+      "First": "long",
+      "Last": "long",
+      "Overlap": "bool"
+    },
+    "TagResult": {
+      "Value": "string?",
+      "Matches": "TagMatch[]?"
+    },
+    "TagMatch": {
+      "Domain": "string?",
+      "First": "string?",
+      "Last": "string?"
+    },
+    "TrendsApiResponse": {
+      "Tech": "TechTrend?"
+    },
+    "TechTrend": {
+      "icon": "string?",
+      "categories": "string[]?",
+      "tag": "string?",
+      "is_premium": "string?",
+      "name": "string?",
+      "description": "string?",
+      "link": "string?",
+      "trends_link": "string?",
+      "coverage": "TechCoverage?"
+    },
+    "TechCoverage": {
+      "ten_k": "long",
+      "hundred_k": "long",
+      "milly": "long",
+      "live": "long",
+      "expired": "long"
+    },
+    "TrustApiResponse": {
+      "Domain": "string?",
+      "Assessment": "TrustAssessment?",
+      "ContentSafety": "TrustContentSafety?",
+      "BusinessProfile": "TrustBusinessProfile?",
+      "LiveVerification": "TrustLiveVerification?"
+    },
+    "TrustAssessment": {
+      "TrustLevel": "string?",
+      "Summary": "string?",
+      "Reasons": "List<string>?"
+    },
+    "TrustContentSafety": {
+      "Gambling": "bool",
+      "AdultContent": "bool",
+      "SuspectedScam": "bool",
+      "PlaceholderContent": "bool"
+    },
+    "TrustBusinessProfile": {
+      "IsIndexed": "bool",
+      "DomainAgeDays": "long",
+      "LastCrawledDaysAgo": "long",
+      "PremiumTechnologyCount": "int",
+      "HasActiveTechnologyStack": "bool",
+      "IsParkedDomain": "bool",
+      "IsEcommerceSite": "bool",
+      "HasPaymentProcessing": "bool",
+      "HasAffiliateLinks": "bool",
+      "IsEstablishedBusiness": "bool",
+      "EstimatedMonthlySpendUSD": "int"
+    },
+    "TrustLiveVerification": {
+      "LookupSucceeded": "bool",
+      "LookupError": "string?",
+      "IsParkedDomain": "bool",
+      "IsEcommerceSite": "bool",
+      "HasPaymentProcessing": "bool",
+      "HasAffiliateLinks": "bool",
+      "EstimatedMonthlySpendUSD": "int"
+    },
+    "VatApiResult": {
+      "Domain": "string?",
+      "Type": "string?",
+      "Number": "string?"
+    },
+    "VatTypeResult": {
+      "Type": "string?",
+      "Name": "string?",
+      "Description": "string?"
+    },
+    "VectorSearchResponse": {
+      "Query": "string?",
+      "Results": "VectorSearchResult[]?",
+      "Errors": "string[]?"
+    },
+    "VectorSearchResult": {
+      "Type": "string?",
+      "Name": "string?",
+      "Tag": "string?",
+      "Score": "double",
+      "Icon": "string?",
+      "Description": "string?",
+      "Categories": "string[]?",
+      "IsPremium": "bool",
+      "Link": "string?",
+      "TrendsLink": "string?"
+    }
+  }
+}

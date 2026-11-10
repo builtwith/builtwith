@@ -1,0 +1,163 @@
+{
+  "workspaceId": "ebe165e3-135a-46e8-b0df-5a9b475dadc0",
+  "collections": [
+    {
+      "file": "Company_to_URL_API.postman_collection.json",
+      "uid": "37668266-32e887ae-3f11-451b-b1d2-12bf281878f7"
+    },
+    {
+      "file": "Domain_API.postman_collection.json",
+      "uid": "37668266-986425df-d1c9-4f46-995b-ef11bbd086a2"
+    },
+    {
+      "file": "Financial_API.postman_collection.json",
+      "uid": "37668266-794a22ab-d10e-49cb-a43c-75cfe929ef58"
+    },
+    {
+      "file": "Free_API.postman_collection.json",
+      "uid": "37668266-4e6cbfcc-8fe7-43d5-b94f-fcc21eb97efb"
+    },
+    {
+      "file": "Keywords_API.postman_collection.json",
+      "uid": "37668266-b9fcca12-fd1c-4f29-b0d1-04761d16aa16"
+    },
+    {
+      "file": "Lists_API.postman_collection.json",
+      "uid": "37668266-d35129be-1dfa-459d-aa4b-8877b23a6d74"
+    },
+    {
+      "file": "Product_API.postman_collection.json",
+      "uid": "37668266-e8564b10-52b9-4777-a5fe-c15cc711f116"
+    },
+    {
+      "file": "Recommendations_API.postman_collection.json",
+      "uid": "37668266-eb8231a6-31f4-4461-bfe9-62891ebd652f"
+    },
+    {
+      "file": "Redirects_API.postman_collection.json",
+      "uid": "37668266-9d70a199-e368-40fe-b3f0-c8e99a3354c8"
+    },
+    {
+      "file": "Relationships_API.postman_collection.json",
+      "uid": "37668266-a4c6b498-15b7-461e-810d-a6f353b33c4a"
+    },
+    {
+      "file": "Social_API.postman_collection.json",
+      "uid": "37668266-7682fb96-1652-4914-9212-49239a9ef8c2"
+    },
+    {
+      "file": "Tags_API.postman_collection.json",
+      "uid": "37668266-dcc27605-53fe-43c3-955f-bc06eef585c6"
+    },
+    {
+      "file": "Trends_API.postman_collection.json",
+      "uid": "37668266-d4c43405-e48a-455c-80e3-61ec6ffca0a7"
+    },
+    {
+      "file": "Trust_API.postman_collection.json",
+      "uid": "37668266-1a85be02-e986-4069-b398-c2ec05d5653c"
+    },
+    {
+      "file": "Useful_Calls.postman_collection.json",
+      "uid": "37668266-0bb5648c-ae5e-461e-bf76-eb516408131b"
+    },
+    {
+      "file": "Change_API.postman_collection.json",
+      "uid": "37668266-0d26c9cf-31d7-4cd4-859f-7a8ba45ad355"
+    },
+    {
+      "file": "VAT_API.postman_collection.json",
+      "uid": "37668266-ae7e6d3b-510b-4ac4-a7db-3dcb5fa94205"
+    },
+    {
+      "file": "VAT_Types_API.postman_collection.json",
+      "uid": "37668266-6db62d07-1aa8-46a2-aa2f-bae28797f012"
+    },
+    {
+      "file": "Ask_API.postman_collection.json",
+      "uid": "37668266-c964664a-6906-4d48-9b09-98e777e1bf5b"
+    },
+    {
+      "file": "Keyword_Search_API.postman_collection.json",
+      "uid": "37668266-4adedf68-5181-45e0-a952-654cbabb6cad"
+    },
+    {
+      "file": "Vector_Search_API.postman_collection.json",
+      "uid": "37668266-4186e0ae-cddd-4fa7-a9df-1a749b038375"
+    },
+    {
+      "file": "MCP_Registry_API.postman_collection.json",
+      "uid": "37668266-f485cf9e-0568-44f2-811c-8cc6101cc02c"
+    },
+    {
+      "file": "MCP_Categories_API.postman_collection.json",
+      "uid": "37668266-57bc7d7d-444b-4f7b-84c1-32f43dca5bbb"
+    },
+    {
+      "file": "WhoAmI_API.postman_collection.json",
+      "uid": "37668266-85b7aa48-4d1a-488c-89c6-75161e511c2c"
+    },
+    {
+      "file": "Usage_API.postman_collection.json",
+      "uid": "37668266-006bcfbf-cde6-47ad-9fa1-859fedfb2a8a"
+    },
+    {
+      "file": "Bulk_Domain_API.postman_collection.json",
+      "uid": "37668266-b31e0b72-e249-4913-9157-1c87b636446a"
+    },
+    {
+      "file": "Special_Domains_API.postman_collection.json",
+      "uid": "37668266-05881d06-8c7e-4dcf-b854-7e40d4105470"
+    },
+    {
+      "file": "Agent_Authorization_API.postman_collection.json",
+      "uid": "37668266-a23fd1c5-16c2-497f-966e-bb65c0db13fb"
+    },
+    {
+      "file": "Stripe_MPP_API.postman_collection.json",
+      "uid": "37668266-25c09993-9285-462e-9027-e87a3e60e0ec"
+    },
+    {
+      "file": "Agent_Billing_API.postman_collection.json",
+      "uid": "37668266-a2d962e2-71ef-4566-8a91-bc4be5286aad"
+    },
+    {
+      "file": "X402_API.postman_collection.json",
+      "uid": "37668266-72b342bf-e0d6-4207-a0b3-d08840d0727c"
+    },
+    {
+      "file": "MCP_Server.postman_collection.json",
+      "uid": "37668266-68e1cc71-041b-418f-9089-b62b97198c02"
+    },
+    {
+      "file": "Live_Feed_API.postman_collection.json",
+      "uid": "37668266-3b15e5a5-9122-4e07-9166-9ef23a6f7b4f"
+    }
+  ],
+  "specs": [
+    {
+      "name": "🌐 BuiltWith REST API",
+      "file": "rest.openapi.json",
+      "id": "b43f82f2-da4e-4891-89b1-3be5994d8e0a",
+      "type": "OPENAPI:3.1"
+    },
+    {
+      "name": "🪙 BuiltWith x402 Pay-per-Call API",
+      "file": "x402.openapi.json",
+      "id": "799e83ea-fdb1-416d-8cc1-e31f0dccdd45",
+      "type": "OPENAPI:3.1"
+    },
+    {
+      "name": "💳 BuiltWith Stripe Credit Top-Up API",
+      "file": "billing.openapi.json",
+      "id": "d65daef0-21ba-42d4-ae5e-e0ac1361f182",
+      "type": "OPENAPI:3.1"
+    },
+    {
+      "name": "⚡ BuiltWith Live Feed",
+      "file": "live-feed.asyncapi.json",
+      "id": "db217134-f35b-4c8c-9632-a0b22df3d76c",
+      "type": "ASYNCAPI:2.0"
+    }
+  ]
+}
